@@ -18,10 +18,12 @@ export function Hero() {
         <div className="hidden sm:block absolute bottom-60 right-4 lg:right-10 w-20 lg:w-24 h-20 lg:h-24 bg-primary/5 hero-float-4" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }} />
 
         {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-20 sm:opacity-30 dark:opacity-10 dark:sm:opacity-20"
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
              style={{
-               backgroundImage: `radial-gradient(circle at 1px 1px, rgb(var(--primary)) 1px, transparent 0)`,
-               backgroundSize: '40px 40px'
+               backgroundImage: `linear-gradient(var(--foreground) 1px, transparent 1px), linear-gradient(90deg, var(--foreground) 1px, transparent 1px)`,
+               backgroundSize: '60px 60px',
+               maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%)',
+               WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%)'
              }} />
       </div>
 
@@ -30,7 +32,7 @@ export function Hero() {
           <div className="space-y-6 sm:space-y-8">
             {/* Name with enhanced styling */}
             <div className="space-y-3 sm:space-y-4">
-              <div className="inline-block py-2">
+              <div className="inline-block py-2 hero-animate-in hero-delay-1">
                 <p className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-2 tracking-wide">
                   Hi, I'm
                 </p>
@@ -39,7 +41,7 @@ export function Hero() {
                 </h1>
               </div>
 
-              <div className="relative">
+              <div className="relative hero-animate-in hero-delay-2">
                 <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-muted-foreground/90 mb-6 sm:mb-8 min-h-[3rem] sm:min-h-[4rem] md:min-h-[5rem]" aria-live="polite">
                   <TypewriterText
                     texts={['UX Designer', 'UI Designer', 'Usability Specialist']}
@@ -50,13 +52,13 @@ export function Hero() {
               </div>
             </div>
 
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 sm:px-0 hero-animate-in hero-delay-3">
               I craft meaningful digital experiences through research-driven design,
               turning complex problems into intuitive solutions that users love.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center pt-4 px-4 sm:px-0">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center pt-4 px-4 sm:px-0 hero-animate-in hero-delay-4">
             <Button
               onClick={() => scrollToSection('case-studies')}
               size="lg"
@@ -77,7 +79,7 @@ export function Hero() {
             </Button>
           </div>
 
-          <div className="flex justify-center pt-24 sm:pt-32 hero-bounce-limited">
+          <div className="flex justify-center pt-24 sm:pt-32 hero-bounce-limited hero-animate-in hero-delay-5">
             <Button
               variant="ghost"
               size="icon"
