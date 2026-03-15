@@ -1,7 +1,7 @@
 import { ThemeToggle } from './ThemeToggle'
 import { useRouter } from './Router'
 import { scrollToSection, scrollToSectionWithDelay } from './utils/scrollToSection'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Button } from './ui/button'
 
@@ -9,6 +9,7 @@ export function Header() {
   const { currentPage, navigateTo } = useRouter()
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLElement>(null)
 
   const handleScrollToSection = (sectionId: string) => {
     if (currentPage !== 'home') {
@@ -17,34 +18,45 @@ export function Header() {
     } else {
       scrollToSection(sectionId)
     }
-    setIsMobileMenuOpen(false) // Close mobile menu after navigation
+    setIsMobileMenuOpen(false)
   }
+
+  // Close mobile menu on Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [isMobileMenuOpen])
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
-          <button 
+          <button
             onClick={() => {
               navigateTo('home')
               setIsMobileMenuOpen(false)
             }}
-            className="font-medium hover:text-muted-foreground transition-all duration-300 transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-2 py-1 text-sm sm:text-base"
+            className="font-medium hover:text-muted-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-2 py-1 text-sm sm:text-base"
             aria-label="Go to homepage"
           >
             Divyansh Sharma
           </button>
-          
+
           <div className="flex items-center gap-2">
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8" aria-label="Main navigation">
               {['about', 'experience', 'case-studies', 'contact'].map((section) => (
-                <button 
+                <button
                   key={section}
                   onClick={() => handleScrollToSection(section)}
                   onMouseEnter={() => setHoveredItem(section)}
                   onMouseLeave={() => setHoveredItem(null)}
-                  className={`text-muted-foreground hover:text-foreground transition-all duration-300 transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-3 py-2 relative ${
+                  className={`text-muted-foreground hover:text-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-3 py-2 relative ${
                     hoveredItem === section ? 'bg-accent/50' : ''
                   }`}
                   aria-label={`Go to ${section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ')} section`}
@@ -75,26 +87,29 @@ export function Header() {
         </div>
 
         {/* Mobile Navigation Menu */}
-        {isMobileMenuOpen && (
-          <nav 
-            id="mobile-menu"
-            className="md:hidden mt-4 pb-4 border-t border-border"
-            aria-label="Mobile navigation"
-          >
-            <div className="flex flex-col space-y-4 pt-4">
-              {['about', 'experience', 'case-studies', 'contact'].map((section) => (
-                <button 
-                  key={section}
-                  onClick={() => handleScrollToSection(section)}
-                  className="text-left text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 px-4 rounded hover:bg-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  aria-label={`Go to ${section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ')} section`}
-                >
-                  {section === 'case-studies' ? 'Case Studies' : section.charAt(0).toUpperCase() + section.slice(1)}
-                </button>
-              ))}
-            </div>
-          </nav>
-        )}
+        <nav
+          ref={menuRef}
+          id="mobile-menu"
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'max-h-64 opacity-100 mt-4 pb-4 border-t border-border' : 'max-h-0 opacity-0'
+          }`}
+          aria-label="Mobile navigation"
+          aria-hidden={!isMobileMenuOpen}
+        >
+          <div className="flex flex-col space-y-4 pt-4">
+            {['about', 'experience', 'case-studies', 'contact'].map((section) => (
+              <button
+                key={section}
+                onClick={() => handleScrollToSection(section)}
+                className="text-left text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 px-4 rounded hover:bg-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                tabIndex={isMobileMenuOpen ? 0 : -1}
+                aria-label={`Go to ${section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ')} section`}
+              >
+                {section === 'case-studies' ? 'Case Studies' : section.charAt(0).toUpperCase() + section.slice(1)}
+              </button>
+            ))}
+          </div>
+        </nav>
       </div>
     </header>
   )
