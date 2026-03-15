@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
+import { useState, useEffect, useRef } from 'react'
 
 const experiences = [
   {
@@ -34,6 +34,29 @@ const experiences = [
 ]
 
 export function Experience() {
+  const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+
+    itemRefs.current.forEach((ref, index) => {
+      if (!ref) return
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleItems(prev => new Set(prev).add(index))
+          }
+        },
+        { threshold: 0.2 }
+      )
+      observer.observe(ref)
+      observers.push(observer)
+    })
+
+    return () => observers.forEach(o => o.disconnect())
+  }, [])
+
   return (
     <section id="experience" className="py-16 sm:py-20 px-4 sm:px-6 bg-muted/30">
       <div className="container mx-auto">
@@ -41,55 +64,81 @@ export function Experience() {
           <h2 className="text-3xl md:text-4xl mb-12 sm:mb-16 text-center tracking-tight">
             Work Experience
           </h2>
-          
-          <div className="space-y-12 sm:space-y-16">
-            {experiences.map((exp, index) => (
-              <div key={index} className="group">
-                <div className="border-l-2 border-primary/20 pl-6 sm:pl-8 hover:border-primary/40 transition-colors duration-300">
-                  {/* Header */}
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
-                    <div className="space-y-1">
-                      <h3 className="text-xl sm:text-2xl tracking-tight group-hover:text-primary transition-colors duration-200">
-                        {exp.role}
-                      </h3>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                        <p className="text-base sm:text-lg text-muted-foreground">
-                          {exp.company}
-                        </p>
-                        {exp.location && (
-                          <>
-                            <span className="hidden sm:inline text-muted-foreground/40 text-sm">•</span>
-                            <span className="text-sm text-muted-foreground/80">
-                              {exp.location}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center px-3 py-1 bg-muted/50 text-muted-foreground text-xs sm:text-sm rounded-md border border-border/30 font-medium shrink-0">
-                      {exp.period}
-                    </div>
+
+          <div className="relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-3 top-3 bottom-3 w-px bg-border" aria-hidden="true" />
+
+            <div className="space-y-12 sm:space-y-16">
+              {experiences.map((exp, index) => (
+                <div
+                  key={index}
+                  ref={el => { itemRefs.current[index] = el }}
+                  className={`relative pl-10 sm:pl-12 transition-all duration-700 ${
+                    visibleItems.has(index)
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 -translate-x-4'
+                  }`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  {/* Timeline dot */}
+                  <div className={`absolute left-0 top-1 w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${
+                    visibleItems.has(index)
+                      ? 'border-primary bg-primary/10 scale-100'
+                      : 'border-border bg-background scale-75'
+                  }`} aria-hidden="true">
+                    <div className={`w-2.5 h-2.5 rounded-full transition-all duration-500 ${
+                      visibleItems.has(index) ? 'bg-primary' : 'bg-border'
+                    }`} />
                   </div>
-                  
-                  {/* Description */}
-                  <p className="text-muted-foreground mb-6 sm:mb-8 leading-relaxed max-w-3xl text-sm sm:text-base">
-                    {exp.description}
-                  </p>
-                  
-                  {/* Achievements */}
-                  <div className="space-y-2 sm:space-y-3">
-                    {exp.achievements.map((achievement, achIndex) => (
-                      <div key={achIndex} className="flex items-start gap-3 py-1 sm:py-2">
-                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
-                          {achievement}
-                        </p>
+
+                  {/* Content */}
+                  <div className="group">
+                    {/* Header */}
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
+                      <div className="space-y-1">
+                        <h3 className="text-xl sm:text-2xl tracking-tight group-hover:text-primary transition-colors duration-200">
+                          {exp.role}
+                        </h3>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                          <p className="text-base sm:text-lg text-muted-foreground">
+                            {exp.company}
+                          </p>
+                          {exp.location && (
+                            <>
+                              <span className="hidden sm:inline text-muted-foreground/40 text-sm">•</span>
+                              <span className="text-sm text-muted-foreground/80">
+                                {exp.location}
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    ))}
+                      <div className="inline-flex items-center px-3 py-1 bg-muted/50 text-muted-foreground text-xs sm:text-sm rounded-md border border-border/30 font-medium shrink-0">
+                        {exp.period}
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-muted-foreground mb-6 sm:mb-8 leading-relaxed max-w-3xl text-sm sm:text-base">
+                      {exp.description}
+                    </p>
+
+                    {/* Achievements */}
+                    <div className="space-y-2 sm:space-y-3">
+                      {exp.achievements.map((achievement, achIndex) => (
+                        <div key={achIndex} className="flex items-start gap-3 py-1 sm:py-2">
+                          <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                          <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                            {achievement}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
