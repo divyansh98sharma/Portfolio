@@ -316,9 +316,8 @@
     50% { transform: translateY(-25%); }
   }
 
-  /* Limited bounce - stops after 3 cycles */
   .hero-bounce-limited {
-    animation: bounce-limited 1s ease-in-out 3;
+    animation: bounce-limited 1s ease-in-out infinite;
   }
 
   /* Apply animations to floating elements */

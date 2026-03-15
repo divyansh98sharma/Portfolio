@@ -2,14 +2,52 @@ import { ThemeToggle } from './ThemeToggle'
 import { useRouter } from './Router'
 import { scrollToSection, scrollToSectionWithDelay } from './utils/scrollToSection'
 import { useState, useEffect, useRef } from 'react'
-import { Menu, X } from 'lucide-react'
 import { Button } from './ui/button'
+
+function MenuToggleIcon({ isOpen }: { isOpen: boolean }) {
+  return (
+    <div className="relative w-5 h-5 flex flex-col justify-center items-center">
+      <span className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
+        isOpen ? 'rotate-45 translate-y-[3px]' : '-translate-y-[5px]'
+      }`} />
+      <span className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
+        isOpen ? 'opacity-0 scale-0' : 'opacity-100'
+      }`} />
+      <span className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
+        isOpen ? '-rotate-45 -translate-y-[3px]' : 'translate-y-[5px]'
+      }`} />
+    </div>
+  )
+}
 
 export function Header() {
   const { currentPage, navigateTo } = useRouter()
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const menuRef = useRef<HTMLElement>(null)
+  const [activeSection, setActiveSection] = useState<string | null>(null)
+
+  useEffect(() => {
+    const sections = ['about', 'experience', 'case-studies', 'contact']
+
+    const handleScroll = () => {
+      let current: string | null = null
+      for (const id of sections) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        const rect = el.getBoundingClientRect()
+        // Section is active if its top is above 60% of viewport
+        if (rect.top <= window.innerHeight * 0.6) {
+          current = id
+        }
+      }
+      setActiveSection(current)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [currentPage])
 
   const handleScrollToSection = (sectionId: string) => {
     if (currentPage !== 'home') {
@@ -58,12 +96,12 @@ export function Header() {
                   onMouseLeave={() => setHoveredItem(null)}
                   className={`text-muted-foreground hover:text-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-3 py-2 relative ${
                     hoveredItem === section ? 'bg-accent/50' : ''
-                  }`}
+                  } ${activeSection === section ? 'text-foreground' : ''}`}
                   aria-label={`Go to ${section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ')} section`}
                 >
                   {section === 'case-studies' ? 'Case Studies' : section.charAt(0).toUpperCase() + section.slice(1)}
-                  <span className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 transform -translate-x-1/2 ${
-                    hoveredItem === section ? 'w-full' : 'w-0'
+                  <span className={`absolute bottom-0 left-1/2 h-0.5 bg-primary transition-all duration-300 transform -translate-x-1/2 ${
+                    hoveredItem === section || activeSection === section ? 'w-full' : 'w-0'
                   }`} />
                 </button>
               ))}
@@ -79,7 +117,7 @@ export function Header() {
               aria-controls="mobile-menu"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <MenuToggleIcon isOpen={isMobileMenuOpen} />
             </Button>
 
             <ThemeToggle />
