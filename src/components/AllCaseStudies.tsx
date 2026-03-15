@@ -79,8 +79,8 @@ export function AllCaseStudies() {
                       : 'opacity-0 translate-y-12'
                   } ${
                     hoveredCard === index
-                      ? 'scale-[1.02] shadow-2xl'
-                      : 'scale-100'
+                      ? '-translate-y-2 shadow-2xl'
+                      : 'translate-y-0'
                   }`}
                   style={{
                     transitionDelay: isVisible ? `${index * 150}ms` : '0ms'
