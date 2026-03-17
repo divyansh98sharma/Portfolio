@@ -79,7 +79,7 @@ export function Hero() {
             </Button>
           </div>
 
-          <div className="flex justify-center pt-24 sm:pt-32 hero-bounce-limited hero-animate-in hero-delay-5">
+          <div className="flex justify-center pt-24 sm:pt-32 hero-bounce-limited">
             <Button
               variant="ghost"
               size="icon"
