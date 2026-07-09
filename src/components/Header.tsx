@@ -22,21 +22,21 @@ function MenuToggleIcon({ isOpen }: { isOpen: boolean }) {
 
 export function Header() {
   const { currentPage, navigateTo } = useRouter()
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const menuRef = useRef<HTMLElement>(null)
   const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     const sections = ['about', 'experience', 'case-studies', 'contact']
 
     const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
       let current: string | null = null
       for (const id of sections) {
         const el = document.getElementById(id)
         if (!el) continue
         const rect = el.getBoundingClientRect()
-        // Section is active if its top is above 60% of viewport
         if (rect.top <= window.innerHeight * 0.6) {
           current = id
         }
@@ -59,7 +59,6 @@ export function Header() {
     setIsMobileMenuOpen(false)
   }
 
-  // Close mobile menu on Escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isMobileMenuOpen) {
@@ -70,48 +69,66 @@ export function Header() {
     return () => document.removeEventListener('keydown', handleEscape)
   }, [isMobileMenuOpen])
 
+  const navItems = [
+    { id: 'about', label: 'About' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'case-studies', label: 'Case Studies' },
+  ]
+
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto px-4 sm:px-6 py-4">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled
+        ? 'bg-background/92 backdrop-blur-md shadow-sm'
+        : 'bg-background/80 backdrop-blur-sm'
+    }`}>
+      <div className="header-inner">
         <div className="flex items-center justify-between">
           <button
             onClick={() => {
               navigateTo('home')
               setIsMobileMenuOpen(false)
             }}
-            className="font-medium hover:text-muted-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-2 py-1 text-sm sm:text-base"
-            aria-label="Go to homepage"
+            className="no-underline font-bold text-lg tracking-tight hover:opacity-70 transition-opacity duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-2 py-1"
+            style={{ fontFamily: "'Montserrat', sans-serif" }}
+            aria-label="Divyansh. Go to homepage"
           >
-            Divyansh Sharma
+            Divyansh.
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8" aria-label="Main navigation">
-              {['about', 'experience', 'case-studies', 'contact'].map((section) => (
+            <nav className="desktop-only items-center gap-1" aria-label="Main navigation">
+              {navItems.map((item) => (
                 <button
-                  key={section}
-                  onClick={() => handleScrollToSection(section)}
-                  onMouseEnter={() => setHoveredItem(section)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  className={`text-muted-foreground hover:text-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded px-3 py-2 relative ${
-                    hoveredItem === section ? 'bg-accent/50' : ''
-                  } ${activeSection === section ? 'text-foreground' : ''}`}
-                  aria-label={`Go to ${section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ')} section`}
+                  key={item.id}
+                  onClick={() => handleScrollToSection(item.id)}
+                  className={`nav-link no-underline text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                    activeSection === item.id
+                      ? 'text-foreground bg-secondary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                  }`}
+                  aria-label={`Go to ${item.label} section`}
                 >
-                  {section === 'case-studies' ? 'Case Studies' : section.charAt(0).toUpperCase() + section.slice(1)}
-                  <span className={`absolute bottom-0 left-1/2 h-0.5 bg-primary transition-all duration-300 transform -translate-x-1/2 ${
-                    hoveredItem === section || activeSection === section ? 'w-full' : 'w-0'
-                  }`} />
+                  {item.label}
                 </button>
               ))}
             </nav>
+
+            {/* CTA Button - Desktop only */}
+            <button
+              onClick={() => handleScrollToSection('contact')}
+              className="no-underline desktop-only-inline items-center justify-center px-5 py-2 text-xs font-bold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 shadow-sm hover:shadow-md"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
+              aria-label="Get in touch"
+            >
+              Get In Touch
+            </button>
 
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="mobile-only"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
@@ -128,24 +145,33 @@ export function Header() {
         <nav
           ref={menuRef}
           id="mobile-menu"
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'max-h-64 opacity-100 mt-4 pb-4 border-t border-border' : 'max-h-0 opacity-0'
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'opacity-100 mt-4 pb-4' : 'opacity-0'
           }`}
+          style={{ maxHeight: isMobileMenuOpen ? '320px' : '0' }}
           aria-label="Mobile navigation"
           aria-hidden={!isMobileMenuOpen}
         >
-          <div className="flex flex-col space-y-4 pt-4">
-            {['about', 'experience', 'case-studies', 'contact'].map((section) => (
+          <div className="flex flex-col space-y-2 pt-4 border-t border-border">
+            {navItems.map((item) => (
               <button
-                key={section}
-                onClick={() => handleScrollToSection(section)}
-                className="text-left text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 px-4 rounded hover:bg-accent/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                key={item.id}
+                onClick={() => handleScrollToSection(item.id)}
+                className="text-left text-muted-foreground hover:text-foreground transition-colors duration-200 py-3 px-4 rounded-lg hover:bg-secondary/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 tabIndex={isMobileMenuOpen ? 0 : -1}
-                aria-label={`Go to ${section.charAt(0).toUpperCase() + section.slice(1).replace('-', ' ')} section`}
+                aria-label={`Go to ${item.label} section`}
               >
-                {section === 'case-studies' ? 'Case Studies' : section.charAt(0).toUpperCase() + section.slice(1)}
+                {item.label}
               </button>
             ))}
+            <button
+              onClick={() => handleScrollToSection('contact')}
+              className="text-center py-3 px-4 rounded-full bg-primary text-primary-foreground font-bold text-sm hover:bg-primary/90 transition-all duration-300 mt-2"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
+              tabIndex={isMobileMenuOpen ? 0 : -1}
+            >
+              Get In Touch
+            </button>
           </div>
         </nav>
       </div>

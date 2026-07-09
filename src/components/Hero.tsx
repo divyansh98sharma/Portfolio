@@ -1,98 +1,146 @@
-import { ArrowDown } from 'lucide-react'
-import { Button } from './ui/button'
+import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
-import { TypewriterText } from './TypewriterText'
+
+const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+
+const socialProof = [
+  { initials: 'EC', bg: '#1B2A4A' },
+  { initials: 'PA', bg: '#2D6A4F' },
+  { initials: 'TG', bg: '#6B4A1B' },
+  { initials: 'MS', bg: '#4A1B6B' },
+  { initials: 'AZ', bg: '#1B4A5A' },
+]
 
 export function Hero() {
   return (
-    <section className="min-h-screen flex items-start justify-center px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32 lg:pt-40 relative overflow-hidden" aria-labelledby="hero-heading">
-      {/* Background Elements */}
-      <div className="absolute inset-0 -z-10">
-        {/* Subtle gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
+    <div className="relative overflow-hidden">
+      <div className="hero-content-wrapper">
+        <div className="max-w-6xl mx-auto">
 
-        {/* Floating geometric shapes - Hidden on mobile for cleaner look */}
-        <div className="hidden sm:block absolute top-20 left-4 lg:left-10 w-16 lg:w-20 h-16 lg:h-20 rounded-full bg-primary/5 hero-float-1" />
-        <div className="hidden sm:block absolute top-40 right-4 lg:right-20 w-12 lg:w-16 h-12 lg:h-16 bg-primary/10 hero-float-2" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }} />
-        <div className="hidden sm:block absolute bottom-40 left-4 lg:left-20 w-10 lg:w-12 h-10 lg:h-12 rounded-full bg-primary/8 hero-float-3" />
-        <div className="hidden sm:block absolute bottom-60 right-4 lg:right-10 w-20 lg:w-24 h-20 lg:h-24 bg-primary/5 hero-float-4" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }} />
-
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-             style={{
-               backgroundImage: `linear-gradient(var(--foreground) 1px, transparent 1px), linear-gradient(90deg, var(--foreground) 1px, transparent 1px)`,
-               backgroundSize: '60px 60px',
-               maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%)',
-               WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%)'
-             }} />
-      </div>
-
-      <div className="container mx-auto text-center relative z-10">
-        <div className="max-w-4xl mx-auto space-y-8 sm:space-y-10">
-          <div className="space-y-6 sm:space-y-8">
-            {/* Name with enhanced styling */}
-            <div className="space-y-3 sm:space-y-4">
-              <div className="inline-block py-2 hero-animate-in hero-delay-1">
-                <p className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-2 tracking-wide">
-                  Hi, I'm
-                </p>
-                <h1 id="hero-heading" className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-medium bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent leading-tight pb-2 sm:pb-3">
-                  Divyansh Sharma
-                </h1>
-              </div>
-
-              <div className="relative hero-animate-in hero-delay-2">
-                <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-muted-foreground/90 mb-6 sm:mb-8 min-h-[3rem] sm:min-h-[4rem] md:min-h-[5rem]" aria-live="polite">
-                  <TypewriterText
-                    texts={['UX Designer', 'UI Designer', 'Usability Specialist']}
-                  />
-                </p>
-                {/* Decorative underline */}
-                <div className="w-20 sm:w-24 h-1 bg-primary mx-auto rounded-full opacity-60" />
-              </div>
+          {/* Social proof — avatar stack + viewing count */}
+          <div className="hero-animate-in hero-delay-1 inline-flex items-center gap-3 mb-10">
+            <div className="flex items-center">
+              {socialProof.map((v, i) => (
+                <div
+                  key={i}
+                  className="w-8 h-8 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold text-white select-none"
+                  style={{
+                    backgroundColor: v.bg,
+                    marginLeft: i > 0 ? '-10px' : '0',
+                    zIndex: socialProof.length - i,
+                    position: 'relative',
+                  }}
+                  aria-hidden="true"
+                >
+                  {v.initials}
+                </div>
+              ))}
             </div>
-
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 sm:px-0 hero-animate-in hero-delay-3">
-              I craft meaningful digital experiences through research-driven design,
-              turning complex problems into intuitive solutions that users love.
+            <p className="text-sm text-muted-foreground" style={montserrat}>
+              <span className="font-semibold text-foreground">5 companies</span> recently reviewed
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center pt-4 px-4 sm:px-0 hero-animate-in hero-delay-4">
-            <Button
+          {/* Headline */}
+          <h1
+            id="hero-heading"
+            className="hero-animate-in hero-delay-1 leading-[1.05] tracking-tight mb-6"
+            style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+          >
+            Design{' '}
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
+              smarter
+            </span>
+            <br />
+            with{' '}
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
+              purpose.
+            </span>
+          </h1>
+
+          {/* Subtext */}
+          <p className="hero-animate-in hero-delay-2 text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg">
+            I help teams build user-centered products through research-driven design,
+            turning complex problems into intuitive solutions.
+          </p>
+
+          {/* CTAs */}
+          <div className="hero-animate-in hero-delay-3 flex flex-wrap gap-4 items-center mb-10">
+            <button
               onClick={() => scrollToSection('case-studies')}
-              size="lg"
-              className="w-full sm:w-auto min-w-[164px] shadow-lg hover:shadow-xl transition-all duration-300"
-              aria-label="View my design work and case studies"
+              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg"
+              style={montserrat}
+              aria-label="View My Work"
             >
-              <ArrowDown className="h-4 w-4 mr-2" aria-hidden="true" />
               View My Work
-            </Button>
-            <Button
-              variant="outline"
+            </button>
+            <button
               onClick={() => scrollToSection('contact')}
-              size="lg"
-              className="w-full sm:w-auto min-w-[164px] shadow-sm hover:shadow-md transition-all duration-300"
-              aria-label="Go to contact section to get in touch"
+              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium rounded-full border-2 border-border text-foreground hover:bg-secondary transition-all duration-300"
+              style={montserrat}
+              aria-label="Get in touch"
             >
               Get In Touch
-            </Button>
+              <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
+            </button>
           </div>
 
-          <div className="flex justify-center pt-24 sm:pt-32 hero-bounce-limited">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => scrollToSection('about')}
-              className="rounded-full hover:bg-primary/10 transition-colors duration-300"
-              aria-label="Scroll down to about section"
+          {/* Separator + LinkedIn */}
+          <div className="hero-animate-in hero-delay-4">
+            <div className="w-full max-w-xs h-px bg-border mb-6" />
+            <a
+              href="https://www.linkedin.com/in/divyansh98sharma"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline inline-flex items-center px-5 py-2.5 text-xs font-bold rounded-full border border-border text-foreground hover:bg-secondary transition-all duration-300"
+              style={montserrat}
             >
-              <ArrowDown className="h-5 w-5" aria-hidden="true" />
-              <span className="sr-only">Scroll to next section</span>
-            </Button>
+              <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 448 512" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.52 0 53.4 0 23.27 24.09-1.3 53.79-1.3c29.32 0 53.79 24.57 53.79 54.7 0 30.12-24.47 54.7-53.79 54.7zM447.9 448h-92.1V304.1c0-34.3-12.3-57.7-43.1-57.7-23.5 0-37.6 15.8-43.7 31.1-2.2 5.2-2.8 12.4-2.8 19.7V448h-92.2s1.2-270.1 0-299.1h92.1v42.4c12.2-18.9 34.1-45.8 83.1-45.8 60.7 0 105.8 39.7 105.8 125.1V448z"/></svg>
+              Follow on LinkedIn
+              <ArrowRight className="h-3 w-3 ml-2" />
+            </a>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Ticker bar */}
+      <div className="border-y border-border py-4 overflow-hidden bg-background">
+        <div
+          className="ticker-track flex items-center gap-8 whitespace-nowrap"
+          style={{ width: 'max-content' }}
+          aria-hidden="true"
+        >
+          {[...Array(2)].map((_, setIdx) => (
+            <div key={setIdx} className="flex items-center gap-8">
+              {[
+                'User Research', 'Prototyping', 'Design Systems', 'Usability Testing',
+                'Wireframing', 'Information Architecture', 'Figma', 'Adobe Creative Suite',
+                'Healthcare UX', 'Enterprise Design', 'Data Visualization', 'Accessibility',
+              ].map((topic, i) => (
+                <span
+                  key={`${setIdx}-${i}`}
+                  className="flex items-center gap-3 text-sm text-muted-foreground"
+                  style={montserrat}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+                  {topic}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="flex justify-center py-8 hero-bounce-limited hero-animate-in hero-delay-5">
+        <button
+          onClick={() => scrollToSection('about')}
+          className="no-underline rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors duration-300"
+          aria-label="Scroll down to about section"
+        >
+          <ArrowDown className="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
   )
 }

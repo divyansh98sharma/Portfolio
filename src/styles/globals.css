@@ -1,81 +1,152 @@
+@import 'tailwindcss';
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --font-size: 16px;
-  --background: #fafafa;
-  --foreground: #0a0a0a;
-  --card: #fafafa;
-  --card-foreground: #0a0a0a;
-  --popover: #fafafa;
-  --popover-foreground: #0a0a0a;
-  --primary: #0a0a0a;
-  --primary-foreground: #fafafa;
-  --secondary: #f8f9fa;
-  --secondary-foreground: #0a0a0a;
-  --muted: #f1f3f4;
-  --muted-foreground: #3c4043;
-  --accent: #f1f3f4;
-  --accent-foreground: #0a0a0a;
+  --background: var(--figma-canvas);
+  --foreground: #1B2A4A;
+  --card: #ffffff;
+  --card-foreground: #1B2A4A;
+  --popover: #ffffff;
+  --popover-foreground: #1B2A4A;
+  --primary: #1B2A4A;
+  --primary-foreground: #ffffff;
+  --secondary: #F5F0E6;
+  --secondary-foreground: #1B2A4A;
+  --muted: #F5F0E6;
+  --muted-foreground: #5A6A80;
+  --accent: #D4A853;
+  --accent-foreground: #1B2A4A;
   --destructive: #d93025;
-  --destructive-foreground: #fafafa;
-  --border: #dadce0;
-  --input: #dadce0;
+  --destructive-foreground: #ffffff;
+  --border: var(--figma-border);
+  --input: #E8EDF5;
   --input-background: #ffffff;
-  --switch-background: #dadce0;
+  --switch-background: #E8EDF5;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #1a73e8;
-  --chart-1: #ea4335;
-  --chart-2: #4285f4;
-  --chart-3: #34a853;
-  --chart-4: #d97706;
-  --chart-5: #ff6d01;
+  --ring: #D4A853;
+  --chart-1: #D4A853;
+  --chart-2: #1B2A4A;
+  --chart-3: #4ECDC4;
+  --chart-4: #FF6B6B;
+  --chart-5: #96CEB4;
   --radius: 0.75rem;
-  --sidebar: #fafafa;
-  --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #0a0a0a;
-  --sidebar-primary-foreground: #fafafa;
-  --sidebar-accent: #f8f9fa;
-  --sidebar-accent-foreground: #0a0a0a;
-  --sidebar-border: #dadce0;
-  --sidebar-ring: #1a73e8;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1B2A4A;
+  --sidebar-primary: #1B2A4A;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #F5F0E6;
+  --sidebar-accent-foreground: #1B2A4A;
+  --sidebar-border: #E8EDF5;
+  --sidebar-ring: #D4A853;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #0a0a0a;
-  --card-foreground: #fafafa;
-  --popover: #0a0a0a;
-  --popover-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1f1f1f;
-  --secondary-foreground: #fafafa;
-  --muted: #1f1f1f;
-  --muted-foreground: #e8eaed;
-  --accent: #1f1f1f;
-  --accent-foreground: #fafafa;
+  --foreground: #E8EDF5;
+  --card: #162033;
+  --card-foreground: #E8EDF5;
+  --popover: #162033;
+  --popover-foreground: #E8EDF5;
+  --primary: #E8EDF5;
+  --primary-foreground: #0F1724;
+  --secondary: #1E2D45;
+  --secondary-foreground: #E8EDF5;
+  --muted: #1E2D45;
+  --muted-foreground: #9AABBF;
+  --accent: #D4A853;
+  --accent-foreground: #0F1724;
   --destructive: #f28b82;
-  --destructive-foreground: #0a0a0a;
-  --border: #3c4043;
-  --input: #3c4043;
-  --ring: #8ab4f8;
+  --destructive-foreground: #0F1724;
+  --input: #2A3A55;
+  --ring: #D4A853;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --chart-1: #f28b82;
-  --chart-2: #8ab4f8;
-  --chart-3: #81c995;
-  --chart-4: #fb923c;
-  --chart-5: #ff8a65;
-  --sidebar: #0a0a0a;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #fafafa;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1f1f1f;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #3c4043;
-  --sidebar-ring: #8ab4f8;
+  --chart-1: #D4A853;
+  --chart-2: #8AB4F8;
+  --chart-3: #4ECDC4;
+  --chart-4: #FF6B6B;
+  --chart-5: #96CEB4;
+  --sidebar: #0F1724;
+  --sidebar-foreground: #E8EDF5;
+  --sidebar-primary: #E8EDF5;
+  --sidebar-primary-foreground: #0F1724;
+  --sidebar-accent: #1E2D45;
+  --sidebar-accent-foreground: #E8EDF5;
+  --sidebar-border: #2A3A55;
+  --sidebar-ring: #D4A853;
+}
+
+/* =================================================================
+   FIGMA CHROME TOKENS
+   The site's UI shell (top bar, layers panel, status bar, canvas)
+   mimics Figma's own app chrome. These tokens are independent of
+   --background/--card/etc so frame *content* can keep the site's
+   original navy/gold/cream identity while the chrome around it
+   swaps between Figma's light and dark UI themes.
+   ================================================================= */
+:root {
+  --figma-panel: #ffffff;
+  --figma-canvas: #f5f5f5;
+  --figma-border: #e6e6e6;
+  --figma-text: #333333;
+  --figma-text-dim: rgba(0, 0, 0, 0.5);
+  --figma-blue: #0d99ff;
+  --figma-selection: #0d99ff;
+  --figma-row-height: 32px;
+  --figma-radius: 6px;
+
+  --figma-cursor-red: #f24822;
+  --figma-cursor-orange: #ffa629;
+  --figma-cursor-yellow: #ffcd29;
+  --figma-cursor-green: #14ae5c;
+  --figma-cursor-blue: #0d99ff;
+  --figma-cursor-purple: #9747ff;
+}
+
+.dark {
+  --figma-panel: #2c2c2c;
+  --figma-canvas: #1e1e1e;
+  --figma-border: #444444;
+  --figma-text: #ffffff;
+  --figma-text-dim: #b3b3b3;
+  --figma-blue: #0d99ff;
+  --figma-selection: #0d99ff;
+}
+
+/* =================================================================
+   FRAME SURFACE
+   A real Figma file keeps its own colours no matter which UI theme
+   you're viewing it in. Frame.tsx applies this class to each
+   section's content box so the portfolio's navy/gold/cream design
+   never inverts when the chrome switches dark/light — only the
+   canvas around it does.
+   ================================================================= */
+.frame-surface {
+  --background: #ffffff;
+  --foreground: #1B2A4A;
+  --card: #ffffff;
+  --card-foreground: #1B2A4A;
+  --popover: #ffffff;
+  --popover-foreground: #1B2A4A;
+  --primary: #1B2A4A;
+  --primary-foreground: #ffffff;
+  --secondary: #F5F0E6;
+  --secondary-foreground: #1B2A4A;
+  --muted: #F5F0E6;
+  --muted-foreground: #5A6A80;
+  --accent: #D4A853;
+  --accent-foreground: #1B2A4A;
+  --destructive: #d93025;
+  --destructive-foreground: #ffffff;
+  --border: #E8EDF5;
+  --input: #E8EDF5;
+  --input-background: #ffffff;
+  --switch-background: #E8EDF5;
+  --ring: #D4A853;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 @theme inline {
@@ -117,6 +188,19 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-figma-panel: var(--figma-panel);
+  --color-figma-canvas: var(--figma-canvas);
+  --color-figma-border: var(--figma-border);
+  --color-figma-text: var(--figma-text);
+  --color-figma-text-dim: var(--figma-text-dim);
+  --color-figma-blue: var(--figma-blue);
+  --color-figma-cursor-red: var(--figma-cursor-red);
+  --color-figma-cursor-orange: var(--figma-cursor-orange);
+  --color-figma-cursor-yellow: var(--figma-cursor-yellow);
+  --color-figma-cursor-green: var(--figma-cursor-green);
+  --color-figma-cursor-blue: var(--figma-cursor-blue);
+  --color-figma-cursor-purple: var(--figma-cursor-purple);
 }
 
 @layer base {
@@ -126,9 +210,15 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Lato', 'Inter', ui-sans-serif, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Enhanced focus indicators for AAA compliance */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+  }
+
   *:focus-visible {
     outline: 3px solid var(--ring);
     outline-offset: 2px;
@@ -136,11 +226,8 @@
     box-shadow: 0 0 0 1px var(--background), 0 0 0 4px var(--ring);
   }
 
-  /* Respect user's motion preferences */
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -148,89 +235,24 @@
     }
   }
 
-
-
-  /* Cursor pointer for all clickable elements */
-  button,
-  [role="button"],
-  [role="switch"],
-  [type="button"],
-  [type="submit"],
-  [type="reset"],
-  a[href],
-  summary,
-  [tabindex]:not([tabindex="-1"]),
-  [onclick],
-  .cursor-pointer {
+  button, [role="button"], [role="switch"], [type="button"], [type="submit"], [type="reset"],
+  a[href], summary, [tabindex]:not([tabindex="-1"]), [onclick], .cursor-pointer {
     cursor: pointer;
   }
 
-  /* Ensure interactive elements are clearly clickable */
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [role="switch"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href]:not([aria-disabled="true"]),
-  summary:not([aria-disabled="true"]),
-  [tabindex]:not([tabindex="-1"]):not([aria-disabled="true"]),
-  [onclick]:not([aria-disabled="true"]) {
-    cursor: pointer;
-  }
-
-  /* Disabled state cursor */
-  button:disabled,
-  [role="button"][aria-disabled="true"],
-  [role="switch"][aria-disabled="true"],
-  [type="button"]:disabled,
-  [type="submit"]:disabled,
-  [type="reset"]:disabled,
-  a[href][aria-disabled="true"],
-  summary[aria-disabled="true"],
-  [tabindex][aria-disabled="true"],
-  [onclick][aria-disabled="true"] {
-    cursor: not-allowed;
-  }
-
-  /* AAA WCAG Button Accessibility Enhancements */
-  button,
-  [role="button"],
-  [type="button"],
-  [type="submit"],
-  [type="reset"] {
-    /* Minimum touch target size for mobile accessibility */
-    min-height: 48px;
-    min-width: 48px;
-    
-    /* Enhanced focus indicator for AAA compliance */
+  button, [role="button"], [type="button"], [type="submit"], [type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
     position: relative;
   }
 
-  /* High contrast focus ring for AAA compliance */
-  button:focus-visible,
-  [role="button"]:focus-visible,
-  [type="button"]:focus-visible,
-  [type="submit"]:focus-visible,
-  [type="reset"]:focus-visible {
-    outline: 3px solid var(--ring);
-    outline-offset: 2px;
-    box-shadow: 0 0 0 1px var(--background), 0 0 0 4px var(--ring);
-  }
-
-  /* Ensure disabled buttons have sufficient contrast */
-  button:disabled,
-  [role="button"][aria-disabled="true"],
-  [type="button"]:disabled,
-  [type="submit"]:disabled,
-  [type="reset"]:disabled {
+  button:disabled, [role="button"][aria-disabled="true"] {
     opacity: 1;
     background-color: var(--muted) !important;
     color: var(--muted-foreground) !important;
-    border-color: var(--border) !important;
+    cursor: not-allowed;
   }
 
-  /* High contrast mode support */
   @media (prefers-contrast: high) {
     :root {
       --background: #ffffff;
@@ -240,396 +262,413 @@
       --muted-foreground: #000000;
       --ring: #0000ff;
     }
-    
-    .dark {
-      --background: #000000;
-      --foreground: #ffffff;
-      --primary: #ffffff;
-      --primary-foreground: #000000;
-      --muted-foreground: #ffffff;
-      --ring: #00ffff;
-    }
-    
-    button,
-    [role="button"],
-    [type="button"],
-    [type="submit"],
-    [type="reset"] {
-      border: 2px solid currentColor;
-    }
-    
-    button:focus-visible,
-    [role="button"]:focus-visible,
-    [type="button"]:focus-visible,
-    [type="submit"]:focus-visible,
-    [type="reset"]:focus-visible {
-      outline: 4px solid var(--ring);
-      outline-offset: 2px;
-      box-shadow: 0 0 0 2px var(--background), 0 0 0 6px var(--ring);
-    }
   }
 
-  /* Reduce motion for users who prefer it */
-  @media (prefers-reduced-motion: reduce) {
-    button,
-    [role="button"],
-    [type="button"],
-    [type="submit"],
-    [type="reset"] {
-      transition: none !important;
-      animation: none !important;
-    }
-  }
+  section[id] { scroll-margin-top: 64px; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-  /* Hero Section Animations */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-20px) rotate(180deg);
-    }
-  }
-
-  @keyframes float-reverse {
-    0%, 100% {
-      transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-      transform: translateY(20px) rotate(-180deg);
-    }
-  }
-
-  @keyframes subtle-pulse {
-    0%, 100% {
-      opacity: 0.3;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.6;
-      transform: scale(1.1);
-    }
-  }
-
-  /* bounce-limited moved outside @layer base for Tailwind v4 specificity */
-
-  /* Apply animations to floating elements */
-  .hero-float-1 {
-    animation: float 8s ease-in-out infinite;
-  }
-
-  .hero-float-2 {
-    animation: float-reverse 10s ease-in-out infinite;
-    animation-delay: 2s;
-  }
-
-  .hero-float-3 {
-    animation: subtle-pulse 6s ease-in-out infinite;
-    animation-delay: 1s;
-  }
-
-  .hero-float-4 {
-    animation: float 12s ease-in-out infinite;
-    animation-delay: 3s;
-  }
-
-  /* Button micro interactions */
-  @keyframes button-tap {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.95); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes focus-glow {
-    0%, 100% { 
-      box-shadow: 0 0 0 2px var(--ring);
-    }
-    50% { 
-      box-shadow: 0 0 0 4px var(--ring), 0 0 16px var(--ring)/50;
-    }
-  }
-
-  /* Enhanced button interactions */
-  button:active:not(:disabled),
-  [role="button"]:active:not([aria-disabled="true"]) {
-    animation: button-tap 0.15s ease-out;
-  }
-
-  button:focus-visible:not(:disabled),
-  [role="button"]:focus-visible:not([aria-disabled="true"]) {
-    animation: focus-glow 1.5s ease-in-out infinite;
-  }
-
-  /* Disable animations for reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .hero-float-1,
-    .hero-float-2,
-    .hero-float-3,
-    .hero-float-4,
-    .case-study-card,
-    .case-study-badge:hover,
-    .case-study-button:focus,
-    .case-study-overlay,
-    button:active,
-    button:focus-visible {
-      animation: none !important;
-      transition: none !important;
-    }
-    
-    /* Disable typewriter cursor blinking for reduced motion */
-    .typewriter-cursor {
-      opacity: 1 !important;
-      animation: none !important;
-    }
-  }
-
-  /* Case Studies Micro Interactions */
-  @keyframes badge-bounce {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-2px);
-    }
-  }
-
-  @keyframes card-entrance {
-    0% {
-      opacity: 0;
-      transform: translateY(24px) scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0px) scale(1);
-    }
-  }
-
-  @keyframes button-pulse {
-    0% {
-      box-shadow: 0 0 0 0 var(--primary);
-    }
-    70% {
-      box-shadow: 0 0 0 8px transparent;
-    }
-    100% {
-      box-shadow: 0 0 0 0 transparent;
-    }
-  }
-
-  @keyframes gradient-shift {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  /* Apply micro interactions */
-  .case-study-card {
-    animation: card-entrance 0.6s ease-out;
-  }
-
-  .case-study-badge:hover {
-    animation: badge-bounce 0.3s ease-in-out;
-  }
-
-  .case-study-button:focus {
-    animation: button-pulse 2s infinite;
-  }
-
-  /* Enhanced hover states */
-  .case-study-card:hover .case-study-image {
-    filter: brightness(1.1) contrast(1.05);
-  }
-
-  .case-study-card:hover .case-study-overlay {
-    background: linear-gradient(45deg, var(--primary)/10, var(--accent)/10);
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  /* Scroll margin for sections to account for fixed header */
-  section[id],
-  [id^="about"],
-  [id^="experience"],
-  [id^="case-studies"],
-  [id^="contact"] {
-    scroll-margin-top: 80px;
-  }
-
-  /* Enhanced scroll behavior for smooth navigation */
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
-  /* AAA WCAG Color Compliance Enhancements */
-  
-  /* Ensure all text meets minimum contrast ratios */
-  .text-muted-foreground {
-    color: var(--muted-foreground) !important;
-  }
-  
-  /* Ensure link colors are AAA compliant */
-  a:not([class*="button"]):not([role="button"]) {
-    color: var(--ring);
+  a:not(.no-underline):not([class*="btn"]):not([role="button"]) {
+    color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  
-  a:not([class*="button"]):not([role="button"]):hover {
-    text-decoration-thickness: 2px;
-  }
-  
-  a:not([class*="button"]):not([role="button"]):focus-visible {
-    outline: 3px solid var(--ring);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
-  
-  /* Enhanced contrast for form elements */
-  input:not([type="checkbox"]):not([type="radio"]),
-  textarea,
-  select {
-    background-color: var(--input-background);
-    border: 1px solid var(--input);
-    color: var(--foreground);
-  }
-  
-  input:not([type="checkbox"]):not([type="radio"]):focus,
-  textarea:focus,
-  select:focus {
-    border-color: var(--ring);
-    outline: 2px solid var(--ring);
-    outline-offset: 0px;
-    box-shadow: 0 0 0 1px var(--ring);
-  }
-  
-  /* Ensure input borders are always visible */
-  input:not([type="checkbox"]):not([type="radio"]):not(:focus),
-  textarea:not(:focus),
-  select:not(:focus) {
-    border-color: var(--input);
-  }
-  
-  /* Ensure placeholder text meets contrast requirements */
-  ::placeholder {
-    color: var(--muted-foreground);
-    opacity: 1;
-  }
-  
-  /* Enhanced visibility for selection */
+
   ::selection {
-    background-color: var(--ring);
-    color: var(--primary-foreground);
-  }
-  
-  /* Ensure code and pre elements have sufficient contrast */
-  code,
-  pre {
-    background-color: var(--muted);
-    color: var(--foreground);
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
 }
 
-/* Hero entrance animations — outside @layer for higher specificity */
+/* ==============================
+   RESPONSIVE VISIBILITY
+   ============================== */
+.desktop-only {
+  display: none !important;
+}
+.desktop-only-inline {
+  display: none !important;
+}
+.mobile-only {
+  display: inline-flex !important;
+}
+
+@media (min-width: 768px) {
+  .desktop-only {
+    display: flex !important;
+  }
+  .desktop-only-inline {
+    display: inline-flex !important;
+  }
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* ==============================
+   SECTION SPACING (Tailwind v4 sm: variants not generating)
+   ============================== */
+.hero-content-wrapper {
+  padding: 112px 24px 32px;
+}
+@media (min-width: 640px) {
+  .hero-content-wrapper {
+    padding: 176px 64px 64px;
+  }
+}
+
+.section-pad {
+  padding: 80px 24px;
+}
+@media (min-width: 640px) {
+  .section-pad {
+    padding: 96px 64px;
+  }
+}
+
+.section-pad-sm {
+  padding: 48px 24px;
+}
+@media (min-width: 640px) {
+  .section-pad-sm {
+    padding: 48px 64px;
+  }
+}
+
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+@media (min-width: 640px) {
+  .header-inner {
+    padding: 16px 64px;
+  }
+}
+
+/* ==============================
+   LAYOUT GRIDS
+   ==============================  */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .about-grid {
+    grid-template-columns: 280px 1fr;
+    gap: 4rem;
+  }
+}
+
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .cs-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.cs-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .cs-grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .cs-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .process-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .process-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+@media (min-width: 640px) {
+  .achievements-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .services-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .audience-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .testimonials-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .cta-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ==============================
+   HERO ANIMATIONS
+   ============================== */
 @keyframes hero-fade-in {
-  from {
-    opacity: 0;
-    filter: blur(8px);
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
+  from { opacity: 0; filter: blur(8px); transform: translateY(16px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
 }
 
 .hero-animate-in {
   opacity: 0;
-  animation: hero-fade-in 0.8s ease-out forwards;
+  animation: hero-fade-in 0.9s ease-out forwards;
 }
-
 .hero-delay-1 { animation-delay: 0.1s; }
 .hero-delay-2 { animation-delay: 0.3s; }
 .hero-delay-3 { animation-delay: 0.5s; }
 .hero-delay-4 { animation-delay: 0.7s; }
 .hero-delay-5 { animation-delay: 0.9s; }
 
-/* Bounce animation — outside @layer for higher specificity */
 @keyframes bounce-limited {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-25%); }
 }
-
 .hero-bounce-limited {
   animation: bounce-limited 1s ease-in-out infinite;
 }
 
-/**
- * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
- */
+/* ==============================
+   SCROLL ANIMATIONS
+   ============================== */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Card hover */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(27, 42, 74, 0.12);
+}
+
+/* Ticker */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate-in, .animate-fade-in-up, .hero-bounce-limited, .card-hover:hover {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .ticker-track { animation: none !important; }
+  .typewriter-cursor { opacity: 1 !important; animation: none !important; }
+}
+
+/* =================================================================
+   FIGMA CHROME
+   The app shell — top bar, layers panel, status bar, canvas,
+   selection affordances. Inter at small sizes is what sells it.
+   ================================================================= */
+.figma-chrome {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.canvas-dots {
+  background-color: var(--figma-canvas);
+  background-image: radial-gradient(circle, var(--figma-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  transition: background-color 0.3s ease;
+}
+
+.frame-label {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--figma-text-dim);
+  letter-spacing: 0.01em;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+.frame-selected .frame-label,
+.frame-wrap:hover .frame-label,
+.frame-wrap:focus-within .frame-label {
+  color: var(--figma-blue);
+}
+
+.frame-wrap {
+  position: relative;
+}
+.frame-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1.5px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.15s ease;
+}
+.frame-wrap:hover::before,
+.frame-wrap:focus-within::before {
+  border-color: var(--figma-blue);
+}
+.frame-wrap .frame-handle {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #ffffff;
+  border: 1.5px solid var(--figma-blue);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.frame-wrap:hover .frame-handle,
+.frame-wrap:focus-within .frame-handle {
+  opacity: 1;
+}
+.frame-handle--tl { top: -4px; left: -4px; }
+.frame-handle--tr { top: -4px; right: -4px; }
+.frame-handle--bl { bottom: -4px; left: -4px; }
+.frame-handle--br { bottom: -4px; right: -4px; }
+
+.layers-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--figma-row-height);
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--figma-text-dim);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.layers-row:hover {
+  background-color: color-mix(in srgb, var(--figma-text) 6%, transparent);
+  color: var(--figma-text);
+}
+.layers-row.is-active {
+  background-color: color-mix(in srgb, var(--figma-blue) 15%, transparent);
+  color: var(--figma-blue);
+}
+
+.figma-cursor-flag {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  pointer-events: none;
+  will-change: transform;
+}
+.figma-cursor-flag__label {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  padding: 2px 8px;
+  border-radius: 0 4px 4px 4px;
+  margin-left: 12px;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+@keyframes spring-back {
+  0% { transform: var(--drop-transform, translate(0, 0)); }
+  60% { transform: translate(0, 0) scale(1.03); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.tool-spring-back {
+  animation: spring-back 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pin-pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.comment-pin {
+  animation: pin-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes boot-progress {
+  0% { width: 4%; }
+  100% { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-spring-back { animation: none !important; }
+  .comment-pin { animation: none !important; }
+}
+
+/* ==============================
+   BASE TYPOGRAPHY
+   ============================== */
 @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
-    h1 {
-      font-size: var(--text-2xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h2 {
-      font-size: var(--text-xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h3 {
-      font-size: var(--text-lg);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h4 {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    p {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-normal);
-      line-height: 1.5;
-    }
-
-    label {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    button {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    input {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-normal);
-      line-height: 1.5;
-    }
+    h1 { font-size: var(--text-2xl); font-weight: var(--font-weight-medium); line-height: 1.5; }
+    h2 { font-size: var(--text-xl); font-weight: var(--font-weight-medium); line-height: 1.5; }
+    h3 { font-size: var(--text-lg); font-weight: var(--font-weight-medium); line-height: 1.5; }
+    p { font-size: var(--text-base); font-weight: var(--font-weight-normal); line-height: 1.5; }
+    button { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
   }
 }
 
-html {
-  font-size: var(--font-size);
-}
+html { font-size: var(--font-size); }
