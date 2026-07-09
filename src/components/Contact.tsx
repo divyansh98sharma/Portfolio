@@ -1,14 +1,15 @@
-import { Mail, ArrowRight, Check } from 'lucide-react'
+import { Mail, ArrowRight, Check, Globe } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', sans-serif" }
 
 export function Contact() {
   const isVisible = useFrameReveal()
 
   return (
     <div className="bg-primary text-primary-foreground">
-      {/* CTA Section — split layout like Ishdeep's */}
+      {/* CTA Section — the "Share this file" dialog */}
       <div className="section-pad">
         <div className="max-w-6xl mx-auto">
           <div className={`cta-grid transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -22,7 +23,7 @@ export function Contact() {
                 Your next great design
                 <br />
                 starts with a{' '}
-                <span className="italic" style={{ fontWeight: 300, color: 'var(--accent)' }}>
+                <span className="italic" style={{ fontWeight: 300, color: 'var(--figma-blue)' }}>
                   conversation.
                 </span>
               </h2>
@@ -32,45 +33,84 @@ export function Contact() {
               </p>
             </div>
 
-            {/* Right */}
-            <div className="bg-primary-foreground/10 rounded-2xl p-8 backdrop-blur-sm border border-primary-foreground/10">
-              <div className="space-y-4 mb-8">
-                {[
-                  'Portfolio walkthrough',
-                  'Design process deep-dive',
-                  'No commitment required',
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-accent flex-shrink-0" />
-                    <span className="text-sm text-primary-foreground/90">{item}</span>
-                  </div>
-                ))}
+            {/* Right — share dialog */}
+            <div
+              className="overflow-hidden rounded-2xl bg-white text-black shadow-2xl"
+              style={inter}
+            >
+              {/* dialog header */}
+              <div className="flex items-center justify-between border-b border-black/10 px-6 py-4">
+                <p className="text-[14px] font-semibold" style={inter}>Share this designer</p>
+                <span className="text-black/30 text-lg leading-none" aria-hidden="true">✕</span>
               </div>
 
-              <a
-                href="mailto:work.divyanshsharma@gmail.com"
-                className="no-underline flex items-center justify-center w-full px-8 py-3.5 text-sm font-bold rounded-full bg-accent hover:opacity-90 transition-all duration-300 shadow-lg mb-4"
-                style={{ ...montserrat, color: 'var(--accent-foreground)' }}
-                aria-label="Send email"
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                Send an Email
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </a>
+              <div className="px-6 py-5">
+                {/* invite row */}
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="flex h-10 flex-1 items-center rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] text-black/50">
+                    work.divyanshsharma@gmail.com
+                  </div>
+                  <a
+                    href="mailto:work.divyanshsharma@gmail.com"
+                    className="no-underline flex h-10 items-center rounded-lg px-4 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: 'var(--figma-blue)' }}
+                    aria-label="Send email"
+                  >
+                    <Mail className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                    Invite
+                  </a>
+                </div>
 
-              <p className="text-center text-xs text-primary-foreground/50">
-                Or connect on{' '}
-                <a href="https://www.linkedin.com/in/divyansh98sharma" target="_blank" rel="noopener noreferrer" className="no-underline text-accent hover:underline font-medium">
-                  LinkedIn
-                </a>
-                {' '}to chat directly
-              </p>
+                {/* what you get */}
+                <div className="space-y-3 border-b border-black/10 pb-5">
+                  {[
+                    'Portfolio walkthrough',
+                    'Design process deep-dive',
+                    'No commitment required',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span
+                        className="flex h-5 w-5 items-center justify-center rounded-full"
+                        style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}
+                      >
+                        <Check className="h-3 w-3" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
+                      </span>
+                      <span className="text-[13px] text-black/70">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* access row */}
+                <div className="flex items-center justify-between pt-4 text-[12px] text-black/50">
+                  <span className="flex items-center gap-2">
+                    <Globe className="h-3.5 w-3.5" aria-hidden="true" />
+                    Anyone with the link
+                  </span>
+                  <span className="flex items-center gap-1 font-medium text-black/70">
+                    can hire ▾
+                  </span>
+                </div>
+
+                <p className="mt-4 text-center text-[11px] text-black/40">
+                  Or connect on{' '}
+                  <a
+                    href="https://www.linkedin.com/in/divyansh98sharma"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="no-underline font-medium hover:underline"
+                    style={{ color: 'var(--figma-blue)' }}
+                  >
+                    LinkedIn
+                  </a>{' '}
+                  to chat directly
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* LinkedIn bar — like Ishdeep's */}
+      {/* LinkedIn bar */}
       <div className="border-t border-primary-foreground/10 section-pad-sm">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-primary-foreground/70">

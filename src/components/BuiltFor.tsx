@@ -1,4 +1,5 @@
 import { useFrameReveal } from './chrome/Frame'
+import { ComponentGlyph } from './icons/ComponentGlyph'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
@@ -49,28 +50,43 @@ export function BuiltFor() {
           </p>
         </div>
 
-        {/* Cards */}
+        {/* Cards — components from the Assets panel */}
         <div className="audience-grid">
           {audiences.map((item, index) => (
             <div
               key={item.number}
-              className={`p-6 sm:p-8 rounded-2xl border border-border bg-card card-hover transition-all duration-700 ${
+              className={`group rounded-2xl border border-border bg-card overflow-hidden card-hover transition-all duration-700 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
               style={{ transitionDelay: isVisible ? `${index * 120}ms` : '0ms' }}
             >
-              <span
-                className="text-5xl font-black block mb-4"
-                style={{ ...montserrat, color: 'var(--accent)', opacity: 0.3 }}
+              {/* Component name row, like an Assets-panel tile header */}
+              <div
+                className="flex items-center justify-between border-b border-border px-5 py-2.5 text-[11px] font-medium"
+                style={{ fontFamily: "'Inter', sans-serif", color: 'var(--figma-cursor-purple)' }}
+                aria-hidden="true"
               >
-                {item.number}
-              </span>
-              <h3 className="text-lg mb-3 tracking-tight" style={{ ...montserrat, fontWeight: 700 }}>
-                {item.title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {item.description}
-              </p>
+                <span className="flex items-center gap-1.5">
+                  <ComponentGlyph className="h-3 w-3" />
+                  Client / {item.number}
+                </span>
+                <span className="text-muted-foreground/70">Published</span>
+              </div>
+
+              <div className="p-6 sm:p-8">
+                <span
+                  className="text-5xl font-black block mb-4"
+                  style={{ ...montserrat, color: 'var(--figma-cursor-purple)', opacity: 0.25 }}
+                >
+                  {item.number}
+                </span>
+                <h3 className="text-lg mb-3 tracking-tight" style={{ ...montserrat, fontWeight: 700 }}>
+                  {item.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

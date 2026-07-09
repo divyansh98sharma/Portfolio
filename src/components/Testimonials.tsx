@@ -1,31 +1,43 @@
 import { useFrameReveal } from './chrome/Frame'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', sans-serif" }
 
 const testimonials = [
   {
     quote: "Divyansh's redesign of our analytics dashboard cut navigation time by 30%. His ability to simplify complex workflows while maintaining clinical accuracy is rare.",
     name: 'Product Lead',
     role: 'eClinicalWorks',
+    initials: 'PL',
+    color: 'var(--figma-cursor-orange)',
     stars: 5,
+    when: '2w ago',
   },
   {
     quote: "The design system Divyansh built saved our team hundreds of hours. It improved consistency by 40% and made handoff between design and engineering seamless.",
     name: 'Engineering Manager',
     role: 'Peak.ai (UiPath)',
+    initials: 'EM',
+    color: 'var(--figma-cursor-purple)',
     stars: 5,
+    when: '3w ago',
   },
 ]
 
-function Stars({ count }: { count: number }) {
+/** Figma comment pin — a teardrop circle with the author's initials */
+function CommentPin({ initials, color }: { initials: string; color: string }) {
   return (
-    <div className="flex gap-0.5" role="img" aria-label={`${count} out of 5 stars`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <svg key={i} className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
-      ))}
-    </div>
+    <span
+      className="flex h-9 w-9 flex-shrink-0 items-center justify-center text-[11px] font-bold text-white shadow-md"
+      style={{
+        backgroundColor: color,
+        borderRadius: '50% 50% 50% 4px',
+        fontFamily: "'Inter', sans-serif",
+      }}
+      aria-hidden="true"
+    >
+      {initials}
+    </span>
   )
 }
 
@@ -39,7 +51,7 @@ export function Testimonials() {
         <div className={`mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-px bg-muted-foreground" />
-            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider" style={montserrat}>Testimonials</p>
+            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider" style={montserrat}>Comments</p>
           </div>
           <h2 id="testimonials-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
             What people are{' '}
@@ -47,23 +59,45 @@ export function Testimonials() {
           </h2>
         </div>
 
-        {/* Testimonial cards */}
+        {/* Comment threads */}
         <div className="testimonials-grid">
           {testimonials.map((t, index) => (
             <div
               key={index}
-              className={`p-8 rounded-2xl border border-border bg-card card-hover transition-all duration-700 ${
+              className={`flex items-start gap-3 transition-all duration-700 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
               style={{ transitionDelay: isVisible ? `${index * 150}ms` : '0ms' }}
             >
-              <Stars count={t.stars} />
-              <blockquote className="mt-5 mb-6">
-                <p className="text-foreground leading-relaxed italic">"{t.quote}"</p>
-              </blockquote>
-              <div>
-                <p className="font-bold text-sm" style={montserrat}>{t.name}</p>
-                <p className="text-xs text-muted-foreground">{t.role}</p>
+              <CommentPin initials={t.initials} color={t.color} />
+              <div className="min-w-0 flex-1 rounded-xl rounded-tl-sm border border-border bg-card p-6 card-hover">
+                <div className="mb-3 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                  <p className="text-sm font-bold" style={montserrat}>{t.name}</p>
+                  <p className="text-xs text-muted-foreground" style={inter}>{t.role}</p>
+                  <p className="ml-auto text-[11px] text-muted-foreground/60" style={inter}>{t.when}</p>
+                </div>
+                <blockquote>
+                  <p className="leading-relaxed text-foreground">"{t.quote}"</p>
+                </blockquote>
+                {/* Reactions */}
+                <div className="mt-4 flex items-center gap-2" role="img" aria-label={`${t.stars} out of 5 stars`}>
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+                    style={inter}
+                  >
+                    ⭐ {t.stars}
+                  </span>
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+                    style={inter}
+                    aria-hidden="true"
+                  >
+                    👍 {index === 0 ? 4 : 3}
+                  </span>
+                  <span className="text-[11px] text-muted-foreground/60" style={inter} aria-hidden="true">
+                    Reply…
+                  </span>
+                </div>
               </div>
             </div>
           ))}

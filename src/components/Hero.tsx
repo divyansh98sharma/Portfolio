@@ -1,14 +1,29 @@
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
+import { TypewriterText } from './TypewriterText'
+import { ComponentGlyph } from './icons/ComponentGlyph'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', sans-serif" }
 
-const socialProof = [
-  { initials: 'EC', bg: '#1B2A4A' },
-  { initials: 'PA', bg: '#2D6A4F' },
-  { initials: 'TG', bg: '#6B4A1B' },
-  { initials: 'MS', bg: '#4A1B6B' },
-  { initials: 'AZ', bg: '#1B4A5A' },
+/** Figma's multiplayer cursor arrow */
+function CursorArrow({ color }: { color: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5.5 3.2l12.8 7.9c.5.3.4 1-.2 1.2l-5.6 1.6-3.3 4.9c-.3.5-1.1.3-1.2-.3L4.6 4.1c-.1-.6.4-1.1.9-.9z"
+        fill={color}
+        stroke="#fff"
+        strokeWidth="1.2"
+      />
+    </svg>
+  )
+}
+
+const skills = [
+  'User Research', 'Prototyping', 'Design Systems', 'Usability Testing',
+  'Wireframing', 'Information Architecture', 'Figma', 'Adobe Creative Suite',
+  'Healthcare UX', 'Enterprise Design', 'Data Visualization', 'Accessibility',
 ]
 
 export function Hero() {
@@ -17,28 +32,16 @@ export function Hero() {
       <div className="hero-content-wrapper">
         <div className="max-w-6xl mx-auto">
 
-          {/* Social proof — avatar stack + viewing count */}
-          <div className="hero-animate-in hero-delay-1 inline-flex items-center gap-3 mb-10">
-            <div className="flex items-center">
-              {socialProof.map((v, i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold text-white select-none"
-                  style={{
-                    backgroundColor: v.bg,
-                    marginLeft: i > 0 ? '-10px' : '0',
-                    zIndex: socialProof.length - i,
-                    position: 'relative',
-                  }}
-                  aria-hidden="true"
-                >
-                  {v.initials}
-                </div>
-              ))}
+          {/* Cursor chat — my own cursor introducing me */}
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — UX Designer, Design Systems Builder, UX Researcher">
+            <CursorArrow color="var(--figma-blue)" />
+            <div
+              className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
+              style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+              aria-hidden="true"
+            >
+              Divyansh · <TypewriterText texts={['UX Designer', 'Design Systems Builder', 'UX Researcher', 'Problem Solver']} />
             </div>
-            <p className="text-sm text-muted-foreground" style={montserrat}>
-              <span className="font-semibold text-foreground">5 companies</span> recently reviewed
-            </p>
           </div>
 
           {/* Headline */}
@@ -68,15 +71,15 @@ export function Hero() {
           <div className="hero-animate-in hero-delay-3 flex flex-wrap gap-4 items-center mb-10">
             <button
               onClick={() => scrollToSection('case-studies')}
-              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg"
-              style={montserrat}
+              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-lg text-white transition-all duration-300 shadow-md hover:shadow-lg hover:opacity-90"
+              style={{ ...montserrat, backgroundColor: 'var(--figma-blue)' }}
               aria-label="View My Work"
             >
               View My Work
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium rounded-full border-2 border-border text-foreground hover:bg-secondary transition-all duration-300"
+              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium rounded-lg border-2 border-border text-foreground hover:bg-secondary transition-all duration-300"
               style={montserrat}
               aria-label="Get in touch"
             >
@@ -103,27 +106,25 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Ticker bar */}
-      <div className="border-y border-border py-4 overflow-hidden bg-background">
+      {/* Skills ticker — a strip of Figma components from the Assets library */}
+      <div className="border-y border-border py-3 overflow-hidden bg-secondary/40">
         <div
-          className="ticker-track flex items-center gap-8 whitespace-nowrap"
+          className="ticker-track flex items-center gap-3 whitespace-nowrap"
           style={{ width: 'max-content' }}
           aria-hidden="true"
         >
           {[...Array(2)].map((_, setIdx) => (
-            <div key={setIdx} className="flex items-center gap-8">
-              {[
-                'User Research', 'Prototyping', 'Design Systems', 'Usability Testing',
-                'Wireframing', 'Information Architecture', 'Figma', 'Adobe Creative Suite',
-                'Healthcare UX', 'Enterprise Design', 'Data Visualization', 'Accessibility',
-              ].map((topic, i) => (
+            <div key={setIdx} className="flex items-center gap-3 pr-3">
+              {skills.map((topic, i) => (
                 <span
                   key={`${setIdx}-${i}`}
-                  className="flex items-center gap-3 text-sm text-muted-foreground"
-                  style={montserrat}
+                  className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-[12px] font-medium text-muted-foreground"
+                  style={inter}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                  {topic}
+                  <span style={{ color: 'var(--figma-cursor-purple)' }}>
+                    <ComponentGlyph className="h-3 w-3 flex-shrink-0" />
+                  </span>
+                  <span style={{ color: 'var(--foreground)' }}>{topic}</span>
                 </span>
               ))}
             </div>
@@ -132,7 +133,7 @@ export function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="flex justify-center py-8 hero-bounce-limited hero-animate-in hero-delay-5">
+      <div className="flex justify-center py-6 hero-bounce-limited hero-animate-in hero-delay-5">
         <button
           onClick={() => scrollToSection('about')}
           className="no-underline rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors duration-300"
