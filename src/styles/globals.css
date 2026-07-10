@@ -653,6 +653,14 @@
   100% { width: 100%; }
 }
 
+/* tool cursors + drag states */
+body[data-tool='move'] main { cursor: move; }
+body[data-tool='hand'] main { cursor: grab; }
+body[data-tool='hand'].is-panning main { cursor: grabbing; }
+body[data-tool='comment'] main { cursor: crosshair; }
+body[data-tool='move'], body[data-tool='hand'] { user-select: none; }
+.tool-dragging { position: relative; z-index: 40; }
+
 @media (prefers-reduced-motion: reduce) {
   .tool-spring-back { animation: none !important; }
   .comment-pin { animation: none !important; }

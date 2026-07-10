@@ -69,7 +69,9 @@ export function FigmaTopBar() {
         >
           <FigmaIcon className="h-4 w-3" />
         </button>
-        <div id="topbar-tools" className="hidden lg:flex items-center" />
+        <div className="hidden lg:block">
+          <ToolButtons />
+        </div>
       </div>
 
       {/* Center: file name dropdown = the site nav */}
