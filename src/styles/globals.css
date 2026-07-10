@@ -210,7 +210,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Lato', 'Inter', ui-sans-serif, sans-serif;
+    font-family: 'Inter', ui-sans-serif, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -281,32 +281,7 @@
 }
 
 /* ==============================
-   RESPONSIVE VISIBILITY
-   ============================== */
-.desktop-only {
-  display: none !important;
-}
-.desktop-only-inline {
-  display: none !important;
-}
-.mobile-only {
-  display: inline-flex !important;
-}
-
-@media (min-width: 768px) {
-  .desktop-only {
-    display: flex !important;
-  }
-  .desktop-only-inline {
-    display: inline-flex !important;
-  }
-  .mobile-only {
-    display: none !important;
-  }
-}
-
-/* ==============================
-   SECTION SPACING (Tailwind v4 sm: variants not generating)
+   SECTION SPACING
    ============================== */
 .hero-content-wrapper {
   padding: 112px 24px 32px;
@@ -332,17 +307,6 @@
 @media (min-width: 640px) {
   .section-pad-sm {
     padding: 48px 64px;
-  }
-}
-
-.header-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 16px 24px;
-}
-@media (min-width: 640px) {
-  .header-inner {
-    padding: 16px 64px;
   }
 }
 
@@ -409,21 +373,6 @@
   .achievements-grid { grid-template-columns: 1fr 1fr; }
 }
 
-.skills-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 768px) {
-  .services-grid { grid-template-columns: 1fr 1fr 1fr; }
-}
-
 .audience-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -478,18 +427,6 @@
   animation: bounce-limited 1s ease-in-out infinite;
 }
 
-/* ==============================
-   SCROLL ANIMATIONS
-   ============================== */
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in-up {
-  opacity: 0;
-  animation: fade-in-up 0.6s ease-out forwards;
-}
-
 /* Card hover */
 .card-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -509,7 +446,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-animate-in, .animate-fade-in-up, .hero-bounce-limited, .card-hover:hover {
+  .hero-animate-in, .hero-bounce-limited, .card-hover:hover {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;
