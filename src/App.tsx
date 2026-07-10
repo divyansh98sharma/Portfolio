@@ -12,8 +12,11 @@ import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
 import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { CommentTool } from './components/chrome/tools/CommentTool'
+import { BootLoader } from './components/chrome/BootLoader'
+import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
+import { useReducedMotion } from './hooks/useReducedMotion'
 import { DESKTOP_CHROME_QUERY } from './lib/chrome'
 
 // Secondary routes are code-split; the skeleton shows while a chunk loads.
@@ -33,6 +36,7 @@ const pageVariants = {
 function AppContent() {
   const { currentPage } = useRouter()
   const isDesktop = useMediaQuery(DESKTOP_CHROME_QUERY)
+  const reducedMotion = useReducedMotion()
 
   const renderMainContent = () => {
     const study = caseStudyContent[currentPage]
@@ -73,6 +77,8 @@ function AppContent() {
       </main>
       <StatusBar />
       {isDesktop && <ToolEffects />}
+      {isDesktop && !reducedMotion && <MultiplayerCursors />}
+      <BootLoader />
     </div>
   )
 }
