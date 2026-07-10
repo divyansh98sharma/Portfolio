@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
 import { useRouter } from '../Router'
+import { PrototypeModal } from './PrototypeModal'
 import { Frame } from '../chrome/Frame'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { ComponentGlyph } from '../icons/ComponentGlyph'
@@ -62,6 +64,7 @@ const PIN_COLORS = ['var(--figma-cursor-orange)', 'var(--figma-cursor-purple)', 
 
 export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
   const { navigateTo } = useRouter()
+  const [showPrototype, setShowPrototype] = useState(false)
   const pad = 'px-6 py-14 sm:px-10 sm:py-16'
 
   return (
@@ -158,10 +161,10 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
 
               {data.prototypeUrl && (
                 <button
-                  onClick={() => window.open(data.prototypeUrl, '_blank', 'noopener,noreferrer')}
+                  onClick={() => setShowPrototype(true)}
                   className="inline-flex items-center rounded-lg px-6 py-3 text-sm font-bold text-white shadow-md transition-opacity hover:opacity-90"
                   style={{ ...montserrat, backgroundColor: 'var(--cs-accent)' }}
-                  aria-label="View prototype (opens in new tab)"
+                  aria-label="Present prototype"
                 >
                   <FigmaIcon className="mr-2 h-5 w-4" />
                   View Prototype
@@ -561,6 +564,15 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
           </button>
         </div>
       </footer>
+
+      {showPrototype && data.prototypeUrl && (
+        <PrototypeModal
+          url={data.prototypeUrl}
+          fileName={data.fileName}
+          accent={data.accent}
+          onClose={() => setShowPrototype(false)}
+        />
+      )}
     </div>
   )
 }
