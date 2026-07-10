@@ -50,5 +50,11 @@ export function ZoomCanvas({ children }: { children: ReactNode }) {
   // --canvas-zoom lets vw-based type sizes compensate: viewport units
   // ignore CSS zoom, so clamp(…, Nvw, …) headings would stay physically
   // huge while everything else shrinks. Styles multiply vw by this var.
-  return <div style={{ zoom, '--canvas-zoom': zoom } as React.CSSProperties}>{children}</div>
+  // `relative` makes this the containing block for the comment-pin
+  // overlay so pins share the zoomed local coordinate space.
+  return (
+    <div className="relative" style={{ zoom, '--canvas-zoom': zoom } as React.CSSProperties}>
+      {children}
+    </div>
+  )
 }

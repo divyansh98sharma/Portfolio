@@ -19,7 +19,7 @@ import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
-import { DESKTOP_CHROME_QUERY } from './lib/chrome'
+import { TABLET_CHROME_QUERY } from './lib/chrome'
 
 // Secondary routes are code-split; the skeleton shows while a chunk loads.
 const AllCaseStudies = lazy(() =>
@@ -37,7 +37,7 @@ const pageVariants = {
 
 function AppContent() {
   const { currentPage } = useRouter()
-  const isDesktop = useMediaQuery(DESKTOP_CHROME_QUERY)
+  const hasCanvasChrome = useMediaQuery(TABLET_CHROME_QUERY)
   const reducedMotion = useReducedMotion()
 
   const renderMainContent = () => {
@@ -66,7 +66,7 @@ function AppContent() {
       </a>
       <FigmaTopBar />
       <LayersPanel />
-      {isDesktop && (
+      {hasCanvasChrome && (
         <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2">
           <ToolButtons />
         </div>
@@ -74,19 +74,19 @@ function AppContent() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="canvas-dots relative min-h-screen pt-20 pb-24 lg:pl-[272px]"
+        className="canvas-dots relative min-h-screen pt-20 pb-10 md:pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
           <AnimatePresence mode="wait">
             <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
           </AnimatePresence>
           <Footer />
-          {isDesktop && <CommentTool />}
+          {hasCanvasChrome && <CommentTool />}
         </ZoomCanvas>
       </main>
       <StatusBar />
-      {isDesktop && <ToolEffects />}
-      {isDesktop && !reducedMotion && <MultiplayerCursors />}
+      {hasCanvasChrome && <ToolEffects />}
+      {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
       <BootLoader />
     </div>
   )

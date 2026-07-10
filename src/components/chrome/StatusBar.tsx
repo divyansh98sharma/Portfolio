@@ -53,7 +53,7 @@ export function StatusBar() {
     <>
       {/* Mobile: progress line only, tucked under the top bar */}
       <div
-        className="fixed left-0 right-0 z-40 lg:hidden pointer-events-none"
+        className="fixed left-0 right-0 z-40 md:hidden pointer-events-none"
         style={{ top: TOPBAR_HEIGHT, height: 2 }}
         aria-hidden="true"
       >
@@ -65,7 +65,7 @@ export function StatusBar() {
 
       {/* Desktop status pill — UI3 floating, bottom right */}
       <div
-        className="figma-chrome fixed bottom-4 right-4 z-40 hidden lg:flex items-center gap-2 rounded-[14px] border py-1.5 pl-3 pr-1.5 shadow-xl"
+        className="figma-chrome fixed bottom-4 right-4 z-40 hidden md:flex items-center gap-2 rounded-[14px] border py-1.5 pl-3 pr-1.5 shadow-xl"
         style={{
           backgroundColor: 'var(--figma-panel)',
           borderColor: 'var(--figma-border)',
