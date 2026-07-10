@@ -108,3 +108,37 @@ export function useLayers() {
   if (!ctx) throw new Error('useLayers must be used within a LayersProvider')
   return ctx
 }
+
+/**
+ * Registers any region of a page as a "frame" in the Layers panel
+ * (scroll-spy + expandable layer tree) without the visual Frame chrome.
+ * Used by pages like the file browser that aren't built from Frames.
+ */
+export function LayerRegion({
+  id,
+  name,
+  children,
+  className,
+}: {
+  id: string
+  name: string
+  children: ReactNode
+  className?: string
+}) {
+  const { registerFrame, unregisterFrame } = useLayers()
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.dataset.frameId = id
+    registerFrame({ id, name, el })
+    return () => unregisterFrame(id)
+  }, [id, name, registerFrame, unregisterFrame])
+
+  return (
+    <div id={id} ref={ref} className={className}>
+      {children}
+    </div>
+  )
+}
