@@ -16,27 +16,28 @@ export function AllCaseStudies() {
   const { ref, isVisible } = useReveal<HTMLElement>({ threshold: 0.05 })
 
   return (
-    <section
-      ref={ref}
-      className="pt-16 sm:pt-20 pb-20 px-6 sm:px-8"
-      aria-labelledby="case-studies-heading"
-    >
-      <div className="container mx-auto max-w-5xl">
-        {/* Back Button */}
-        <nav className="mb-10" aria-label="Page navigation">
-          <button
-            onClick={() => navigateTo('home')}
-            className="figma-chrome no-underline inline-flex items-center gap-2 rounded-md px-3 py-2 text-[12px] font-medium transition-colors min-h-0 min-w-0"
-            style={{ ...inter, color: 'var(--figma-text-dim)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--figma-text)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--figma-text-dim)')}
-            aria-label="Return to portfolio home page"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            Back to file
-          </button>
-        </nav>
+    <section ref={ref} className="pb-20" aria-labelledby="case-studies-heading">
+      {/* Breadcrumb strip — identical placement to the opened-file strip */}
+      <nav
+        className="figma-chrome mx-auto mt-4 flex max-w-[1200px] items-center gap-2 px-3 sm:px-6 lg:px-0 text-[12px]"
+        style={{ ...inter, color: 'var(--figma-text-dim)' }}
+        aria-label="Page navigation"
+      >
+        <button
+          onClick={() => navigateTo('home')}
+          className="flex min-h-0 min-w-0 items-center gap-1.5 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--figma-blue)]"
+          aria-label="Return to portfolio home page"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+          Drafts
+        </button>
+        <span aria-hidden="true">/</span>
+        <span className="font-medium" style={{ color: 'var(--figma-text)' }}>
+          All files
+        </span>
+      </nav>
 
+      <div className="mx-auto mt-10 max-w-[1200px] px-3 sm:px-6 lg:px-0">
         {/* File browser header */}
         <header className="figma-chrome mb-10" style={{ color: 'var(--figma-text)' }}>
           <h1
