@@ -23,14 +23,11 @@ interface ChildLayer {
   el: HTMLElement
 }
 
-const MAX_CHILDREN = 9
-
 function scanLayers(frameEl: HTMLElement): ChildLayer[] {
   const out: ChildLayer[] = []
   const seen = new Set<string>()
   const nodes = frameEl.querySelectorAll<HTMLElement>('h1, h2, h3, p, img, figure img, button, a')
   for (const el of nodes) {
-    if (out.length > MAX_CHILDREN + 6) break
     if (el.closest('[data-comment-ui]')) continue
     let kind: LayerKind
     let name: string
@@ -204,7 +201,7 @@ export function LayersPanel() {
 
                 {isOpen && (
                   <ul className="mt-0.5 space-y-0.5" aria-label={`${frame.name} layers`}>
-                    {kids.slice(0, MAX_CHILDREN).map((child, i) => (
+                    {kids.map((child, i) => (
                       <li key={i}>
                         <button
                           onClick={() => selectLayer(child.el)}
@@ -222,15 +219,6 @@ export function LayersPanel() {
                         </button>
                       </li>
                     ))}
-                    {kids.length > MAX_CHILDREN && (
-                      <li
-                        className="pr-2 py-1"
-                        style={{ ...inter, paddingLeft: 34, fontSize: 10, color: 'var(--figma-text-dim)' }}
-                        aria-hidden="true"
-                      >
-                        +{kids.length - MAX_CHILDREN} more layers
-                      </li>
-                    )}
                   </ul>
                 )}
               </li>
