@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ChevronUp, Minus, Plus } from 'lucide-react'
 import { MAX_ZOOM, MIN_ZOOM, useLayers } from './LayersContext'
-import { STATUSBAR_HEIGHT, TOPBAR_HEIGHT } from '../../lib/chrome'
+import { TOPBAR_HEIGHT } from '../../lib/chrome'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 
@@ -63,27 +63,19 @@ export function StatusBar() {
         />
       </div>
 
-      {/* Desktop status bar */}
+      {/* Desktop status pill — UI3 floating, bottom right */}
       <div
-        className="figma-chrome fixed bottom-0 left-0 right-0 z-40 hidden lg:flex items-center justify-between border-t px-4"
+        className="figma-chrome fixed bottom-4 right-4 z-40 hidden lg:flex items-center gap-2 rounded-[14px] border py-1.5 pl-3 pr-1.5 shadow-xl"
         style={{
-          height: STATUSBAR_HEIGHT,
           backgroundColor: 'var(--figma-panel)',
           borderColor: 'var(--figma-border)',
           color: 'var(--figma-text-dim)',
         }}
       >
-        {/* scroll progress along the top edge */}
-        <div className="absolute left-0 -top-px h-px w-full" aria-hidden="true">
-          <div
-            className="h-full transition-[width] duration-150"
-            style={{ width: `${progress * 100}%`, backgroundColor: 'var(--figma-blue)' }}
-          />
-        </div>
-
-        <span className="text-[11px] truncate" style={inter} aria-hidden="true">
-          Page 1{activeName ? ` · ${activeName}` : ''}
+        <span className="max-w-44 truncate text-[11px]" style={inter} aria-hidden="true">
+          {activeName ?? 'Page 1'}
         </span>
+        <span className="h-3 w-px" style={{ backgroundColor: 'var(--figma-border)' }} aria-hidden="true" />
 
         <div className="flex items-center gap-1">
           {/* zoom controls — ⌘/Ctrl+scroll or pinch also works */}

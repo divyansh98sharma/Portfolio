@@ -10,6 +10,7 @@ import { LayersProvider } from './components/chrome/LayersContext'
 import { FigmaTopBar } from './components/chrome/FigmaTopBar'
 import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
+import { ToolButtons } from './components/chrome/ToolButtons'
 import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { CommentTool } from './components/chrome/tools/CommentTool'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
@@ -65,10 +66,15 @@ function AppContent() {
       </a>
       <FigmaTopBar />
       <LayersPanel />
+      {isDesktop && (
+        <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2">
+          <ToolButtons />
+        </div>
+      )}
       <main
         id="main-content"
         tabIndex={-1}
-        className="canvas-dots relative min-h-screen pt-12 lg:pl-60 lg:pb-8"
+        className="canvas-dots relative min-h-screen pt-20 pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
           <AnimatePresence mode="wait">

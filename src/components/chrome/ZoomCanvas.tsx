@@ -47,5 +47,8 @@ export function ZoomCanvas({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [setZoom])
 
-  return <div style={{ zoom }}>{children}</div>
+  // --canvas-zoom lets vw-based type sizes compensate: viewport units
+  // ignore CSS zoom, so clamp(…, Nvw, …) headings would stay physically
+  // huge while everything else shrinks. Styles multiply vw by this var.
+  return <div style={{ zoom, '--canvas-zoom': zoom } as React.CSSProperties}>{children}</div>
 }

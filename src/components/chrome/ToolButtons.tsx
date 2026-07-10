@@ -12,9 +12,10 @@ const TOOLS: { name: ToolName; label: string; shortcut: string; Icon: typeof Mov
 ]
 
 /**
- * The toy toolbar in the top bar. Each tool actually does something:
- * Move drags elements (they spring home), Hand grab-scrolls,
- * Comment drops pins. Desktop only.
+ * The UI3-style floating toolbar, bottom-center like current Figma.
+ * Each tool actually does something: Move drags elements (they spring
+ * home), Hand grab-scrolls, Draw scribbles, Comment drops pins.
+ * Desktop only.
  */
 export function ToolButtons() {
   const { activeTool, setActiveTool } = useLayers()
@@ -23,8 +24,11 @@ export function ToolButtons() {
     <div
       role="toolbar"
       aria-label="Canvas tools"
-      className="ml-1 flex items-center gap-0.5 border-l pl-2"
-      style={{ borderColor: 'var(--figma-border)' }}
+      className="figma-chrome flex items-center gap-1 rounded-[14px] border p-1.5 shadow-xl"
+      style={{
+        backgroundColor: 'var(--figma-panel)',
+        borderColor: 'var(--figma-border)',
+      }}
     >
       {TOOLS.map(({ name, label, shortcut, Icon }) => {
         const active = activeTool === name
@@ -35,7 +39,7 @@ export function ToolButtons() {
             aria-pressed={active}
             aria-label={`${label} (${shortcut})`}
             title={`${label} · ${shortcut}`}
-            className="flex h-9 w-9 min-h-0 min-w-0 items-center justify-center rounded-md transition-colors"
+            className="flex h-10 w-10 min-h-0 min-w-0 items-center justify-center rounded-[10px] transition-colors"
             style={{
               ...inter,
               backgroundColor: active ? 'var(--figma-blue)' : 'transparent',
@@ -48,7 +52,7 @@ export function ToolButtons() {
               if (!active) e.currentTarget.style.color = 'var(--figma-text-dim)'
             }}
           >
-            <Icon className="h-4 w-4" strokeWidth={1.75} />
+            <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
           </button>
         )
       })}

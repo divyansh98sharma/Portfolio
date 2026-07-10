@@ -1,6 +1,7 @@
 // Shared sizing for the Figma-chrome shell — kept in one place so the
-// top bar, layers panel, status bar and scroll offsets never drift apart.
-export const TOPBAR_HEIGHT = 48
+// floating pills, layers panel and scroll offsets never drift apart.
+// UI3: pills float at top-3 (12px) with ~44px height → 64px clearance.
+export const TOPBAR_HEIGHT = 64
 export const STATUSBAR_HEIGHT = 32
 export const LAYERS_PANEL_WIDTH = 240
 

@@ -38,7 +38,7 @@ export function Process() {
             <div className="w-8 h-px bg-muted-foreground" />
             <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider" style={montserrat}>Prototype Flow</p>
           </div>
-          <h2 id="process-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+          <h2 id="process-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, calc(4vw * var(--canvas-zoom, 1)), 3.2rem)' }}>
             My design{' '}
             <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>process.</span>
           </h2>

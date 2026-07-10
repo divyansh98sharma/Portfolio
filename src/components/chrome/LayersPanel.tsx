@@ -1,24 +1,23 @@
 import { ChevronDown, Frame as FrameIcon } from 'lucide-react'
 import { useLayers } from './LayersContext'
 import { scrollToSection } from '../utils/scrollToSection'
-import { LAYERS_PANEL_WIDTH, STATUSBAR_HEIGHT, TOPBAR_HEIGHT } from '../../lib/chrome'
+import { LAYERS_PANEL_WIDTH } from '../../lib/chrome'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 
 /**
- * Figma's left Layers panel, repurposed as the site's real navigation.
- * Rows are the registered Frames (via LayersContext); the active row is
- * driven by the shared scroll-spy observer. Hidden below lg.
+ * Figma's left Layers panel, repurposed as the site's real navigation —
+ * UI3 style: a floating rounded panel over the canvas. Rows are the
+ * registered Frames (via LayersContext); the active row is driven by
+ * the shared scroll-spy observer. Hidden below lg.
  */
 export function LayersPanel() {
   const { frames, activeFrameId } = useLayers()
 
   return (
     <aside
-      className="figma-chrome fixed left-0 z-40 hidden lg:flex flex-col border-r"
+      className="figma-chrome fixed left-3 top-[72px] bottom-[76px] z-40 hidden lg:flex flex-col rounded-[14px] border shadow-xl overflow-hidden"
       style={{
-        top: TOPBAR_HEIGHT,
-        bottom: STATUSBAR_HEIGHT,
         width: LAYERS_PANEL_WIDTH,
         backgroundColor: 'var(--figma-panel)',
         borderColor: 'var(--figma-border)',

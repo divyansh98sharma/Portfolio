@@ -53,7 +53,7 @@ export function Testimonials() {
             <div className="w-8 h-px bg-muted-foreground" />
             <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider" style={montserrat}>Comments</p>
           </div>
-          <h2 id="testimonials-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+          <h2 id="testimonials-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, calc(4vw * var(--canvas-zoom, 1)), 3.2rem)' }}>
             What people are{' '}
             <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>saying.</span>
           </h2>

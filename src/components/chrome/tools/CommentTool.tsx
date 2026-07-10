@@ -7,7 +7,7 @@ const inter = { fontFamily: "'Inter', sans-serif" }
 
 interface UserComment {
   id: number
-  /** document-space coordinates so pins scroll with the page */
+  /** zoom-independent document coordinates (divide physical px by zoom) */
   x: number
   y: number
   text: string
@@ -15,6 +15,7 @@ interface UserComment {
 
 const MAX_PINS = 10
 const STORAGE_KEY = 'fig-comments'
+const DRAG_THRESHOLD = 5
 
 function loadComments(): UserComment[] {
   try {
@@ -25,18 +26,29 @@ function loadComments(): UserComment[] {
 }
 
 /**
- * The Comment tool: with C active, click the canvas to drop a pin and type
- * a note (stored in sessionStorage). Also renders 2 pre-seeded comments
- * from fake collaborators near their home sections. Desktop only.
+ * The Comment tool. With C active, click the canvas to drop a pin and
+ * type a note. Every pin — yours or the seeded collaborators' — can be
+ * dragged anywhere, with any tool active. Coordinates live in the
+ * zoomed content's local space, so pins stay glued to their spot on
+ * the frames at every zoom level. Desktop only.
  */
 export function CommentTool() {
-  const { activeTool, setActiveTool, frames } = useLayers()
+  const { activeTool, setActiveTool, frames, zoom } = useLayers()
+  const zoomRef = useRef(zoom)
+  zoomRef.current = zoom
+
   const [comments, setComments] = useState<UserComment[]>(loadComments)
   const [draft, setDraft] = useState<{ x: number; y: number } | null>(null)
   const [draftText, setDraftText] = useState('')
   const [openId, setOpenId] = useState<number | null>(null)
-  const [seedPositions, setSeedPositions] = useState<{ x: number; y: number }[]>([])
+  const [seedPositions, setSeedPositions] = useState<Record<number, { x: number; y: number }>>({})
   const inputRef = useRef<HTMLInputElement>(null)
+
+  /** physical viewport point -> local (zoom-independent) document point */
+  const toLocal = useCallback((clientX: number, clientY: number) => {
+    const z = zoomRef.current
+    return { x: (clientX + window.scrollX) / z, y: (clientY + window.scrollY) / z }
+  }, [])
 
   const save = useCallback((next: UserComment[]) => {
     setComments(next)
@@ -47,24 +59,24 @@ export function CommentTool() {
     }
   }, [])
 
-  /* position the seeded comments near their home frames */
+  /* seed the collaborator comments near their home frames (once per layout) */
   useEffect(() => {
-    const compute = () => {
-      setSeedPositions(
-        seededComments.map((s, i) => {
-          const frame = frames.find((f) => f.id === s.section)
-          if (!frame) return { x: -9999, y: -9999 }
-          const rect = frame.el.getBoundingClientRect()
-          return {
-            x: rect.right + window.scrollX - 40 - i * 14,
-            y: rect.top + window.scrollY + 60 + i * 30,
-          }
-        })
-      )
-    }
-    compute()
-    window.addEventListener('resize', compute)
-    return () => window.removeEventListener('resize', compute)
+    setSeedPositions((prev) => {
+      const next = { ...prev }
+      seededComments.forEach((s, i) => {
+        const id = -(i + 1)
+        if (next[id]) return // user may have dragged it — keep
+        const frame = frames.find((f) => f.id === s.section)
+        if (!frame) return
+        const rect = frame.el.getBoundingClientRect()
+        const z = zoomRef.current
+        next[id] = {
+          x: (rect.right + window.scrollX) / z - 60 - i * 20,
+          y: (rect.top + window.scrollY) / z + 70 + i * 40,
+        }
+      })
+      return next
+    })
   }, [frames])
 
   /* click to drop a draft pin */
@@ -77,13 +89,13 @@ export function CommentTool() {
       const t = e.target as HTMLElement
       if (t.closest('header, aside, button, a, input, [role="dialog"], [data-comment-ui]')) return
       if (comments.length >= MAX_PINS) return
-      setDraft({ x: e.clientX + window.scrollX, y: e.clientY + window.scrollY })
+      setDraft(toLocal(e.clientX, e.clientY))
       setDraftText('')
       setOpenId(null)
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
-  }, [activeTool, comments.length])
+  }, [activeTool, comments.length, toLocal])
 
   useEffect(() => {
     if (draft) inputRef.current?.focus()
@@ -97,24 +109,94 @@ export function CommentTool() {
     setDraftText('')
   }
 
+  /* ---------- pin dragging (works with any tool) ---------- */
+  const dragState = useRef<{
+    id: number
+    startX: number
+    startY: number
+    origin: { x: number; y: number }
+    moved: boolean
+  } | null>(null)
+
+  const startDrag = (id: number, e: React.PointerEvent) => {
+    if (e.button !== 0) return
+    const origin = id < 0 ? seedPositions[id] : comments.find((c) => c.id === id)
+    if (!origin) return
+    dragState.current = {
+      id,
+      startX: e.clientX,
+      startY: e.clientY,
+      origin: { x: origin.x, y: origin.y },
+      moved: false,
+    }
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      const d = dragState.current
+      if (!d) return
+      const z = zoomRef.current
+      const dx = (e.clientX - d.startX) / z
+      const dy = (e.clientY - d.startY) / z
+      if (!d.moved && Math.hypot(dx * z, dy * z) < DRAG_THRESHOLD) return
+      d.moved = true
+      const pos = { x: d.origin.x + dx, y: d.origin.y + dy }
+      if (d.id < 0) {
+        setSeedPositions((prev) => ({ ...prev, [d.id]: pos }))
+      } else {
+        setComments((prev) => prev.map((c) => (c.id === d.id ? { ...c, ...pos } : c)))
+      }
+    }
+    const onUp = () => {
+      const d = dragState.current
+      dragState.current = null
+      if (!d) return
+      if (d.moved) {
+        // persist dragged user pins; suppress the click-toggle
+        if (d.id >= 0) {
+          setComments((prev) => {
+            try {
+              sessionStorage.setItem(STORAGE_KEY, JSON.stringify(prev))
+            } catch {
+              /* ignore */
+            }
+            return prev
+          })
+        }
+      } else {
+        setOpenId((cur) => (cur === d.id ? null : d.id))
+      }
+    }
+    window.addEventListener('pointermove', onMove)
+    window.addEventListener('pointerup', onUp)
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      window.removeEventListener('pointerup', onUp)
+    }
+  }, [])
+
   const pinStyle = (color: string): React.CSSProperties => ({
     ...inter,
     backgroundColor: color,
     borderRadius: '50% 50% 50% 4px',
+    cursor: 'grab',
+    touchAction: 'none',
   })
 
   return (
     <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 45 }} aria-hidden="true">
       {/* seeded collaborator comments */}
       {seededComments.map((s, i) => {
-        const pos = seedPositions[i]
-        if (!pos || pos.x < 0) return null
         const id = -(i + 1)
+        const pos = seedPositions[id]
+        if (!pos) return null
         return (
           <div key={id} className="absolute" style={{ left: pos.x, top: pos.y }}>
             <button
               data-comment-ui
-              onClick={() => setOpenId(openId === id ? null : id)}
+              onPointerDown={(e) => startDrag(id, e)}
               className="comment-pin pointer-events-auto flex h-8 w-8 items-center justify-center text-[10px] font-bold text-white shadow-lg"
               style={pinStyle(s.author.color)}
               tabIndex={-1}
@@ -144,7 +226,7 @@ export function CommentTool() {
         <div key={c.id} className="absolute" style={{ left: c.x, top: c.y }}>
           <button
             data-comment-ui
-            onClick={() => setOpenId(openId === c.id ? null : c.id)}
+            onPointerDown={(e) => startDrag(c.id, e)}
             className="comment-pin pointer-events-auto flex h-8 w-8 items-center justify-center text-[10px] font-bold text-white shadow-lg"
             style={pinStyle('var(--figma-blue)')}
             tabIndex={-1}
