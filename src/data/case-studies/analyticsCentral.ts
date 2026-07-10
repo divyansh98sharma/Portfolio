@@ -4,6 +4,9 @@ export const analyticsCentral: CaseStudyContent = {
   id: 'case-study-1',
   fileName: 'analytics-central.fig',
   title: 'Analytics Central - eClinicalWorks',
+  product: 'Analytics Central',
+  company: 'eClinicalWorks',
+  accent: '#0d99ff',
   subtitle: 'Centralizing healthcare KPIs through user-centered design.',
   description:
     'A comprehensive dashboard solution that reduced navigation time by 30% and improved clinician satisfaction by 25% through AI-powered search, customizable widgets, and role-based personalization.',

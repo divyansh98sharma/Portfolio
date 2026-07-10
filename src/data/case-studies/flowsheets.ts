@@ -4,6 +4,9 @@ export const flowsheets: CaseStudyContent = {
   id: 'case-study-3',
   fileName: 'flowsheets.fig',
   title: 'Flowsheets – eClinicalWorks',
+  product: 'Flowsheets',
+  company: 'eClinicalWorks',
+  accent: '#14ae5c',
   subtitle: 'Transforming clinical data management through intuitive design.',
   description:
     'A redesigned Flowsheets window that improved visibility of patient progress, streamlined documentation, and enhanced provider workflows through a modernized UI.',

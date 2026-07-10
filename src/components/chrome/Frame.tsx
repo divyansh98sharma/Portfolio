@@ -21,6 +21,8 @@ interface FrameProps {
   contentClassName?: string
   /** Frames narrower than the default 1200px max-width (e.g. the hero cover) */
   fullBleed?: boolean
+  /** Skip the scroll reveal — an opened file's frames are simply there */
+  instantReveal?: boolean
 }
 
 /**
@@ -37,8 +39,10 @@ export function Frame({
   className = '',
   contentClassName = '',
   fullBleed = false,
+  instantReveal = false,
 }: FrameProps) {
-  const { ref, isVisible } = useReveal<HTMLElement>({ threshold: 0.12 })
+  const { ref, isVisible: revealed } = useReveal<HTMLElement>({ threshold: 0.12 })
+  const isVisible = instantReveal || revealed
   const { registerFrame, unregisterFrame } = useLayers()
 
   useEffect(() => {

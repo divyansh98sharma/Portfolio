@@ -4,6 +4,9 @@ export const rbac: CaseStudyContent = {
   id: 'case-study-2',
   fileName: 'rbac-access-control.fig',
   title: 'Role Based Access Control - Peak.ai',
+  product: 'RBAC 2.0',
+  company: 'Peak.ai',
+  accent: '#9747ff',
   subtitle: 'Redefining access management through user-centered design.',
   description:
     'A role-based access control system that increased admin efficiency by 40%, reduced access errors by 25%, and provided a scalable framework for enterprise-grade security and usability.',

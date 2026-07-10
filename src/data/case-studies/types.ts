@@ -35,6 +35,12 @@ export interface CaseStudyContent {
   id: Page
   fileName: string
   title: string
+  /** short product name for cover art, e.g. "Analytics Central" */
+  product: string
+  /** org the work was for, e.g. "eClinicalWorks" */
+  company: string
+  /** per-project identity color threading through the whole file */
+  accent: string
   subtitle: string
   description: string
   tags: string[]

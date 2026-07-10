@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { ImageWithFallback } from './figma/ImageWithFallback'
+import { CoverArt } from './CoverArt'
 import { FigmaIcon } from './icons/FigmaIcon'
 import { useRouter } from './Router'
 import type { CaseStudy } from '../data/caseStudies'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
 interface FigFileCardProps {
   study: CaseStudy
@@ -38,8 +37,8 @@ export function FigFileCard({
       }`}
       style={{
         transitionDelay: isVisible ? `${index * delayStep}ms` : '0ms',
-        borderColor: hovered ? 'var(--figma-blue)' : 'var(--border)',
-        boxShadow: hovered ? '0 0 0 1px var(--figma-blue), 0 16px 48px rgba(0,0,0,0.14)' : undefined,
+        borderColor: hovered ? study.accent : 'var(--border)',
+        boxShadow: hovered ? `0 0 0 1px ${study.accent}, 0 16px 48px rgba(0,0,0,0.14)` : undefined,
       }}
       onClick={() => navigateTo(study.id)}
       onKeyDown={(e) => {
@@ -55,21 +54,15 @@ export function FigFileCard({
       aria-label={`${study.title} — open case study`}
     >
       <div className="flex h-full flex-col">
-        {/* Thumbnail */}
+        {/* Thumbnail — generated Figma-style cover art */}
         <div className={`${aspect} relative overflow-hidden`}>
-          <ImageWithFallback
-            src={study.image}
-            alt={`${study.title} - Case study preview`}
-            loading="lazy"
-            className={`h-full w-full transform-gpu object-cover transition-all duration-700 ${
-              hovered ? 'scale-105' : 'scale-100'
-            }`}
-          />
           <div
-            className={`absolute inset-0 bg-gradient-to-t from-black/30 to-transparent transition-opacity duration-300 ${
-              hovered ? 'opacity-100' : 'opacity-50'
+            className={`h-full w-full transform-gpu transition-transform duration-700 ${
+              hovered ? 'scale-[1.04]' : 'scale-100'
             }`}
-          />
+          >
+            <CoverArt product={study.product} company={study.company} accent={study.accent} />
+          </div>
           <span
             className="absolute top-3 left-3 rounded-md bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-black/70"
             style={inter}
@@ -95,7 +88,7 @@ export function FigFileCard({
             className={`text-[11px] font-semibold transition-all duration-300 ${
               hovered ? 'translate-x-0 opacity-100' : '-translate-x-1 opacity-0'
             }`}
-            style={{ ...inter, color: 'var(--figma-blue)' }}
+            style={{ ...inter, color: study.accent }}
             aria-hidden="true"
           >
             Open ↗
@@ -104,12 +97,6 @@ export function FigFileCard({
 
         {/* Description */}
         <div className="flex flex-1 flex-col p-5">
-          <h3
-            className="mb-2 text-base tracking-tight transition-colors duration-300 sm:text-lg"
-            style={{ ...montserrat, fontWeight: 700, color: hovered ? 'var(--figma-blue)' : undefined }}
-          >
-            {study.title}
-          </h3>
           <p className="mb-4 flex-1 text-sm leading-relaxed text-muted-foreground">{study.description}</p>
 
           <div className="mb-4 flex flex-wrap gap-2">

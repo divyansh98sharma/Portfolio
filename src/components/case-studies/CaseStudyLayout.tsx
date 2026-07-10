@@ -4,13 +4,14 @@ import { Frame } from '../chrome/Frame'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { ComponentGlyph } from '../icons/ComponentGlyph'
 import { ImageWithFallback } from '../figma/ImageWithFallback'
+import { CoverArt } from '../CoverArt'
 import type { CaseStudyContent } from '../../data/case-studies'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
 
 /** Figma-style redline measurement bar: value + annotated progress line */
-function SpecBar({ progress, color = 'var(--figma-blue)' }: { progress: number; color?: string }) {
+function SpecBar({ progress, color = 'var(--cs-accent)' }: { progress: number; color?: string }) {
   return (
     <div className="relative mt-1 h-3" aria-hidden="true">
       <div className="absolute top-1/2 h-px w-full -translate-y-1/2" style={{ backgroundColor: 'var(--border)' }} />
@@ -64,7 +65,11 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
   const pad = 'px-6 py-14 sm:px-10 sm:py-16'
 
   return (
-    <div role="main" aria-label={`${data.title} case study`}>
+    <div
+      role="main"
+      aria-label={`${data.title} case study`}
+      style={{ '--cs-accent': data.accent } as React.CSSProperties}
+    >
       {/* Opened-file strip */}
       <div
         className="figma-chrome mx-auto mt-4 flex max-w-[1200px] items-center gap-2 px-3 sm:px-6 lg:px-0 text-[12px]"
@@ -72,7 +77,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       >
         <button
           onClick={() => navigateTo('all-case-studies')}
-          className="flex min-h-0 min-w-0 items-center gap-1.5 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--figma-blue)]"
+          className="flex min-h-0 min-w-0 items-center gap-1.5 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--cs-accent)]"
           aria-label="Back to all case studies"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
@@ -87,7 +92,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
         </span>
         <button
           onClick={() => navigateTo('home')}
-          className="ml-auto flex min-h-0 min-w-0 items-center gap-1 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--figma-blue)]"
+          className="ml-auto flex min-h-0 min-w-0 items-center gap-1 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--cs-accent)]"
           aria-label="Close file and return home"
         >
           <X className="h-3.5 w-3.5" aria-hidden="true" />
@@ -96,25 +101,32 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </div>
 
       {/* ── Cover ── */}
-      <Frame id="cs-cover" name="Cover" headingId="cs-hero-title">
-        <div className={pad}>
+      <Frame id="cs-cover" name="Cover" headingId="cs-hero-title" instantReveal className="!my-8 sm:!my-10">
+        <div className="relative overflow-hidden">
+          {/* accent wash */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: `linear-gradient(160deg, color-mix(in srgb, ${data.accent} 14%, transparent) 0%, transparent 46%)`,
+            }}
+            aria-hidden="true"
+          />
+          <div className={`${pad} relative`}>
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
             <div className="space-y-6 lg:col-span-6">
               <span
-                className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground"
-                style={inter}
+                className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[11px] font-semibold"
+                style={{ ...inter, borderColor: 'color-mix(in srgb, var(--cs-accent) 40%, transparent)', color: 'var(--cs-accent)', backgroundColor: 'color-mix(in srgb, var(--cs-accent) 8%, transparent)' }}
               >
-                <span style={{ color: 'var(--figma-cursor-purple)' }}>
-                  <ComponentGlyph className="h-2.5 w-2.5" />
-                </span>
-                Case Study
+                <ComponentGlyph className="h-2.5 w-2.5" />
+                Case Study · {data.company}
               </span>
 
-              <header className="space-y-5">
-                <h1 id="cs-hero-title" className="leading-[1.05] tracking-tight" style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2rem, 4.6vw, 3.4rem)' }}>
-                  {data.title}
+              <header className="space-y-4">
+                <h1 id="cs-hero-title" className="leading-[1.02] tracking-tight" style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}>
+                  {data.product}
                 </h1>
-                <h2 className="text-lg font-medium sm:text-xl" style={montserrat}>
+                <h2 className="text-lg font-medium sm:text-xl" style={{ ...montserrat, color: 'var(--muted-foreground)' }}>
                   {data.subtitle}
                 </h2>
                 <p className="max-w-2xl leading-relaxed text-muted-foreground">{data.description}</p>
@@ -128,11 +140,27 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                 ))}
               </div>
 
+              {/* facts row */}
+              <div className="flex flex-wrap gap-x-10 gap-y-3 border-t border-border pt-5" aria-label="Project facts">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70" style={inter}>Role</p>
+                  <p className="mt-0.5 text-sm font-semibold" style={montserrat}>{data.role.title}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70" style={inter}>Year</p>
+                  <p className="mt-0.5 text-sm font-semibold" style={montserrat}>{data.stats[0].value}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70" style={inter}>Timeline</p>
+                  <p className="mt-0.5 text-sm font-semibold" style={montserrat}>{data.stats[0].note.replace(' duration', '')}</p>
+                </div>
+              </div>
+
               {data.prototypeUrl && (
                 <button
                   onClick={() => window.open(data.prototypeUrl, '_blank', 'noopener,noreferrer')}
                   className="inline-flex items-center rounded-lg px-6 py-3 text-sm font-bold text-white shadow-md transition-opacity hover:opacity-90"
-                  style={{ ...montserrat, backgroundColor: 'var(--figma-blue)' }}
+                  style={{ ...montserrat, backgroundColor: 'var(--cs-accent)' }}
                   aria-label="View prototype (opens in new tab)"
                 >
                   <FigmaIcon className="mr-2 h-5 w-4" />
@@ -145,24 +173,24 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               <div className="relative mx-auto max-w-lg">
                 <figure className="frame-wrap relative rounded-xl">
                   <figcaption className="frame-label absolute -top-5 left-0" aria-hidden="true">
-                    cover.png
+                    cover · {data.fileName}
                   </figcaption>
                   <span className="frame-handle frame-handle--tl" aria-hidden="true" />
                   <span className="frame-handle frame-handle--tr" aria-hidden="true" />
                   <span className="frame-handle frame-handle--bl" aria-hidden="true" />
                   <span className="frame-handle frame-handle--br" aria-hidden="true" />
-                  <div className="aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted shadow-lg">
-                    <ImageWithFallback src={data.heroImage.src} alt={data.heroImage.alt} className="h-full w-full object-cover" />
+                  <div className="aspect-[4/3] overflow-hidden rounded-xl border border-border shadow-lg">
+                    <CoverArt product={data.product} company={data.company} accent={data.accent} large />
                   </div>
                 </figure>
                 {/* floating spec annotation */}
                 <div
                   className="absolute -bottom-5 -right-2 rounded-lg border bg-card px-4 py-3 shadow-lg sm:-right-6"
-                  style={{ borderColor: 'var(--figma-blue)' }}
+                  style={{ borderColor: 'var(--cs-accent)' }}
                   role="complementary"
                   aria-label={`Key metric: ${data.heroStat.label} ${data.heroStat.value}`}
                 >
-                  <div className="text-[10px] font-medium uppercase tracking-wide" style={{ ...inter, color: 'var(--figma-blue)' }}>
+                  <div className="text-[10px] font-medium uppercase tracking-wide" style={{ ...inter, color: 'var(--cs-accent)' }}>
                     {data.heroStat.label}
                   </div>
                   <div className="text-2xl font-bold" style={montserrat}>
@@ -172,11 +200,12 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               </div>
             </div>
           </div>
+          </div>
         </div>
       </Frame>
 
       {/* ── Context ── */}
-      <Frame id="cs-context" name="01 · Context" headingId="cs-context-heading">
+      <Frame id="cs-context" name="01 · Context" headingId="cs-context-heading" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
           <SectionHeading id="cs-context-heading" label="Project Context" title="The context." />
           <div className="max-w-3xl space-y-4">
@@ -189,7 +218,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
             {data.stats.map((stat, i) => (
               <div key={i} className="rounded-xl border border-border bg-background/60 p-5">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-2xl font-bold" style={{ ...montserrat, color: 'var(--figma-blue)' }}>{stat.value}</span>
+                  <span className="text-2xl font-bold" style={{ ...montserrat, color: 'var(--cs-accent)' }}>{stat.value}</span>
                   <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground" style={inter}>{stat.unit}</span>
                 </div>
                 <p className="mt-3 text-sm font-semibold" style={montserrat}>{stat.title}</p>
@@ -199,7 +228,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                       <div key={m.label}>
                         <div className="flex items-center justify-between text-[11px]" style={inter}>
                           <span className="text-muted-foreground">{m.label}</span>
-                          <span className="font-bold" style={{ color: 'var(--figma-blue)' }}>{m.value}</span>
+                          <span className="font-bold" style={{ color: 'var(--cs-accent)' }}>{m.value}</span>
                         </div>
                         <SpecBar progress={m.progress} />
                       </div>
@@ -218,7 +247,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Team ── */}
-      <Frame id="cs-team" name="02 · Team" headingId="cs-team-heading" contentClassName="bg-secondary">
+      <Frame id="cs-team" name="02 · Team" headingId="cs-team-heading" contentClassName="bg-secondary" instantReveal className="!my-8 sm:!my-10">
         <div className={`${pad} bg-secondary`}>
           <SectionHeading id="cs-team-heading" label="Team Structure" title="Team & my role." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.teamIntro}</p>
@@ -227,7 +256,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
             <div className="rounded-xl border border-border bg-card p-6 sm:p-8">
               <div
                 className="mb-5 border-b border-border pb-3 text-[11px] font-semibold uppercase tracking-wide"
-                style={{ ...inter, color: 'var(--figma-blue)' }}
+                style={{ ...inter, color: 'var(--cs-accent)' }}
                 aria-hidden="true"
               >
                 Owner · My Role
@@ -236,8 +265,8 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               <div className="mt-5 space-y-3">
                 {data.role.activities.map((a) => (
                   <div key={a} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}>
-                      <Check className="h-3 w-3" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
+                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'color-mix(in srgb, var(--cs-accent) 12%, transparent)' }}>
+                      <Check className="h-3 w-3" style={{ color: 'var(--cs-accent)' }} aria-hidden="true" />
                     </span>
                     <span className="text-sm text-foreground">{a}</span>
                   </div>
@@ -273,7 +302,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Challenge ── */}
-      <Frame id="cs-challenge" name="03 · Challenge" headingId="cs-challenge-heading">
+      <Frame id="cs-challenge" name="03 · Challenge" headingId="cs-challenge-heading" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
           <SectionHeading id="cs-challenge-heading" label="The Challenge" title="What was broken." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.challengeIntro}</p>
@@ -318,7 +347,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Research ── */}
-      <Frame id="cs-research" name="04 · Research" headingId="cs-research-heading" contentClassName="bg-secondary">
+      <Frame id="cs-research" name="04 · Research" headingId="cs-research-heading" contentClassName="bg-secondary" instantReveal className="!my-8 sm:!my-10">
         <div className={`${pad} bg-secondary`}>
           <SectionHeading id="cs-research-heading" label="Research & Discovery" title="What we learned." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.researchIntro}</p>
@@ -330,8 +359,8 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                 <div className="space-y-3">
                   {data.researchMethods.map((m) => (
                     <div key={m} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}>
-                        <Check className="h-3 w-3" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
+                      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'color-mix(in srgb, var(--cs-accent) 12%, transparent)' }}>
+                        <Check className="h-3 w-3" style={{ color: 'var(--cs-accent)' }} aria-hidden="true" />
                       </span>
                       <span className="text-sm text-foreground">{m}</span>
                     </div>
@@ -345,7 +374,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                 <div className="flex-1 rounded-xl rounded-tl-sm border border-border bg-card p-6">
                   <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground" style={inter}>Key Insight</p>
                   <blockquote className="italic leading-relaxed text-foreground">{data.keyInsight.quote}</blockquote>
-                  <cite className="mt-2 block text-sm font-medium not-italic" style={{ color: 'var(--figma-blue)' }}>{data.keyInsight.cite}</cite>
+                  <cite className="mt-2 block text-sm font-medium not-italic" style={{ color: 'var(--cs-accent)' }}>{data.keyInsight.cite}</cite>
                 </div>
               </div>
             </div>
@@ -365,7 +394,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Process ── */}
-      <Frame id="cs-process" name="05 · Process" headingId="cs-process-heading">
+      <Frame id="cs-process" name="05 · Process" headingId="cs-process-heading" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
           <SectionHeading id="cs-process-heading" label="Design Process" title="How we got there." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.processIntro}</p>
@@ -381,7 +410,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                 </span>
                 <div className="h-full rounded-xl border border-border bg-card p-5">
                   <h3 className="mb-2 font-bold" style={montserrat}>
-                    <span className="mr-2 text-sm font-black" style={{ color: 'var(--figma-blue)' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span className="mr-2 text-sm font-black" style={{ color: 'var(--cs-accent)' }}>{String(i + 1).padStart(2, '0')}</span>
                     {phase.title}
                   </h3>
                   <p className="text-[13px] leading-relaxed text-muted-foreground">{phase.description}</p>
@@ -389,8 +418,8 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                 {i < data.designPhases.length - 1 && (
                   <div className="absolute top-1/2 -right-[14px] z-10 hidden -translate-y-1/2 lg:block" aria-hidden="true">
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                      <path d="M0 5h9" stroke="var(--figma-blue)" strokeWidth="2" />
-                      <path d="M8 1l4 4-4 4" stroke="var(--figma-blue)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M0 5h9" stroke="var(--cs-accent)" strokeWidth="2" />
+                      <path d="M8 1l4 4-4 4" stroke="var(--cs-accent)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 )}
@@ -401,7 +430,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Solutions ── */}
-      <Frame id="cs-solutions" name="06 · Solutions" headingId="cs-solutions-heading" contentClassName="bg-secondary">
+      <Frame id="cs-solutions" name="06 · Solutions" headingId="cs-solutions-heading" contentClassName="bg-secondary" instantReveal className="!my-8 sm:!my-10">
         <div className={`${pad} bg-secondary`}>
           <SectionHeading id="cs-solutions-heading" label="Design Solutions" title="What we shipped." />
 
@@ -419,7 +448,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                   <h3 className="mb-2 text-xl font-bold" style={montserrat}>{s.title}</h3>
                   <p className="mb-4 leading-relaxed text-muted-foreground">{s.description}</p>
                   <p className="text-sm text-muted-foreground"><strong>Impact:</strong> {s.impact}</p>
-                  <p className="mt-1 text-sm font-medium" style={{ color: 'var(--figma-blue)' }}><strong>Result:</strong> {s.result}</p>
+                  <p className="mt-1 text-sm font-medium" style={{ color: 'var(--cs-accent)' }}><strong>Result:</strong> {s.result}</p>
                 </div>
               </div>
             ))}
@@ -428,7 +457,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Impact ── */}
-      <Frame id="cs-impact" name="07 · Impact" headingId="cs-impact-heading">
+      <Frame id="cs-impact" name="07 · Impact" headingId="cs-impact-heading" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
           <SectionHeading id="cs-impact-heading" label="Measurable Impact" title="The results." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.impactIntro}</p>
@@ -461,7 +490,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       </Frame>
 
       {/* ── Learnings & Next ── */}
-      <Frame id="cs-learnings" name="08 · Learnings" headingId="cs-learnings-heading" contentClassName="bg-secondary">
+      <Frame id="cs-learnings" name="08 · Learnings" headingId="cs-learnings-heading" contentClassName="bg-secondary" instantReveal className="!my-8 sm:!my-10">
         <div className={`${pad} bg-secondary`}>
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
@@ -469,7 +498,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               <div className="space-y-4">
                 {data.keyLearnings.map((l, i) => (
                   <div key={l.title} className="flex items-start gap-4 rounded-xl border border-border bg-card p-5">
-                    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-sm font-bold" style={{ ...inter, backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)', color: 'var(--figma-blue)' }}>
+                    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-sm font-bold" style={{ ...inter, backgroundColor: 'color-mix(in srgb, var(--cs-accent) 12%, transparent)', color: 'var(--cs-accent)' }}>
                       {i + 1}
                     </span>
                     <div>
@@ -503,7 +532,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       <footer className="figma-chrome mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-6 pb-10 sm:flex-row" role="contentinfo" aria-label="Case study navigation" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
         <button
           onClick={() => navigateTo('all-case-studies')}
-          className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--figma-blue)] hover:border-[var(--figma-blue)]"
+          className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--cs-accent)] hover:border-[var(--cs-accent)]"
           style={{ borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
           aria-label="Return to all case studies"
         >
@@ -514,7 +543,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
         <div className="flex gap-3">
           <button
             onClick={() => navigateTo(data.prev.id)}
-            className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--figma-blue)] hover:border-[var(--figma-blue)]"
+            className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--cs-accent)] hover:border-[var(--cs-accent)]"
             style={{ borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
             aria-label={`View ${data.prev.label} case study`}
           >
@@ -523,7 +552,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
           </button>
           <button
             onClick={() => navigateTo(data.next.id)}
-            className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--figma-blue)] hover:border-[var(--figma-blue)]"
+            className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--cs-accent)] hover:border-[var(--cs-accent)]"
             style={{ borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
             aria-label={`View ${data.next.label} case study`}
           >
