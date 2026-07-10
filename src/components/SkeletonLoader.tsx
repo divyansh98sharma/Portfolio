@@ -1,30 +1,23 @@
-import { useEffect, useState } from 'react'
-
+/**
+ * Loading placeholder shown while a code-split route chunk loads —
+ * a ghost frame on the canvas, in Figma-chrome tones.
+ */
 export function SkeletonLoader() {
-  const [show, setShow] = useState(true)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShow(false), 3000)
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
-    <div className="animate-pulse space-y-6 p-4">
-      {/* Title placeholder */}
-      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-
-      {/* Content lines */}
-      <div className="space-y-3 mt-4">
-        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-        <div className="h-4 bg-gray-200 rounded w-3/5"></div>
+    <div
+      className="mx-auto my-14 max-w-[1200px] animate-pulse rounded-2xl border px-8 py-16 sm:my-20"
+      style={{ borderColor: 'var(--figma-border)', backgroundColor: 'var(--figma-panel)' }}
+      role="status"
+      aria-label="Loading page"
+    >
+      <div className="h-3 w-32 rounded" style={{ backgroundColor: 'var(--figma-border)' }} />
+      <div className="mt-6 h-8 w-2/3 rounded" style={{ backgroundColor: 'var(--figma-border)' }} />
+      <div className="mt-6 space-y-3">
+        <div className="h-4 w-3/4 rounded" style={{ backgroundColor: 'var(--figma-border)' }} />
+        <div className="h-4 w-2/3 rounded" style={{ backgroundColor: 'var(--figma-border)' }} />
+        <div className="h-4 w-1/2 rounded" style={{ backgroundColor: 'var(--figma-border)' }} />
       </div>
-
-      {/* Action button placeholder */}
-      <div className="mt-6">
-        <div className="h-8 bg-gray-200 rounded w-1/3"></div>
-      </div>
+      <div className="mt-8 h-10 w-40 rounded-lg" style={{ backgroundColor: 'var(--figma-border)' }} />
     </div>
   )
 }

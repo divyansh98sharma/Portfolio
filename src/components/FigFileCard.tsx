@@ -29,7 +29,6 @@ export function FigFileCard({
   aspect = 'aspect-[16/10]',
 }: FigFileCardProps) {
   const { navigateTo } = useRouter()
-  const [isExpanded, setIsExpanded] = useState(false)
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -40,27 +39,13 @@ export function FigFileCard({
       style={{
         transitionDelay: isVisible ? `${index * delayStep}ms` : '0ms',
         borderColor: hovered ? 'var(--figma-blue)' : 'var(--border)',
-        boxShadow: hovered
-          ? '0 0 0 1px var(--figma-blue), 0 16px 48px rgba(0,0,0,0.14)'
-          : undefined,
+        boxShadow: hovered ? '0 0 0 1px var(--figma-blue), 0 16px 48px rgba(0,0,0,0.14)' : undefined,
       }}
-      onClick={() => {
-        if (isExpanded) {
-          setIsExpanded(false)
-          navigateTo('all-case-studies')
-        } else {
-          navigateTo(study.id as any)
-        }
-      }}
+      onClick={() => navigateTo(study.id)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault()
-          if (isExpanded) {
-            setIsExpanded(false)
-            navigateTo('all-case-studies')
-          } else {
-            navigateTo(study.id as any)
-          }
+          navigateTo(study.id)
         }
       }}
       onMouseEnter={() => setHovered(true)}
@@ -147,63 +132,6 @@ export function FigFileCard({
           </p>
         </div>
       </div>
-
-      {/* Expandable detail panel */}
-      {isVisible && (
-        <div
-          className={`${isExpanded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-                     transition-all duration-500
-                     pointer-events-none
-                     absolute
-                     top-full
-                     left-0
-                     right-0
-                     mt-2
-                     max-h-[0px]
-                     overflow-hidden
-                     ${isExpanded ? 'max-h-[500px]' : ''}`}
-          style={{
-            transitionDelay: isExpanded ? '0ms' : '100ms',
-            pointerEvents: isExpanded ? 'auto' : 'none'
-          }}
-        >
-          <div className="bg-card rounded-xl border border-border p-4 shadow-lg">
-            {/* Condensed case study preview */}
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lg">{study.title}</h3>
-              <p className="text-sm text-muted-foreground">{study.description}</p>
-
-              {/* Key metrics highlight */}
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                {study.stats.slice(0, 2).map((stat, i) => (
-                  <div key={i} className="text-center">
-                    <div className="text-[18px] font-bold" style={{ ...montserrat, color: 'var(--figma-blue)' }}>
-                      {stat.value}
-                    </div>
-                    <div className="text-xs text-muted-foreground">{stat.unit}</div>
-                  </div>
-                ))}
-              </div>
-
-              <button
-                onClick={() => {
-                  setIsExpanded(!isExpanded);
-                  if (isExpanded) navigateTo('all-case-studies'); // Close expanded view
-                  else navigateTo(study.id as any); // Open full case study
-                }}
-                className="w-full mt-3 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-                style={{
-                  backgroundColor: isExpanded ? 'var(--secondary)' : 'var(--figma-blue)',
-                  color: isExpanded ? 'var(--muted-foreground)' : 'white',
-                  border: isExpanded ? '1px solid var(--figma-border)' : 'none'
-                }}
-              >
-                {isExpanded ? 'Close Preview' : 'View Case Study'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

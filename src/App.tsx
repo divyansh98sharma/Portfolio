@@ -3,8 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ThemeProvider } from './components/ThemeProvider'
 import { Router, useRouter } from './components/Router'
 import { HomePage } from './components/HomePage'
-import { AllCaseStudies } from './components/AllCaseStudies'
-import { CaseStudyLayout } from './components/case-studies/CaseStudyLayout'
 import { caseStudyContent } from './data/case-studies'
 
 import { Footer } from './components/Footer'
@@ -12,15 +10,19 @@ import { LayersProvider } from './components/chrome/LayersContext'
 import { FigmaTopBar } from './components/chrome/FigmaTopBar'
 import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
-import { SkeletonLoader } from './components/SkeletonLayer'
+import { ToolEffects } from './components/chrome/tools/ToolEffects'
+import { CommentTool } from './components/chrome/tools/CommentTool'
+import { SkeletonLoader } from './components/SkeletonLoader'
+import { useMediaQuery } from './hooks/useMediaQuery'
+import { DESKTOP_CHROME_QUERY } from './lib/chrome'
 
-// Lazy load route-based components for better performance
-const About = lazy(() => import('./components/About'))
-const Experience = lazy(() => import('./components/Experience'))
-const BuiltFor = lazy(() => import('./components/BuiltFor'))
-const Testimonials = lazy(() => import('./components/Testimonials'))
-const Contact = lazy(() => import('./components/Contact'))
-const Process = lazy(() => import('./components/Process'))
+// Secondary routes are code-split; the skeleton shows while a chunk loads.
+const AllCaseStudies = lazy(() =>
+  import('./components/AllCaseStudies').then((m) => ({ default: m.AllCaseStudies }))
+)
+const CaseStudyLayout = lazy(() =>
+  import('./components/case-studies/CaseStudyLayout').then((m) => ({ default: m.CaseStudyLayout }))
+)
 
 const pageVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -30,44 +32,20 @@ const pageVariants = {
 
 function AppContent() {
   const { currentPage } = useRouter()
+  const isDesktop = useMediaQuery(DESKTOP_CHROME_QUERY)
 
   const renderMainContent = () => {
-    const study = caseStudyContent[currentPage as keyof typeof caseStudyContent]
-    if (study) {
-      return (
-        <motion.div
-          key={study.id}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={pageVariants}
-        >
-          <CaseStudyLayout data={study} />
-        </motion.div>
-      )
-    }
-    if (currentPage === 'all-case-studies') {
-      return (
-        <motion.div
-          key="all-case-studies"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={pageVariants}
-        >
-          <AllCaseStudies />
-        </motion.div>
-      )
-    }
+    const study = caseStudyContent[currentPage]
+    const key = study ? study.id : currentPage === 'all-case-studies' ? 'all-case-studies' : 'home'
     return (
-      <motion.div
-        key="home"
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={pageVariants}
-      >
-        <HomePage />
+      <motion.div key={key} initial="hidden" animate="visible" exit="exit" variants={pageVariants}>
+        {study ? (
+          <CaseStudyLayout data={study} />
+        ) : currentPage === 'all-case-studies' ? (
+          <AllCaseStudies />
+        ) : (
+          <HomePage />
+        )}
       </motion.div>
     )
   }
@@ -85,16 +63,16 @@ function AppContent() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="canvas-dots min-h-screen pt-12 lg:pl-60 lg:pb-8"
+        className="canvas-dots relative min-h-screen pt-12 lg:pl-60 lg:pb-8"
       >
-        <AnimatePresence>
-          <Suspense fallback={<SkeletonLoader />}>
-            {renderMainContent()}
-          </Suspense>
+        <AnimatePresence mode="wait">
+          <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
         </AnimatePresence>
         <Footer />
+        {isDesktop && <CommentTool />}
       </main>
       <StatusBar />
+      {isDesktop && <ToolEffects />}
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import { useFrameReveal } from './chrome/Frame'
-import { useMousePosition } from '../utils/mousePosition'
 import { ComponentGlyph } from './icons/ComponentGlyph'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
@@ -29,7 +28,6 @@ const audiences = [
 
 export function BuiltFor() {
   const isVisible = useFrameReveal()
-  const { x, y } = useMousePosition()
 
   return (
     <div className="section-pad">
@@ -42,9 +40,7 @@ export function BuiltFor() {
           </div>
           <h2 id="built-for-heading" className="leading-[1.1] tracking-tight mb-4" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
             Built for{' '}
-            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-              teams that ship,
-            </span>
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>teams that ship,</span>
             <br />
             not just{' '}
             <span style={{ fontWeight: 800 }}>talk design.</span>
@@ -60,7 +56,7 @@ export function BuiltFor() {
             <div
               key={item.number}
               className={`group rounded-2xl border border-border bg-card overflow-hidden card-hover transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
               style={{ transitionDelay: isVisible ? `${index * 120}ms` : '0ms' }}
             >

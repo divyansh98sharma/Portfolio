@@ -1,13 +1,11 @@
 import profilePhoto from 'figma:asset/3f12db942eb596cb7c744a13790a87207de8db2c.png'
 import { ArrowRight, Download } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
-import { useMousePosition } from '../utils/mousePosition'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
 export function About() {
   const isVisible = useFrameReveal()
-  const { x, y } = useMousePosition()
 
   return (
     <div className="section-pad bg-secondary">
@@ -116,13 +114,10 @@ export function About() {
                 href="https://www.linkedin.com/in/divyansh98sharma"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-full bg-accent hover:opacity-90 transition-all duration-300 shadow-md
-                relative overflow-hidden`}
+                className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-full bg-accent hover:opacity-90 transition-all duration-300 shadow-md"
                 style={{ ...montserrat, color: 'var(--accent-foreground)' }}
               >
-                <span className="relative z-10">Full Bio</span>
-                <span className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.1),transparent)]
-                          pointer-events-none opacity-0 transition-opacity duration-500"/>
+                Full Bio
                 <ArrowRight className="h-4 w-4 ml-2" />
               </a>
               <a
@@ -134,14 +129,13 @@ export function About() {
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 448 512" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.52 0 53.4 0 23.27 24.09-1.3 53.79-1.3c29.32 0 53.79 24.57 53.79 54.7 0 30.12-24.47 54.7-53.79 54.7zM447.9 448h-92.1V304.1c0-34.3-12.3-57.7-43.1-57.7-23.5 0-37.6 15.8-43.7 31.1-2.2 5.2-2.8 12.4-2.8 19.7V448h-92.2s1.2-270.1 0-299.1h92.1v42.4c12.2-18.9 34.1-45.8 83.1-45.8 60.7 0 105.8 39.7 105.8 125.1V448z"/></svg>
                 Connect on LinkedIn
               </a>
-              {/* Resume download button - place your resume.pdf in public/ */}
               <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/resume.pdf"
+                download="Divyansh-Sharma-Resume.pdf"
                 className="no-underline inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Download resume as PDF"
               >
-                <Download className="h-4 w-4" />
+                <Download className="h-4 w-4" aria-hidden="true" />
                 Download Resume
               </a>
             </div>

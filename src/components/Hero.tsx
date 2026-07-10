@@ -1,8 +1,7 @@
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
 import { TypewriterText } from './TypewriterText'
-import { ComponentGlyph } from './icons/FigmaIcon'
-import { useMousePosition } from '../utils/mousePosition'
+import { ComponentGlyph } from './icons/ComponentGlyph'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -28,68 +27,55 @@ const skills = [
 ]
 
 export function Hero() {
-  const { x, y } = useMousePosition()
-
   return (
     <div className="relative overflow-hidden">
-      {/* Animated background layer */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(at_top_left,_var(--figma-blue)_0%,transparent_30%)]
-                   bg-[radial-gradient(at_bottom_right,_var(--figma-cursor-purple)_0%,transparent_30%)]
-                   opacity-10"></div>
-
       <div className="hero-content-wrapper">
         <div className="max-w-6xl mx-auto">
-          {/* Enhanced cursor introduction */}
-          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5"
-               aria-label="Divyansh — UX Designer, Design Systems Builder, UX Researcher">
+
+          {/* Cursor chat — my own cursor introducing me */}
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — UX Designer, Design Systems Builder, UX Researcher">
             <CursorArrow color="var(--figma-blue)" />
-            <div className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
-                 style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
-                 aria-hidden="true">
+            <div
+              className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
+              style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+              aria-hidden="true"
+            >
               Divyansh · <TypewriterText texts={['UX Designer', 'Design Systems Builder', 'UX Researcher', 'Problem Solver']} />
             </div>
           </div>
 
-          {/* More impactful headline */}
-          <h1 id="hero-heading"
-              className="hero-animate-in hero-delay-1 leading-[1.05] tracking-tight mb-6"
-              style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
-            Design that <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-              solves problems
-            </span><br/>
-            <span className="text-3xl md:text-4xl italic opacity-80">
-              with purpose
+          {/* Headline */}
+          <h1
+            id="hero-heading"
+            className="hero-animate-in hero-delay-1 leading-[1.05] tracking-tight mb-6"
+            style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+          >
+            Design{' '}
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
+              smarter
+            </span>
+            <br />
+            with{' '}
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
+              purpose.
             </span>
           </h1>
 
-          {/* Enhanced subtext with social proof */}
+          {/* Subtext */}
           <p className="hero-animate-in hero-delay-2 text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg">
             I help teams build user-centered products through research-driven design,
             turning complex problems into intuitive solutions.
           </p>
-          <div className="flex items-center space-x-6 mt-4">
-            <div className="flex items-center space-x-2 text-sm">
-              <svg className="h-3 w-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
-              <span>Trusted by healthcare & enterprise teams</span>
-            </div>
-            <div className="flex items-center space-x-2 text-sm">
-              <span className="flex items-center space-x-1 rounded-full border px-2.5 py-0.5 text-xs font-medium">
-                3+ years experience
-              </span>
-            </div>
-          </div>
 
-          {/* CTAs with enhanced styling */}
+          {/* CTAs */}
           <div className="hero-animate-in hero-delay-3 flex flex-wrap gap-4 items-center mb-10">
             <button
               onClick={() => scrollToSection('case-studies')}
-              className="relative overflow-hidden no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-lg text-white transition-all duration-300 shadow-md hover:shadow-lg hover:opacity-90"
+              className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-lg text-white transition-all duration-300 shadow-md hover:shadow-lg hover:opacity-90"
               style={{ ...montserrat, backgroundColor: 'var(--figma-blue)' }}
               aria-label="View My Work"
             >
-              <span className="relative z-10">View My Work</span>
-              <span className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.1),transparent)]
-                        pointer-events-none opacity-0 transition-opacity duration-500"/>
+              View My Work
             </button>
             <button
               onClick={() => scrollToSection('contact')}
@@ -97,14 +83,12 @@ export function Hero() {
               style={montserrat}
               aria-label="Get in touch"
             >
-              <span className="relative z-10">Get In Touch</span>
-              <span className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.1),transparent)]
-                        pointer-events-none opacity-0 transition-opacity duration-500"/>
+              Get In Touch
               <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
             </button>
           </div>
 
-          {/* Enhanced footer */}
+          {/* Separator + LinkedIn */}
           <div className="hero-animate-in hero-delay-4">
             <div className="w-full max-w-xs h-px bg-border mb-6" />
             <a
@@ -122,7 +106,7 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Skills ticker - keep as is */}
+      {/* Skills ticker — a strip of Figma components from the Assets library */}
       <div className="border-y border-border py-3 overflow-hidden bg-secondary/40">
         <div
           className="ticker-track flex items-center gap-3 whitespace-nowrap"
@@ -159,5 +143,5 @@ export function Hero() {
         </button>
       </div>
     </div>
-  );
+  )
 }

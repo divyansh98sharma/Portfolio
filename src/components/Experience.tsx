@@ -1,5 +1,4 @@
 import { useFrameReveal } from './chrome/Frame'
-import { useMousePosition } from '../utils/mousePosition'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
@@ -38,7 +37,6 @@ const experiences = [
 
 export function Experience() {
   const isVisible = useFrameReveal()
-  const { x, y } = useMousePosition()
 
   return (
     <div className="section-pad bg-secondary">
@@ -51,9 +49,7 @@ export function Experience() {
           </div>
           <h2 id="experience-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
             Where I've made{' '}
-            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-              an impact.
-            </span>
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>an impact.</span>
           </h2>
         </div>
 
@@ -131,8 +127,8 @@ export function Experience() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

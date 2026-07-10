@@ -4,7 +4,6 @@ import { Frame } from '../chrome/Frame'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { ComponentGlyph } from '../icons/ComponentGlyph'
 import { ImageWithFallback } from '../figma/ImageWithFallback'
-import { CaseStudySidebar } from './CaseStudySidebar'
 import type { CaseStudyContent } from '../../data/case-studies'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
@@ -60,21 +59,9 @@ function SectionHeading({ id, label, title }: { id: string; label: string; title
 
 const PIN_COLORS = ['var(--figma-cursor-orange)', 'var(--figma-cursor-purple)', 'var(--figma-cursor-green)']
 
-export function CaseStudyLayout({ data }: { data: CaseStudy({ data }: { data: CaseStudyContent }) {
+export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
   const { navigateTo } = useRouter()
   const pad = 'px-6 py-14 sm:px-10 sm:py-16'
-
-  // Define sections for sidebar navigation (matching Frame ids)
-  const sections = [
-    { id: 'cs-context', label: 'Context' },
-    { id: 'cs-team', label: 'Team' },
-    { id: 'cs-challenge', label: 'Challenge' },
-    { id: 'cs-research', label: 'Research' },
-    { id: 'cs-process', label: 'Process' },
-    { id: 'cs-solutions', label: 'Solutions' },
-    { id: 'cs-impact', label: 'Impact' },
-    { id: 'cs-learnings', label: 'Learnings' },
-  ]
 
   return (
     <div role="main" aria-label={`${data.title} case study`}>
@@ -545,7 +532,6 @@ export function CaseStudyLayout({ data }: { data: CaseStudy({ data }: { data: Ca
           </button>
         </div>
       </footer>
-      <CaseStudySidebar sections={sections} />
     </div>
   )
 }

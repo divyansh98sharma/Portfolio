@@ -1,13 +1,11 @@
-import { Mail, ArrowRight, Check, Globe, Download } from 'lucide-react'
+import { Mail, ArrowRight, Check, Download, Globe } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
-import { useMousePosition } from '../utils/mousePosition'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
 
 export function Contact() {
   const isVisible = useFrameReveal()
-  const { x, y } = useMousePosition()
 
   return (
     <div className="bg-primary text-primary-foreground">
@@ -24,7 +22,7 @@ export function Contact() {
               >
                 Your next great design
                 <br />
-                starts with a{' ')
+                starts with a{' '}
                 <span className="italic" style={{ fontWeight: 300, color: 'var(--figma-blue)' }}>
                   conversation.
                 </span>
@@ -54,67 +52,72 @@ export function Contact() {
                   </div>
                   <a
                     href="mailto:work.divyanshsharma@gmail.com"
-                    className={`no-underline flex h-10 items-center rounded-lg px-4 text-[13px] font-semibold text-white transition-opacity hover:opacity-90
-                    relative overflow-hidden`}
+                    className="no-underline flex h-10 items-center rounded-lg px-4 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
                     style={{ backgroundColor: 'var(--figma-blue)' }}
                     aria-label="Send email"
                   >
-                    <span className="relative z-10">
-                      <Mail className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-                      Invite
-                    </span>
-                    <span className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.1),transparent)]
-                              pointer-events-none opacity-0 transition-opacity duration-500"/>
+                    <Mail className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                    Invite
                   </a>
-
-                  {/* what you get */}
-                  <div className="space-y-3 border-b border-black/10 pb-5">
-                    {[
-                      'Portfolio walkthrough',
-                      'Design process deep-dive',
-                      'No commitment required',
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <span
-                          className="flex h-5 w-5 items-center justify-center rounded-full"
-                          style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}
-                        >
-                          <Check className="h-3 w-3" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
-                        </span>
-                        <span className="text-[13px] text-black/70">{item}</span>
-                      </div>
-                    ))}
-                  ))}
-
-                  {/* access row */}
-                  <div className="flex items-center justify-between pt-4 text-[12px] text-black/50">
-                    <span className="flex items-center gap-2">
-                      <Globe className="h-3.5 w-3.5" aria-hidden="true" />
-                      Anyone with the link
-                    </span>
-                    <span className="flex items-center gap-1 font-medium text-black/70">
-                      can hire ▾
-                    </span>
-                  </div>
-
-                  <p className="mt-4 text-center text-[11px] text-black/40">
-                    Or connect on{' '}
-                    <a
-                      href="https://www.linkedin.com/in/divyansh98sharma"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`no-underline font-medium hover:underline
-                      relative overflow-hidden`}
-                      style={{ color: 'var(--figma-blue)' }}
-                    >
-                      <span className="relative z-10">LinkedIn</span>
-                      <span className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.1),transparent)]
-                                pointer-events-none opacity-0 transition-opacity duration-500"/>
-                      <ArrowRight className="h-3 w-3 ml-2" />
-                    </a>{' '}
-                    to chat directly
-                  </p>
                 </div>
+
+                {/* what you get */}
+                <div className="space-y-3 border-b border-black/10 pb-5">
+                  {[
+                    'Portfolio walkthrough',
+                    'Design process deep-dive',
+                    'No commitment required',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span
+                        className="flex h-5 w-5 items-center justify-center rounded-full"
+                        style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}
+                      >
+                        <Check className="h-3 w-3" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
+                      </span>
+                      <span className="text-[13px] text-black/70">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* export row — the resume */}
+                <a
+                  href="/resume.pdf"
+                  download="Divyansh-Sharma-Resume.pdf"
+                  className="no-underline mt-4 flex items-center justify-between rounded-lg border border-black/10 px-4 py-3 transition-colors hover:border-black/25"
+                  aria-label="Download resume as PDF"
+                >
+                  <span className="flex items-center gap-2.5 text-[13px] font-medium text-black/70">
+                    <Download className="h-3.5 w-3.5" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
+                    Export divyansh-resume.pdf
+                  </span>
+                  <span className="text-[11px] text-black/40">PDF · 1x</span>
+                </a>
+
+                {/* access row */}
+                <div className="flex items-center justify-between pt-4 text-[12px] text-black/50">
+                  <span className="flex items-center gap-2">
+                    <Globe className="h-3.5 w-3.5" aria-hidden="true" />
+                    Anyone with the link
+                  </span>
+                  <span className="flex items-center gap-1 font-medium text-black/70">
+                    can hire ▾
+                  </span>
+                </div>
+
+                <p className="mt-4 text-center text-[11px] text-black/40">
+                  Or connect on{' '}
+                  <a
+                    href="https://www.linkedin.com/in/divyansh98sharma"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="no-underline font-medium hover:underline"
+                    style={{ color: 'var(--figma-blue)' }}
+                  >
+                    LinkedIn
+                  </a>{' '}
+                  to chat directly
+                </p>
               </div>
             </div>
           </div>
@@ -132,24 +135,11 @@ export function Contact() {
             href="https://www.linkedin.com/in/divyansh98sharma"
             target="_blank"
             rel="noopener noreferrer"
-            className={`no-underline inline-flex items-center px-5 py-2.5 text-xs font-bold rounded-full border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300
-            relative overflow-hidden`}
+            className="no-underline inline-flex items-center px-5 py-2.5 text-xs font-bold rounded-full border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300"
             style={montserrat}
           >
-            <span className="relative z-10">Follow on LinkedIn</span>
-            <span className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.1),transparent)]
-                      pointer-events-none opacity-0 transition-opacity duration-500"/>
+            Follow on LinkedIn
             <ArrowRight className="h-3 w-3 ml-2" />
-          </a>
-          {/* Resume download */}
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="no-underline inline-flex items-center gap-2 text-sm font-medium text-primary-foreground/70 hover:text-primary-foreground transition-colors"
-          >
-            <Download className="h-4 w-4" />
-            Download Resume
           </a>
         </div>
       </div>
