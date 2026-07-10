@@ -21,6 +21,16 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
     const node = ref.current
     if (!node) return
 
+    // Fast path: anything already in the viewport reveals immediately.
+    // Browsers can drop the initial IntersectionObserver callback when a
+    // page loads in a background tab or mid-navigation, which left
+    // above-the-fold content invisible until the first scroll.
+    const rect = node.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
