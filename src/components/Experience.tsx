@@ -1,4 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
+import { useFrameReveal } from './chrome/Frame'
+
+const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
 const experiences = [
   {
@@ -6,13 +8,13 @@ const experiences = [
     role: 'Usability Specialist (UI/UX Designer)',
     period: 'Jan 2023 – Present',
     location: 'Ahmedabad, India',
-    description: 'Leading end-to-end design processes for healthcare technology solutions, driving significant improvements in user engagement and system usability across multiple product initiatives.',
+    description: 'Leading end-to-end design processes for healthcare technology solutions, driving significant improvements in user engagement and system usability.',
     achievements: [
-      'Directed end-to-end design processes, driving a 30% boost in user engagement across projects',
-      'Created and launched a token-based design system, improving design consistency by 40% and reducing dev time by 15%',
-      'Revamped the company\'s design framework, boosting usability scores by 25%',
-      'Led diverse user research methods, improving UX processes by 20% and increasing user satisfaction by 25%',
-      'Collaborated with product & engineering teams, streamlining workflows and cutting development cycles by 15%',
+      'Directed end-to-end design, driving a 30% boost in user engagement',
+      'Created a token-based design system, improving consistency by 40%',
+      'Revamped the design framework, boosting usability scores by 25%',
+      'Led diverse user research methods, improving UX processes by 20%',
+      'Streamlined workflows, cutting development cycles by 15%',
       'Recruited and onboarded new designers, increasing team efficiency by 20%'
     ]
   },
@@ -21,78 +23,114 @@ const experiences = [
     role: 'Associate Product Designer',
     period: 'Jan 2021 – Dec 2022',
     location: 'Jaipur, India',
-    description: 'Designed comprehensive AI-powered solutions for enterprise clients, establishing design systems and creating data-driven interfaces that significantly improved user experience and business outcomes.',
+    description: 'Designed AI-powered solutions for enterprise clients, establishing design systems and creating data-driven interfaces.',
     achievements: [
       'Established a design system library with Storybook, boosting consistency by 30%',
-      'Designed dashboards (Distribution, List Price Optimization, On-site Personalization), driving 40% category growth',
-      'Spearheaded UX for Segment Explorer, Product Explorer, and Merchandiser, increasing satisfaction by 25%',
-      'Reduced user onboarding time by 20% through improved onboarding & RBAC testing',
-      'Revamped navigation & homepage, resulting in a 35% increase in engagement',
-      'Partnered with stakeholders to design 8+ features, increasing retention by 15%'
+      'Designed dashboards driving 40% category growth',
+      'Spearheaded UX for 3+ explorer products, increasing satisfaction by 25%',
+      'Reduced user onboarding time by 20% through improved flows',
+      'Revamped navigation & homepage, 35% increase in engagement',
+      'Designed 8+ features, increasing retention by 15%'
     ]
   }
 ]
 
 export function Experience() {
+  const isVisible = useFrameReveal()
+
   return (
-    <section id="experience" className="py-16 sm:py-20 px-4 sm:px-6 bg-muted/30">
-      <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl mb-12 sm:mb-16 text-center tracking-tight">
-            Work Experience
+    <div className="section-pad bg-secondary">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className={`mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-px bg-muted-foreground" />
+            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider" style={montserrat}>Work Experience</p>
+          </div>
+          <h2 id="experience-heading" className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+            Where I've made{' '}
+            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>an impact.</span>
           </h2>
-          
-          <div className="space-y-12 sm:space-y-16">
-            {experiences.map((exp, index) => (
-              <div key={index} className="group">
-                <div className="border-l-2 border-primary/20 pl-6 sm:pl-8 hover:border-primary/40 transition-colors duration-300">
-                  {/* Header */}
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
-                    <div className="space-y-1">
-                      <h3 className="text-xl sm:text-2xl tracking-tight group-hover:text-primary transition-colors duration-200">
+        </div>
+
+        {/* Version history — each role is a saved version of the designer */}
+        <div className="relative space-y-8 lg:pl-10">
+          {/* timeline rail */}
+          <div
+            className="absolute left-[7px] top-4 bottom-4 hidden w-px lg:block"
+            style={{ backgroundColor: 'var(--border)' }}
+            aria-hidden="true"
+          />
+          {experiences.map((exp, index) => (
+            <div key={index} className="relative">
+              {/* version dot */}
+              <span
+                className="absolute -left-10 top-8 hidden h-[15px] w-[15px] rounded-full border-[3px] lg:block"
+                style={{
+                  backgroundColor: index === 0 ? 'var(--figma-blue)' : 'var(--card)',
+                  borderColor: index === 0 ? 'var(--figma-blue)' : 'var(--muted-foreground)',
+                  transform: 'translateX(-0.5px)',
+                }}
+                aria-hidden="true"
+              />
+              <div
+                className={`group bg-card rounded-2xl border border-border overflow-hidden card-hover transition-all duration-700 ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: isVisible ? `${index * 200}ms` : '0ms' }}
+              >
+                {/* Version header */}
+                <div
+                  className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border px-6 py-2.5 text-[11px] sm:px-8"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  aria-hidden="true"
+                >
+                  <span
+                    className="rounded px-1.5 py-0.5 font-semibold"
+                    style={{
+                      backgroundColor: index === 0 ? 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' : 'var(--secondary)',
+                      color: index === 0 ? 'var(--figma-blue)' : 'var(--muted-foreground)',
+                    }}
+                  >
+                    {index === 0 ? 'v2.0 · Current' : `v1.${experiences.length - 1 - index}`}
+                  </span>
+                  <span className="text-muted-foreground">{exp.period}</span>
+                  <span className="text-muted-foreground/60">· Saved by Divyansh</span>
+                </div>
+
+                <div className="p-6 sm:p-8">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6 gap-3">
+                    <div>
+                      <h3 className="text-xl sm:text-2xl tracking-tight mb-1" style={{ ...montserrat, fontWeight: 700 }}>
                         {exp.role}
                       </h3>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                        <p className="text-base sm:text-lg text-muted-foreground">
-                          {exp.company}
-                        </p>
-                        {exp.location && (
-                          <>
-                            <span className="hidden sm:inline text-muted-foreground/40 text-sm">•</span>
-                            <span className="text-sm text-muted-foreground/80">
-                              {exp.location}
-                            </span>
-                          </>
-                        )}
-                      </div>
+                      <p className="text-muted-foreground">
+                        {exp.company}
+                        <span className="mx-2 text-muted-foreground/40">&middot;</span>
+                        <span className="text-sm">{exp.location}</span>
+                      </p>
                     </div>
-                    <div className="inline-flex items-center px-3 py-1 bg-muted/50 text-muted-foreground text-xs sm:text-sm rounded-md border border-border/30 font-medium shrink-0">
+                    <span className="inline-flex px-4 py-1.5 bg-secondary rounded-full text-xs font-semibold text-muted-foreground shrink-0" style={montserrat}>
                       {exp.period}
-                    </div>
+                    </span>
                   </div>
-                  
-                  {/* Description */}
-                  <p className="text-muted-foreground mb-6 sm:mb-8 leading-relaxed max-w-3xl text-sm sm:text-base">
-                    {exp.description}
-                  </p>
-                  
-                  {/* Achievements */}
-                  <div className="space-y-2 sm:space-y-3">
+
+                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm sm:text-base">{exp.description}</p>
+
+                  <div className="achievements-grid">
                     {exp.achievements.map((achievement, achIndex) => (
-                      <div key={achIndex} className="flex items-start gap-3 py-1 sm:py-2">
-                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
-                          {achievement}
-                        </p>
+                      <div key={achIndex} className="flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors duration-200">
+                        <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0" />
+                        <p className="text-muted-foreground text-sm leading-relaxed">{achievement}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </div>
   )
 }

@@ -1,9 +1,11 @@
+import { TOPBAR_HEIGHT } from '../../lib/chrome'
+
 /**
- * Scrolls to a section with proper offset to account for the fixed header
+ * Scrolls to a section with proper offset to account for the fixed Figma top bar
  * @param sectionId - The ID of the section to scroll to
- * @param offset - Additional offset in pixels (default: 80px for header height + padding)
+ * @param offset - Additional offset in pixels (default: top bar height + padding)
  */
-export function scrollToSection(sectionId: string, offset: number = 80): void {
+export function scrollToSection(sectionId: string, offset: number = TOPBAR_HEIGHT + 16): void {
   const element = document.getElementById(sectionId)
   if (!element) return
 
@@ -25,9 +27,9 @@ export function scrollToSection(sectionId: string, offset: number = 80): void {
  * @param offset - Additional offset in pixels (default: 80px for header height + padding)
  */
 export function scrollToSectionWithDelay(
-  sectionId: string, 
-  delay: number = 100, 
-  offset: number = 80
+  sectionId: string,
+  delay: number = 100,
+  offset: number = TOPBAR_HEIGHT + 16
 ): void {
   setTimeout(() => {
     scrollToSection(sectionId, offset)

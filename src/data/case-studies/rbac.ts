@@ -1,0 +1,167 @@
+import type { CaseStudyContent } from './types'
+
+export const rbac: CaseStudyContent = {
+  id: 'case-study-2',
+  fileName: 'rbac-access-control.fig',
+  title: 'Role Based Access Control - Peak.ai',
+  product: 'RBAC 2.0',
+  company: 'Peak.ai',
+  accent: '#9747ff',
+  subtitle: 'Redefining access management through user-centered design.',
+  description:
+    'A role-based access control system that increased admin efficiency by 40%, reduced access errors by 25%, and provided a scalable framework for enterprise-grade security and usability.',
+  tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
+  heroImage: {
+    src: 'https://images.unsplash.com/photo-1697382608786-bcf4c113b86e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMGFjY2VzcyUyMGNvbnRyb2wlMjBkYXNoYm9hcmQlMjBpbnRlcmZhY2V8ZW58MXx8fHwxNzU3MTc2OTYzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    alt: 'Security access control dashboard interface showing role management and permissions matrix with enterprise design',
+  },
+  heroStat: { label: 'Efficiency', value: '+40%' },
+
+  contextParagraphs: [
+    "At Peak, as the platform scaled to serve multiple enterprise clients, the existing access control system became rigid and inconsistent. Admins struggled to manage complex permissions, while end users often found themselves confused about what they could or couldn't access.",
+    'The goal of RBAC 2.0 was to create a scalable, granular, and user-friendly permissions system that would improve security, simplify admin tasks, and enhance clarity for end users.',
+  ],
+  stats: [
+    { value: '2022', unit: 'Year', title: 'Project Completed', note: '6 months duration', progress: 100 },
+    { value: '6', unit: 'Interviews', title: 'Stakeholder Research', note: '4-person core team', progress: 100 },
+    { value: '4', unit: 'Tests', title: 'Usability Sessions', note: '85% success rate', progress: 85 },
+    {
+      value: '90', unit: 'Adoption', title: 'Key Impact Metrics', note: '', progress: 90,
+      subMetrics: [
+        { label: 'Admin Efficiency', value: '+40%', progress: 40 },
+        { label: 'Error Reduction', value: '-25%', progress: 25 },
+        { label: 'Support Tickets', value: '-35%', progress: 35 },
+      ],
+    },
+  ],
+
+  teamIntro:
+    'This was a product-focused project with close collaboration between design, security, engineering, and business operations teams.',
+  role: {
+    title: 'Lead UX Designer / Associate Product Designer',
+    activities: [
+      'Conducted stakeholder workshops',
+      'Defined user flows and permission models',
+      'Designed prototypes for admin dashboards',
+      'Led usability validation with enterprise clients',
+    ],
+  },
+  teamGroups: [
+    { heading: 'Research & Product', items: ['Product Manager – Product Strategy & Requirements', 'Security Analyst – Security & Compliance Requirements'] },
+    { heading: 'Engineering Team', items: ['Backend & Frontend Engineers'] },
+    { heading: 'Business & Operations', items: ['Client-facing analysts for enterprise onboarding'] },
+  ],
+
+  challengeIntro: 'Enterprise customers and internal admins highlighted three major issues:',
+  challenges: [
+    {
+      title: 'Rigid Permissions',
+      subtitle: "Predefined roles didn't scale",
+      description: "Predefined roles didn't scale to complex enterprise use cases.",
+      impact: 'Result: Admins had to create workarounds, increasing security risk.',
+      stat: '100%',
+      statLabel: 'Predefined',
+    },
+    {
+      title: 'Confusing Interfaces',
+      subtitle: 'Unclear access visibility',
+      description: "End users didn't know what they could or couldn't access.",
+      impact: 'Result: High support ticket volume & onboarding friction.',
+      stat: '48',
+      statLabel: 'Clicks',
+    },
+    {
+      title: 'Inefficient Admin Management',
+      subtitle: 'Manual and repetitive tasks',
+      description: 'Assigning permissions was manual and repetitive (~48 clicks to configure a single user).',
+      impact: 'Result: Productivity bottlenecks for enterprise IT teams.',
+      stat: '+40%',
+      statLabel: 'Admin Time',
+    },
+  ],
+  combinedImpact: [
+    { value: '85%', label: 'Security Gaps' },
+    { value: '70%', label: 'High Admin Effort' },
+    { value: '65%', label: 'Poor End-User Clarity' },
+  ],
+
+  researchIntro: 'To ensure the new system addressed real-world needs, we conducted:',
+  researchMethods: [
+    '6 stakeholder interviews with enterprise IT managers & internal admins',
+    '4 usability sessions testing early permission prototypes',
+    'Workflow mapping of user and admin journeys',
+    'Benchmarking against AWS IAM, Azure AD, and Google Workspace',
+  ],
+  keyInsight: {
+    quote: '"I just want to see, at a glance, who has access to what — and change it in one click."',
+    cite: '– Enterprise IT Admin',
+  },
+  researchImage: {
+    src: 'https://images.unsplash.com/photo-1563457012475-13cf086fd600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwdGVhbSUyMG1lZXRpbmclMjByZXNlYXJjaCUyMHNlc3Npb258ZW58MXx8fHwxNTc3MTAwNzcxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    alt: 'Enterprise team meeting and stakeholder research session',
+  },
+
+  processIntro: 'We followed a structured design methodology:',
+  designPhases: [
+    { title: 'Discovery', description: 'Gathered feedback from admins & clients on access issues' },
+    { title: 'Define', description: 'Identified opportunities for role templates, custom roles, and audit trails' },
+    { title: 'Ideate', description: 'Explored models for granular permissions & visual matrices' },
+    { title: 'Prototype', description: 'Built Figma prototypes for role creation, assignment, and auditing' },
+    { title: 'Test & Iterate', description: 'Refined flows after usability sessions with enterprise admins' },
+  ],
+
+  solutions: [
+    {
+      title: 'Role Templates',
+      description: 'Predefined roles (Admin, Manager, Analyst, etc.) to simplify setup',
+      impact: 'Reduced onboarding time for new clients',
+      result: 'Streamlined initial configuration process',
+    },
+    {
+      title: 'Custom Roles',
+      description: 'Full flexibility to create, edit, and delete roles with granular permissions',
+      impact: 'Scalable system adaptable to enterprise complexity',
+      result: '100% customizable permission structures',
+    },
+    {
+      title: 'Permission Matrix',
+      description: 'Visual grid of resources vs. actions (view, edit, run, delete)',
+      impact: 'Clear at-a-glance permissions overview, reducing confusion',
+      result: 'Instant visibility into access rights',
+    },
+    {
+      title: 'Audit Trails',
+      description: 'Complete history of role assignments and permission changes',
+      impact: 'Improved accountability and compliance tracking',
+      result: 'Full regulatory compliance support',
+    },
+  ],
+
+  impactIntro: 'The new RBAC system was validated through pilot testing and enterprise feedback:',
+  impactMetrics: [
+    { value: '40%', label: 'increase in admin efficiency' },
+    { value: '25%', label: 'reduction in access errors' },
+    { value: '90%', label: 'enterprise adoption rate' },
+    { value: '35%', label: 'reduction in support tickets' },
+  ],
+  feedbackHeading: 'Enterprise Feedback',
+  feedback: [
+    { quote: '"The permission matrix makes it so easy to understand who has access to what. Game changer."', cite: '– IT Director, Fortune 500' },
+    { quote: '"Custom roles finally let us match our actual org structure. No more workarounds."', cite: '– Security Admin, Tech Startup' },
+    { quote: '"The audit trail gives us complete visibility for compliance. Exactly what we needed."', cite: '– Compliance Officer, FinTech' },
+  ],
+
+  keyLearnings: [
+    { title: 'Granularity vs. simplicity', description: 'Striking the right balance between detailed control and ease of use was key.' },
+    { title: 'Default + Custom approach', description: 'Predefined roles gave clarity, custom roles gave flexibility.' },
+    { title: 'Visibility builds trust', description: 'The permission matrix and audit logs were the most valued features.' },
+  ],
+  futureOpportunities: [
+    { title: 'Cross-tenant Admin Portal', description: 'Managing multiple organizations from a single interface' },
+    { title: 'Predictive Permissions', description: 'AI recommendations for role setups based on usage patterns' },
+    { title: 'Enhanced Reporting', description: 'Advanced analytics to track anomalies and optimize configurations' },
+  ],
+
+  prev: { id: 'case-study-1', label: 'Analytics Central' },
+  next: { id: 'case-study-3', label: 'Flowsheets' },
+}

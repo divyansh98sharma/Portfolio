@@ -20,32 +20,39 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
+const LEGACY_STORAGE_KEY = 'portfolio-theme'
+
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  const [theme, setTheme] = useState<Theme>(() => {
+    const stored = localStorage.getItem(storageKey) as Theme | null
+    if (stored) return stored
+    // one-time migration from the pre-redesign storage key
+    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY) as Theme | null
+    if (legacy) return legacy
+    return defaultTheme
+  })
 
   useEffect(() => {
     const root = window.document.documentElement
-
-    root.classList.remove('light', 'dark')
-
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? 'dark'
-        : 'light'
-
-      root.classList.add(systemTheme)
-      return
+    const apply = (t: 'light' | 'dark') => {
+      root.classList.remove('light', 'dark')
+      root.classList.add(t)
     }
 
-    root.classList.add(theme)
+    if (theme === 'system') {
+      const mql = window.matchMedia('(prefers-color-scheme: dark)')
+      apply(mql.matches ? 'dark' : 'light')
+      const onChange = (e: MediaQueryListEvent) => apply(e.matches ? 'dark' : 'light')
+      mql.addEventListener('change', onChange)
+      return () => mql.removeEventListener('change', onChange)
+    }
+
+    apply(theme)
   }, [theme])
 
   const value = {
