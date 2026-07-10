@@ -1,4 +1,4 @@
-import { Hand, MessageCircle, Move, MousePointer2 } from 'lucide-react'
+import { Hand, MessageCircle, Move, MousePointer2, Pencil } from 'lucide-react'
 import { useLayers, type ToolName } from './LayersContext'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -7,6 +7,7 @@ const TOOLS: { name: ToolName; label: string; shortcut: string; Icon: typeof Mov
   { name: 'select', label: 'Select', shortcut: 'Esc', Icon: MousePointer2 },
   { name: 'move', label: 'Move — drag anything, it springs back', shortcut: 'V', Icon: Move },
   { name: 'hand', label: 'Hand — grab to scroll', shortcut: 'H', Icon: Hand },
+  { name: 'draw', label: 'Draw — scribble on the canvas, it fades away', shortcut: 'P', Icon: Pencil },
   { name: 'comment', label: 'Comment — click to leave a note', shortcut: 'C', Icon: MessageCircle },
 ]
 

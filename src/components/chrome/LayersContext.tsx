@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react'
 
-export type ToolName = 'select' | 'move' | 'hand' | 'comment'
+export type ToolName = 'select' | 'move' | 'hand' | 'draw' | 'comment'
 
 interface FrameEntry {
   id: string

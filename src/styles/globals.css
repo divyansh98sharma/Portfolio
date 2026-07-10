@@ -595,7 +595,8 @@ body[data-tool='move'] main { cursor: move; }
 body[data-tool='hand'] main { cursor: grab; }
 body[data-tool='hand'].is-panning main { cursor: grabbing; }
 body[data-tool='comment'] main { cursor: crosshair; }
-body[data-tool='move'], body[data-tool='hand'] { user-select: none; }
+body[data-tool='draw'] { cursor: crosshair; }
+body[data-tool='move'], body[data-tool='hand'], body[data-tool='draw'] { user-select: none; }
 .tool-dragging { position: relative; z-index: 40; }
 
 @media (prefers-reduced-motion: reduce) {
