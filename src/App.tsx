@@ -12,6 +12,7 @@ import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
 import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { CommentTool } from './components/chrome/tools/CommentTool'
+import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
 import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { SkeletonLoader } from './components/SkeletonLoader'
@@ -69,11 +70,13 @@ function AppContent() {
         tabIndex={-1}
         className="canvas-dots relative min-h-screen pt-12 lg:pl-60 lg:pb-8"
       >
-        <AnimatePresence mode="wait">
-          <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
-        </AnimatePresence>
-        <Footer />
-        {isDesktop && <CommentTool />}
+        <ZoomCanvas>
+          <AnimatePresence mode="wait">
+            <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
+          </AnimatePresence>
+          <Footer />
+          {isDesktop && <CommentTool />}
+        </ZoomCanvas>
       </main>
       <StatusBar />
       {isDesktop && <ToolEffects />}

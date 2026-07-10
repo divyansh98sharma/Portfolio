@@ -153,10 +153,10 @@ export function ToolEffects() {
     const canvas = canvasRef.current
     if (!canvas) return
     const size = () => {
+      const rect = canvas.getBoundingClientRect()
       const dpr = Math.min(2, window.devicePixelRatio || 1)
-      canvas.width = window.innerWidth * dpr
-      canvas.height = window.innerHeight * dpr
-      canvas.getContext('2d')?.setTransform(dpr, 0, 0, dpr, 0, 0)
+      canvas.width = Math.round(rect.width * dpr)
+      canvas.height = Math.round(rect.height * dpr)
     }
     size()
     window.addEventListener('resize', size)
@@ -174,23 +174,37 @@ export function ToolEffects() {
     let lastPaint = performance.now()
     let raf = 0
 
+    // Map pointer position into bitmap pixels through the canvas's own
+    // bounding rect — immune to DPI scaling, browser zoom, and any CSS
+    // stretching that made strokes land away from the cursor.
+    const toBitmap = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      return {
+        x: ((e.clientX - rect.left) / rect.width) * canvas.width,
+        y: ((e.clientY - rect.top) / rect.height) * canvas.height,
+        scale: canvas.width / rect.width,
+      }
+    }
+
     const onDown = (e: PointerEvent) => {
       if (e.button !== 0) return
       drawing = true
-      last = { x: e.clientX, y: e.clientY }
+      const p = toBitmap(e)
+      last = { x: p.x, y: p.y }
       lastPaint = performance.now()
     }
     const onMove = (e: PointerEvent) => {
       if (!drawing || !last) return
+      const p = toBitmap(e)
       ctx.strokeStyle = 'rgba(13, 153, 255, 0.9)'
-      ctx.lineWidth = 4
+      ctx.lineWidth = 4 * p.scale
       ctx.lineCap = 'round'
       ctx.lineJoin = 'round'
       ctx.beginPath()
       ctx.moveTo(last.x, last.y)
-      ctx.lineTo(e.clientX, e.clientY)
+      ctx.lineTo(p.x, p.y)
       ctx.stroke()
-      last = { x: e.clientX, y: e.clientY }
+      last = { x: p.x, y: p.y }
       lastPaint = performance.now()
     }
     const onUp = () => {
@@ -204,7 +218,7 @@ export function ToolEffects() {
       if (!drawing && performance.now() - lastPaint > 1100) {
         ctx.globalCompositeOperation = 'destination-out'
         ctx.fillStyle = 'rgba(0, 0, 0, 0.07)'
-        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.globalCompositeOperation = 'source-over'
       }
       raf = requestAnimationFrame(tick)
@@ -221,7 +235,7 @@ export function ToolEffects() {
       window.removeEventListener('pointerup', onUp)
       window.removeEventListener('pointercancel', onUp)
       cancelAnimationFrame(raf)
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
   }, [activeTool])
 
@@ -273,10 +287,15 @@ export function ToolEffects() {
 
   return (
     <>
-      {/* draw surface — interactive only while the pencil is active */}
+      {/* draw surface — interactive only while the pencil is active.
+          Canvas is a replaced element: inset-0 alone does NOT stretch it,
+          so give it explicit viewport dimensions or it keeps (and we then
+          compound) its intrinsic size. */}
       <canvas
         ref={canvasRef}
-        className={`fixed inset-0 z-[35] ${activeTool === 'draw' ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        className={`fixed inset-0 z-[35] h-screen w-screen ${
+          activeTool === 'draw' ? 'pointer-events-auto' : 'pointer-events-none'
+        }`}
         aria-hidden="true"
       />
       {labelPos && labelText && (
