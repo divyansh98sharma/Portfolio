@@ -18,7 +18,7 @@ export function Contact() {
               <h2
                 id="contact-heading"
                 className="leading-[1.1] tracking-tight mb-6"
-                style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}
+                style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, calc(4vw * var(--canvas-zoom, 1)), 3.2rem)' }}
               >
                 Your next great design
                 <br />

@@ -48,7 +48,7 @@ export function Hero() {
           <h1
             id="hero-heading"
             className="hero-animate-in hero-delay-1 leading-[1.05] tracking-tight mb-6"
-            style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+            style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, calc(6vw * var(--canvas-zoom, 1)), 5rem)' }}
           >
             Design{' '}
             <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>

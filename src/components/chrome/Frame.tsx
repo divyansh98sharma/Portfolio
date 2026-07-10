@@ -59,8 +59,8 @@ export function Frame({
       id={id}
       ref={ref}
       aria-labelledby={headingId}
-      className={`frame-wrap relative my-14 sm:my-20 mx-3 sm:mx-6 ${
-        fullBleed ? 'lg:mx-8' : 'lg:mx-auto lg:max-w-[1200px]'
+      className={`frame-wrap relative my-14 sm:my-20 mx-3 sm:mx-6 lg:mx-auto ${
+        fullBleed ? 'lg:max-w-[1400px]' : 'lg:max-w-[1200px]'
       } ${className}`}
     >
       <span

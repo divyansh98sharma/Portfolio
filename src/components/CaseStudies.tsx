@@ -26,7 +26,7 @@ export function CaseStudies() {
             <h2
               id="case-studies-heading"
               className="leading-[1.1] tracking-tight mb-4"
-              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}
+              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem, calc(4vw * var(--canvas-zoom, 1)), 3.2rem)' }}
             >
               Featured{' '}
               <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>

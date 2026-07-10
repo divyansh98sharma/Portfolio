@@ -53,7 +53,7 @@ function SectionHeading({ id, label, title }: { id: string; label: string; title
           {label}
         </p>
       </div>
-      <h2 id={id} className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(1.7rem, 3.4vw, 2.6rem)' }}>
+      <h2 id={id} className="leading-[1.1] tracking-tight" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(1.7rem, calc(3.4vw * var(--canvas-zoom, 1)), 2.6rem)' }}>
         {title}
       </h2>
     </header>
@@ -126,7 +126,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               </span>
 
               <header className="space-y-4">
-                <h1 id="cs-hero-title" className="leading-[1.02] tracking-tight" style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}>
+                <h1 id="cs-hero-title" className="leading-[1.02] tracking-tight" style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.2rem, calc(5vw * var(--canvas-zoom, 1)), 3.8rem)' }}>
                   {data.product}
                 </h1>
                 <h2 className="text-lg font-medium sm:text-xl" style={{ ...montserrat, color: 'var(--muted-foreground)' }}>

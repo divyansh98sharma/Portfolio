@@ -53,7 +53,7 @@ export function About() {
             </div>
 
             {/* Headline */}
-            <h2 id="about-heading" className="leading-[1.1] tracking-tight mb-6" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+            <h2 id="about-heading" className="leading-[1.1] tracking-tight mb-6" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, calc(4vw * var(--canvas-zoom, 1)), 3.2rem)' }}>
               Senior UX Designer.
               <br />
               <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>

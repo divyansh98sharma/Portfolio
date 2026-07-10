@@ -147,7 +147,7 @@ export function MultiplayerCursors() {
   }, [])
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-30 hidden lg:block" aria-hidden="true">
+    <div className="pointer-events-none fixed inset-0 z-30 hidden md:block" aria-hidden="true">
       {cursorCast.map((c, i) => (
         <div
           key={c.initials}

@@ -2,6 +2,7 @@ import { ArrowLeft, ChevronDown, Clock, Search } from 'lucide-react'
 import { useRouter } from './Router'
 import { caseStudies } from '../data/caseStudies'
 import { useReveal } from '../hooks/useReveal'
+import { LayerRegion } from './chrome/LayersContext'
 import { FigFileCard } from './FigFileCard'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -39,6 +40,7 @@ export function AllCaseStudies() {
 
       <div className="mx-auto mt-10 max-w-[1200px] px-3 sm:px-6 lg:px-0">
         {/* File browser header */}
+        <LayerRegion id="recents" name="Recents">
         <header className="figma-chrome mb-10" style={{ color: 'var(--figma-text)' }}>
           <h1
             id="case-studies-heading"
@@ -72,18 +74,21 @@ export function AllCaseStudies() {
             </span>
           </div>
         </header>
+        </LayerRegion>
 
-        {/* Files */}
+        {/* Files — each tile registers as a frame in the Layers panel */}
         <ul className="cs-grid-3" aria-label="All design case studies">
           {caseStudies.map((study, index) => (
             <li key={study.id}>
-              <FigFileCard
-                study={study}
-                index={index}
-                isVisible={isVisible}
-                delayStep={150}
-                aspect="aspect-[4/3]"
-              />
+              <LayerRegion id={`file-${study.id}`} name={study.fileName} className="h-full">
+                <FigFileCard
+                  study={study}
+                  index={index}
+                  isVisible={isVisible}
+                  delayStep={150}
+                  aspect="aspect-[4/3]"
+                />
+              </LayerRegion>
             </li>
           ))}
         </ul>
