@@ -156,7 +156,9 @@ export function CommentTool() {
 
   const commitDraft = () => {
     if (draft && draftText.trim()) {
-      save([...userPins, { id: Date.now(), ...draft, text: draftText.trim() }])
+      // 🛡️ Security: Enforce input length limit to prevent storage exhaustion
+      const safeText = draftText.trim().slice(0, 280)
+      save([...userPins, { id: Date.now(), ...draft, text: safeText }])
     }
     setDraft(null)
     setDraftText('')
@@ -355,6 +357,7 @@ export function CommentTool() {
                     }
                   }}
                   placeholder="Add a comment…"
+                  maxLength={280}
                   className="w-full bg-transparent text-[12px] outline-none"
                   style={{ ...inter, color: 'var(--figma-text)' }}
                 />
