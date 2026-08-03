@@ -33,14 +33,14 @@ export function Hero() {
         <div className="max-w-6xl mx-auto">
 
           {/* Cursor chat — my own cursor introducing me */}
-          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — UX Designer, Design Systems Builder, UX Researcher">
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — Usability Mentor, UX Designer, Design Systems Builder, UX Researcher">
             <CursorArrow color="var(--figma-blue)" />
             <div
               className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
               style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
               aria-hidden="true"
             >
-              Divyansh · <TypewriterText texts={['UX Designer', 'Design Systems Builder', 'UX Researcher', 'Problem Solver']} />
+              Divyansh · <TypewriterText texts={['Usability Mentor', 'UX Designer', 'Design Systems Builder', 'UX Researcher', 'Problem Solver']} />
             </div>
           </div>
 
