@@ -54,7 +54,7 @@ export function About() {
 
             {/* Headline */}
             <h2 id="about-heading" className="leading-[1.1] tracking-tight mb-6" style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, calc(4vw * var(--canvas-zoom, 1)), 3.2rem)' }}>
-              Senior UX Designer.
+              Usability Mentor.
               <br />
               <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
                 Research-Driven
@@ -84,6 +84,7 @@ export function About() {
                 Properties
               </div>
               {[
+                { prop: 'Mentor', title: 'Now mentoring the next wave of UX talent', desc: 'Coach 3–5 UX professionals on design craft and career growth, and lead design critiques and quality reviews across the team.' },
                 { prop: 'Craft', title: 'Practitioner, not just a designer', desc: 'Every method I use, I actively apply — in real products, with real teams and users.' },
                 { prop: 'Range', title: 'Enterprise + startup experience', desc: "I've worked across healthcare, AI platforms, and consumer products — so you get nuanced, context-aware design." },
                 { prop: 'Systems', title: 'Design systems advocate', desc: 'Built token-based design systems that improved consistency by 40% and reduced dev time by 15%.' },

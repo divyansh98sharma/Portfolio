@@ -5,10 +5,24 @@ const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const experiences = [
   {
     company: 'eClinicalWorks',
-    role: 'Usability Specialist (UI/UX Designer)',
-    period: 'Jan 2023 – Present',
+    role: 'Mentor - Usability',
+    period: 'Jul 2026 – Present',
     location: 'Ahmedabad, India',
-    description: 'Leading end-to-end design processes for healthcare technology solutions, driving significant improvements in user engagement and system usability.',
+    description: 'Mentoring a team of UX professionals and setting design quality standards, while partnering with cross-functional leadership to keep the product usability-first.',
+    achievements: [
+      'Mentor and coach 3–5 UX professionals on design craft, Figma, and career growth',
+      'Lead design critiques and quality reviews for usability, accessibility, and handoff readiness',
+      'Establish UX best practices and review standards across multiple initiatives',
+      'Partner with cross-functional teams and leadership to advocate for user-centered design',
+      'Support hiring by interviewing candidates and mentoring new designers through onboarding'
+    ]
+  },
+  {
+    company: 'eClinicalWorks',
+    role: 'Usability Specialist (UI/UX Designer)',
+    period: 'Jan 2023 – Jul 2026',
+    location: 'Ahmedabad, India',
+    description: 'Led end-to-end design processes for healthcare technology solutions, driving significant improvements in user engagement and system usability.',
     achievements: [
       'Directed end-to-end design, driving a 30% boost in user engagement',
       'Created a token-based design system, improving consistency by 40%',
