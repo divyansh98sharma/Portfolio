@@ -11,7 +11,7 @@ import { Frame } from './chrome/Frame'
 export function HomePage() {
   return (
     <>
-      <Frame id="hero" name="Hero" headingId="hero-heading" fullBleed>
+      <Frame id="hero" name="Hero" headingId="hero-heading" fullBleed instantReveal>
         <Hero />
       </Frame>
       <Frame id="about" name="01 · About" headingId="about-heading">
