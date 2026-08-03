@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Check, Link2, Mail } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 const SITE_URL = 'https://divyanshsharma.design'
 

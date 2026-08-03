@@ -9,8 +9,8 @@ import { ImageWithFallback } from '../figma/ImageWithFallback'
 import { CoverArt } from '../CoverArt'
 import type { CaseStudyContent } from '../../data/case-studies'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Silkscreen', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 /** Figma-style redline measurement bar: value + annotated progress line */
 function SpecBar({ progress, color = 'var(--cs-accent)' }: { progress: number; color?: string }) {

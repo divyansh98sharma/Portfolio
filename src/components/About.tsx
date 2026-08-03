@@ -2,7 +2,7 @@ import profilePhoto from 'figma:asset/3f12db942eb596cb7c744a13790a87207de8db2c.p
 import { ArrowRight, Download } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const montserrat = { fontFamily: "'Silkscreen', sans-serif" }
 
 export function About() {
   const isVisible = useFrameReveal()
@@ -25,7 +25,7 @@ export function About() {
               <span className="frame-handle frame-handle--tr" aria-hidden="true" />
               <span className="frame-handle frame-handle--bl" aria-hidden="true" />
               <span className="frame-handle frame-handle--br" aria-hidden="true" />
-              <div className="w-56 h-64 sm:w-64 sm:h-72 rounded-lg overflow-hidden shadow-xl" style={{ filter: 'grayscale(0.8)' }}>
+              <div className="dither-image w-56 h-64 sm:w-64 sm:h-72 overflow-hidden shadow-xl">
                 <img
                   src={profilePhoto}
                   alt="Divyansh Sharma - UX Designer"
@@ -37,7 +37,7 @@ export function About() {
             </figure>
             <div
               className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-[11px] text-muted-foreground"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "'Space Mono', sans-serif" }}
             >
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: 'var(--figma-cursor-green)' }} aria-hidden="true" />
               Image · Fill · 256 × 288
@@ -78,7 +78,7 @@ export function About() {
             <div className="mb-8 rounded-xl border border-border bg-background/60 overflow-hidden">
               <div
                 className="border-b border-border px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "'Space Mono', sans-serif" }}
                 aria-hidden="true"
               >
                 Properties
@@ -92,7 +92,7 @@ export function About() {
                   <span
                     className="mt-0.5 inline-flex h-6 items-center rounded px-2 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0"
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "'Space Mono', sans-serif",
                       backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)',
                       color: 'var(--figma-blue)',
                     }}

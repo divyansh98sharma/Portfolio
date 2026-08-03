@@ -3,8 +3,8 @@ import { scrollToSection } from './utils/scrollToSection'
 import { TypewriterText } from './TypewriterText'
 import { ComponentGlyph } from './icons/ComponentGlyph'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Silkscreen', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 /** Figma's multiplayer cursor arrow */
 function CursorArrow({ color }: { color: string }) {

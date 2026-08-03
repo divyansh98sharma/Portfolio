@@ -5,8 +5,8 @@ import { useReveal } from '../hooks/useReveal'
 import { LayerRegion } from './chrome/LayersContext'
 import { FigFileCard } from './FigFileCard'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
+const montserrat = { fontFamily: "'Silkscreen', sans-serif" }
 
 /**
  * The "file browser" — all case studies as .fig files under Recents,

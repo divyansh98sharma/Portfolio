@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ExternalLink, Play, X } from 'lucide-react'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 interface PrototypeModalProps {
   url: string
@@ -15,7 +15,7 @@ interface PrototypeModalProps {
  * dark stage, slim top bar, the prototype embedded via Figma's
  * embed endpoint. Esc, backdrop click, or ✕ closes it.
  */
-export function PrototypeModal({ url, fileName, accent, onClose }: PrototypeModalProps) {
+export function PrototypeModal({ url, fileName, onClose }: PrototypeModalProps) {
   const [loaded, setLoaded] = useState(false)
   const embedSrc = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`
 
@@ -33,7 +33,7 @@ export function PrototypeModal({ url, fileName, accent, onClose }: PrototypeModa
 
   return (
     <div
-      className="figma-chrome fixed inset-0 z-[80] flex flex-col bg-black/85 backdrop-blur-sm"
+      className="figma-chrome fixed inset-0 z-[80] flex flex-col bg-black/90"
       role="dialog"
       aria-modal="true"
       aria-label={`Prototype — ${fileName}`}
@@ -51,10 +51,10 @@ export function PrototypeModal({ url, fileName, accent, onClose }: PrototypeModa
         >
           <span
             className="flex h-6 w-6 items-center justify-center rounded"
-            style={{ backgroundColor: accent }}
+            style={{ backgroundColor: '#ffffff' }}
             aria-hidden="true"
           >
-            <Play className="h-3 w-3 fill-white text-white" />
+            <Play className="h-3 w-3 fill-black text-black" />
           </span>
           <span className="truncate text-[12px] font-medium" style={inter}>
             Presenting · {fileName}

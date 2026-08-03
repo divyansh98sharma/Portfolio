@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLayers, type ToolName } from '../LayersContext'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 const IDLE_RESET_MS = 10000
 
