@@ -13,11 +13,11 @@ export function Footer() {
       role="contentinfo"
       style={{ ...inter, color: 'var(--figma-text-dim)' }}
     >
-      <p className="text-[12px] font-medium" style={{ color: 'var(--figma-text)' }}>
+      <p className="text-[14px] font-medium" style={{ color: 'var(--figma-text)' }}>
         Divyansh Sharma · UX Designer · 5+ Years in Design &amp; Product
       </p>
 
-      <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px]">
+      <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-[13px]">
         <a
           href="mailto:work.divyanshsharma@gmail.com"
           className="no-underline transition-colors hover:text-[var(--figma-blue)]"
@@ -45,7 +45,7 @@ export function Footer() {
         </a>
       </div>
 
-      <p className="mt-3 text-[10px]">
+      <p className="mt-3 text-[12px]">
         © {currentYear} Divyansh Sharma · Designed as a Figma file, because that's where I live
       </p>
     </footer>

@@ -29,29 +29,30 @@ export function FigFileCard({
 }: FigFileCardProps) {
   const { navigateTo } = useRouter()
   const [hovered, setHovered] = useState(false)
+  const comingSoon = study.status === 'coming-soon'
 
   return (
     <div
-      className={`group h-full cursor-pointer overflow-hidden rounded-xl border bg-card transition-all duration-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
+      className={`group h-full overflow-hidden rounded-xl border bg-card transition-all duration-700 ${
+        comingSoon ? 'cursor-default' : 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
+      } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
       style={{
         transitionDelay: isVisible ? `${index * delayStep}ms` : '0ms',
-        borderColor: hovered ? study.accent : 'var(--border)',
-        boxShadow: hovered ? `0 0 0 1px ${study.accent}, 0 16px 48px rgba(0,0,0,0.14)` : undefined,
+        borderColor: hovered && !comingSoon ? study.accent : 'var(--border)',
+        boxShadow: hovered && !comingSoon ? `0 0 0 1px ${study.accent}, 0 16px 48px rgba(0,0,0,0.14)` : undefined,
       }}
-      onClick={() => navigateTo(study.id)}
-      onKeyDown={(e) => {
+      onClick={comingSoon ? undefined : () => navigateTo(study.id!)}
+      onKeyDown={comingSoon ? undefined : (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault()
-          navigateTo(study.id)
+          navigateTo(study.id!)
         }
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      tabIndex={0}
+      tabIndex={comingSoon ? undefined : 0}
       role="article"
-      aria-label={`${study.title} — open case study`}
+      aria-label={comingSoon ? `${study.title} — coming soon` : `${study.title} — open case study`}
     >
       <div className="flex h-full flex-col">
         {/* Thumbnail — generated Figma-style cover art */}
@@ -69,6 +70,14 @@ export function FigFileCard({
           >
             {study.tags[0]}
           </span>
+          {comingSoon && (
+            <span
+              className="absolute top-3 right-3 rounded-md bg-black/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white"
+              style={inter}
+            >
+              Coming Soon
+            </span>
+          )}
         </div>
 
         {/* File meta row — the file-browser part */}
@@ -84,15 +93,17 @@ export function FigFileCard({
               Edited {study.year} · Divyansh Sharma
             </p>
           </div>
-          <span
-            className={`text-[11px] font-semibold transition-all duration-300 ${
-              hovered ? 'translate-x-0 opacity-100' : '-translate-x-1 opacity-0'
-            }`}
-            style={{ ...inter, color: study.accent }}
-            aria-hidden="true"
-          >
-            Open ↗
-          </span>
+          {!comingSoon && (
+            <span
+              className={`text-[11px] font-semibold transition-all duration-300 ${
+                hovered ? 'translate-x-0 opacity-100' : '-translate-x-1 opacity-0'
+              }`}
+              style={{ ...inter, color: study.accent }}
+              aria-hidden="true"
+            >
+              Open ↗
+            </span>
+          )}
         </div>
 
         {/* Description */}
@@ -113,9 +124,9 @@ export function FigFileCard({
 
           <p
             className="border-t border-border pt-3 text-[11px] font-semibold"
-            style={{ ...inter, color: 'var(--figma-cursor-green)' }}
+            style={{ ...inter, color: comingSoon ? 'var(--muted-foreground)' : 'var(--figma-cursor-green)' }}
           >
-            ▲ {study.impact}
+            {comingSoon ? '◐' : '▲'} {study.impact}
           </p>
         </div>
       </div>

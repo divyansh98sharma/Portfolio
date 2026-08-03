@@ -79,8 +79,8 @@ export function AllCaseStudies() {
         {/* Files — each tile registers as a frame in the Layers panel */}
         <ul className="cs-grid-3" aria-label="All design case studies">
           {caseStudies.map((study, index) => (
-            <li key={study.id}>
-              <LayerRegion id={`file-${study.id}`} name={study.fileName} className="h-full">
+            <li key={study.id ?? study.fileName}>
+              <LayerRegion id={`file-${study.id ?? study.fileName}`} name={study.fileName} className="h-full">
                 <FigFileCard
                   study={study}
                   index={index}

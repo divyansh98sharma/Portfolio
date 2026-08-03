@@ -1,7 +1,8 @@
 import type { Page } from '../components/Router'
 
 export interface CaseStudy {
-  id: Page
+  /** omitted for projects that don't have a case-study page yet (e.g. status: 'coming-soon') */
+  id?: Page
   title: string
   /** short product name for cover art, e.g. "Analytics Central" */
   product: string
@@ -16,6 +17,8 @@ export interface CaseStudy {
   year: string
   /** Figma-style document name shown on file tiles and in the top bar */
   fileName: string
+  /** shown as a badge instead of "Open ↗" when the project isn't published yet */
+  status?: 'coming-soon'
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -57,5 +60,18 @@ export const caseStudies: CaseStudy[] = [
     impact: 'Improved clarity, efficiency, adoption, and compliance & safety',
     year: '2024',
     fileName: 'flowsheets.fig'
+  },
+  {
+    title: 'eClinicalWorks Design System',
+    product: 'Design System',
+    company: 'eClinicalWorks',
+    accent: '#8c8c8c',
+    description: 'A token-based, component-driven design system for eClinicalWorks’ product suite, built to speed up delivery and keep design consistent across teams. Currently in the design phase.',
+    image: '',
+    tags: ['Design Systems', 'Component Library', 'In Design Phase'],
+    impact: 'Coming soon',
+    year: '2026',
+    fileName: 'design-system.fig',
+    status: 'coming-soon'
   }
 ]

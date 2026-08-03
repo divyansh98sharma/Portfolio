@@ -40,7 +40,7 @@ export function CaseStudies() {
 
           <ul className="cs-grid" aria-label="Design case studies">
             {homepageCaseStudies.map((study, index) => (
-              <li key={study.id}>
+              <li key={study.id ?? study.fileName}>
                 <FigFileCard study={study} index={index} isVisible={isVisible} />
               </li>
             ))}
