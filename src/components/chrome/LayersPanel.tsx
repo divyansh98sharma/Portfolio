@@ -6,7 +6,7 @@ import { scrollToSection } from '../utils/scrollToSection'
 import { caseStudies } from '../../data/caseStudies'
 import { LAYERS_PANEL_WIDTH } from '../../lib/chrome'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 /* ---------- pages: real destinations, named for what they are ---------- */
 const PAGES: { id: Page; label: string }[] = [

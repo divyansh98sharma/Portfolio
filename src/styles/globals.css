@@ -5,77 +5,87 @@
 :root {
   --font-size: 16px;
   --background: var(--figma-canvas);
-  --foreground: #1B2A4A;
+  --foreground: #000000;
   --card: #ffffff;
-  --card-foreground: #1B2A4A;
+  --card-foreground: #000000;
   --popover: #ffffff;
-  --popover-foreground: #1B2A4A;
-  --primary: #1B2A4A;
+  --popover-foreground: #000000;
+  --primary: #000000;
   --primary-foreground: #ffffff;
-  --secondary: #F5F0E6;
-  --secondary-foreground: #1B2A4A;
-  --muted: #F5F0E6;
-  --muted-foreground: #5A6A80;
-  --accent: #D4A853;
-  --accent-foreground: #1B2A4A;
-  --destructive: #d93025;
+  --secondary: #ececec;
+  --secondary-foreground: #000000;
+  --muted: #ececec;
+  --muted-foreground: #595959;
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  --destructive: #000000;
   --destructive-foreground: #ffffff;
   --border: var(--figma-border);
-  --input: #E8EDF5;
+  --input: #ffffff;
   --input-background: #ffffff;
-  --switch-background: #E8EDF5;
+  --switch-background: #d9d9d9;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #D4A853;
-  --chart-1: #D4A853;
-  --chart-2: #1B2A4A;
-  --chart-3: #4ECDC4;
-  --chart-4: #FF6B6B;
-  --chart-5: #96CEB4;
-  --radius: 0.75rem;
+  --ring: #000000;
+  --chart-1: #000000;
+  --chart-2: #404040;
+  --chart-3: #737373;
+  --chart-4: #a6a6a6;
+  --chart-5: #d9d9d9;
+  --radius: 0px;
   --sidebar: #ffffff;
-  --sidebar-foreground: #1B2A4A;
-  --sidebar-primary: #1B2A4A;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #000000;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #F5F0E6;
-  --sidebar-accent-foreground: #1B2A4A;
-  --sidebar-border: #E8EDF5;
-  --sidebar-ring: #D4A853;
+  --sidebar-accent: #ececec;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #000000;
+  --sidebar-ring: #000000;
+
+  --dither-15: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 1px, transparent 8px);
+  --dither-25: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 1px, transparent 4px);
+  --dither-50: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 1px, transparent 2px);
+  --hard-shadow: #000000;
 }
 
 .dark {
-  --foreground: #E8EDF5;
-  --card: #162033;
-  --card-foreground: #E8EDF5;
-  --popover: #162033;
-  --popover-foreground: #E8EDF5;
-  --primary: #E8EDF5;
-  --primary-foreground: #0F1724;
-  --secondary: #1E2D45;
-  --secondary-foreground: #E8EDF5;
-  --muted: #1E2D45;
-  --muted-foreground: #9AABBF;
-  --accent: #D4A853;
-  --accent-foreground: #0F1724;
-  --destructive: #f28b82;
-  --destructive-foreground: #0F1724;
-  --input: #2A3A55;
-  --ring: #D4A853;
+  --foreground: #ffffff;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #a6a6a6;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  --destructive: #ffffff;
+  --destructive-foreground: #000000;
+  --input: #000000;
+  --ring: #ffffff;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --chart-1: #D4A853;
-  --chart-2: #8AB4F8;
-  --chart-3: #4ECDC4;
-  --chart-4: #FF6B6B;
-  --chart-5: #96CEB4;
-  --sidebar: #0F1724;
-  --sidebar-foreground: #E8EDF5;
-  --sidebar-primary: #E8EDF5;
-  --sidebar-primary-foreground: #0F1724;
-  --sidebar-accent: #1E2D45;
-  --sidebar-accent-foreground: #E8EDF5;
-  --sidebar-border: #2A3A55;
-  --sidebar-ring: #D4A853;
+  --chart-1: #ffffff;
+  --chart-2: #bfbfbf;
+  --chart-3: #8c8c8c;
+  --chart-4: #595959;
+  --chart-5: #262626;
+  --sidebar: #000000;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #ffffff;
+  --sidebar-ring: #ffffff;
+
+  --dither-15: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 1px, transparent 8px);
+  --dither-25: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 1px, transparent 4px);
+  --dither-50: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 1px, transparent 2px);
+  --hard-shadow: #ffffff;
 }
 
 /* =================================================================
@@ -88,31 +98,33 @@
    ================================================================= */
 :root {
   --figma-panel: #ffffff;
-  --figma-canvas: #f5f5f5;
-  --figma-border: #e6e6e6;
-  --figma-text: #333333;
-  --figma-text-dim: rgba(0, 0, 0, 0.5);
-  --figma-blue: #0d99ff;
-  --figma-selection: #0d99ff;
+  --figma-canvas: #ffffff;
+  --figma-border: #000000;
+  --figma-dot: #b3b3b3;
+  --figma-text: #000000;
+  --figma-text-dim: #666666;
+  --figma-blue: #000000;
+  --figma-selection: #000000;
   --figma-row-height: 32px;
-  --figma-radius: 6px;
+  --figma-radius: 0px;
 
-  --figma-cursor-red: #f24822;
-  --figma-cursor-orange: #ffa629;
-  --figma-cursor-yellow: #ffcd29;
-  --figma-cursor-green: #14ae5c;
-  --figma-cursor-blue: #0d99ff;
-  --figma-cursor-purple: #9747ff;
+  --figma-cursor-red: #000000;
+  --figma-cursor-orange: #1a1a1a;
+  --figma-cursor-yellow: #333333;
+  --figma-cursor-green: #4d4d4d;
+  --figma-cursor-blue: #666666;
+  --figma-cursor-purple: #808080;
 }
 
 .dark {
-  --figma-panel: #2c2c2c;
-  --figma-canvas: #1e1e1e;
-  --figma-border: #444444;
+  --figma-panel: #000000;
+  --figma-canvas: #000000;
+  --figma-border: #ffffff;
+  --figma-dot: #4d4d4d;
   --figma-text: #ffffff;
-  --figma-text-dim: #b3b3b3;
-  --figma-blue: #0d99ff;
-  --figma-selection: #0d99ff;
+  --figma-text-dim: #999999;
+  --figma-blue: #ffffff;
+  --figma-selection: #ffffff;
 }
 
 /* =================================================================
@@ -125,28 +137,37 @@
    ================================================================= */
 .frame-surface {
   --background: #ffffff;
-  --foreground: #1B2A4A;
+  --foreground: #000000;
   --card: #ffffff;
-  --card-foreground: #1B2A4A;
+  --card-foreground: #000000;
   --popover: #ffffff;
-  --popover-foreground: #1B2A4A;
-  --primary: #1B2A4A;
+  --popover-foreground: #000000;
+  --primary: #000000;
   --primary-foreground: #ffffff;
-  --secondary: #F5F0E6;
-  --secondary-foreground: #1B2A4A;
-  --muted: #F5F0E6;
-  --muted-foreground: #5A6A80;
-  --accent: #D4A853;
-  --accent-foreground: #1B2A4A;
-  --destructive: #d93025;
+  --secondary: #ececec;
+  --secondary-foreground: #000000;
+  --muted: #ececec;
+  --muted-foreground: #595959;
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  --destructive: #000000;
   --destructive-foreground: #ffffff;
-  --border: #E8EDF5;
-  --input: #E8EDF5;
+  --border: #000000;
+  --input: #ececec;
   --input-background: #ffffff;
-  --switch-background: #E8EDF5;
-  --ring: #D4A853;
+  --switch-background: #d9d9d9;
+  --ring: #000000;
+  --figma-blue: #000000;
+  --figma-selection: #000000;
+  --figma-cursor-red: #000000;
+  --figma-cursor-orange: #1a1a1a;
+  --figma-cursor-yellow: #333333;
+  --figma-cursor-green: #4d4d4d;
+  --figma-cursor-blue: #666666;
+  --figma-cursor-purple: #808080;
   background-color: var(--background);
   color: var(--foreground);
+  border: 2px solid #000000;
 }
 
 @theme inline {
@@ -203,6 +224,21 @@
   --color-figma-cursor-purple: var(--figma-cursor-purple);
 }
 
+/* =================================================================
+   1-BIT OVERRIDES
+   Tailwind's rounded-2xl/rounded-full/shadow-* utilities aren't wired
+   to the --radius/color tokens above, so they're neutralized here:
+   every corner goes square, every soft shadow becomes a hard offset.
+   ================================================================= */
+@layer utilities {
+  [class*="rounded"] {
+    border-radius: 0 !important;
+  }
+  [class*="shadow-"] {
+    box-shadow: 3px 3px 0 0 var(--hard-shadow) !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -210,19 +246,19 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', ui-sans-serif, sans-serif;
+    font-family: 'Space Mono', ui-monospace, monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    font-family: 'Silkscreen', 'Space Mono', monospace;
   }
 
   *:focus-visible {
     outline: 3px solid var(--ring);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 0;
     box-shadow: 0 0 0 1px var(--background), 0 0 0 4px var(--ring);
   }
 
@@ -249,6 +285,7 @@
   button:disabled, [role="button"][aria-disabled="true"] {
     opacity: 1;
     background-color: var(--muted) !important;
+    background-image: var(--dither-25) !important;
     color: var(--muted-foreground) !important;
     cursor: not-allowed;
   }
@@ -260,7 +297,7 @@
       --primary: #000000;
       --primary-foreground: #ffffff;
       --muted-foreground: #000000;
-      --ring: #0000ff;
+      --ring: #000000;
     }
   }
 
@@ -273,10 +310,14 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
+  a:not(.no-underline):not([class*="btn"]):not([role="button"]):hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
 
   ::selection {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
+    background-color: #000000;
+    color: #ffffff;
   }
 }
 
@@ -405,8 +446,8 @@
    HERO ANIMATIONS
    ============================== */
 @keyframes hero-fade-in {
-  from { opacity: 0; filter: blur(8px); transform: translateY(16px); }
-  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-animate-in {
@@ -432,8 +473,8 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 48px rgba(27, 42, 74, 0.12);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 0 #000;
 }
 
 /* Ticker */
@@ -459,24 +500,24 @@
 /* =================================================================
    FIGMA CHROME
    The app shell — top bar, layers panel, status bar, canvas,
-   selection affordances. Inter at small sizes is what sells it.
+   selection affordances. Space Mono at small sizes is what sells it.
    ================================================================= */
 .figma-chrome {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Space Mono', ui-monospace, monospace;
   -webkit-font-smoothing: antialiased;
 }
 
 .canvas-dots {
   background-color: var(--figma-canvas);
-  background-image: radial-gradient(circle, var(--figma-border) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--figma-dot) 1px, transparent 1px);
   background-size: 24px 24px;
   transition: background-color 0.3s ease;
 }
 
 .frame-label {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Space Mono', ui-monospace, monospace;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--figma-text-dim);
   letter-spacing: 0.01em;
   user-select: none;
@@ -495,7 +536,7 @@
   content: '';
   position: absolute;
   inset: -1px;
-  border-radius: inherit;
+  border-radius: 0;
   border: 1.5px solid transparent;
   pointer-events: none;
   transition: border-color 0.15s ease;
@@ -510,7 +551,7 @@
   height: 7px;
   background: #ffffff;
   border: 1.5px solid var(--figma-blue);
-  border-radius: 1px;
+  border-radius: 0;
   opacity: 0;
   transition: opacity 0.15s ease;
   pointer-events: none;
@@ -531,7 +572,7 @@
   gap: 8px;
   height: var(--figma-row-height);
   padding: 0 10px;
-  border-radius: 4px;
+  border-radius: 0;
   font-size: 12px;
   color: var(--figma-text-dim);
   cursor: pointer;
@@ -542,8 +583,8 @@
   color: var(--figma-text);
 }
 .layers-row.is-active {
-  background-color: color-mix(in srgb, var(--figma-blue) 15%, transparent);
-  color: var(--figma-blue);
+  background-color: var(--figma-selection);
+  color: var(--figma-panel);
 }
 
 .figma-cursor-flag {
@@ -555,13 +596,13 @@
   will-change: transform;
 }
 .figma-cursor-flag__label {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Space Mono', ui-monospace, monospace;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
   padding: 2px 8px;
-  border-radius: 0 4px 4px 4px;
+  border-radius: 0;
   margin-left: 12px;
   margin-top: 12px;
   display: inline-block;
@@ -602,6 +643,50 @@ body[data-tool='move'], body[data-tool='hand'], body[data-tool='draw'] { user-se
 @media (prefers-reduced-motion: reduce) {
   .tool-spring-back { animation: none !important; }
   .comment-pin { animation: none !important; }
+}
+
+/* ==============================
+   1-BIT DITHER TEXTURES + SCROLLBAR
+   Ordered-dither fills stand in for the mid-tones a 1-bit display
+   can't render as smooth alpha/blur — used sparingly (disabled
+   controls, the halftoned profile photo, the scrollbar trough)
+   rather than on every muted surface, to avoid visual noise.
+   ============================== */
+.dither-15 { background-image: var(--dither-15); }
+.dither-25 { background-image: var(--dither-25); }
+.dither-50 { background-image: var(--dither-50); }
+
+.dither-image {
+  position: relative;
+  filter: grayscale(1) contrast(1.35);
+}
+.dither-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track {
+  background-color: #fff;
+  background-image: var(--dither-15);
+  border-left: 2px solid #000;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #000;
+  border: 3px solid #fff;
+}
+* {
+  scrollbar-color: #000 #fff;
+  scrollbar-width: thin;
 }
 
 /* ==============================

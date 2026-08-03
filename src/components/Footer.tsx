@@ -1,4 +1,4 @@
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 /**
  * Canvas credits — small Inter text sitting directly on the dotted canvas

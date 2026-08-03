@@ -3,7 +3,7 @@ import { ChevronUp, Minus, Plus } from 'lucide-react'
 import { MAX_ZOOM, MIN_ZOOM, useLayers } from './LayersContext'
 import { TOPBAR_HEIGHT } from '../../lib/chrome'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 function useScrollProgress() {
   const [progress, setProgress] = useState(0)

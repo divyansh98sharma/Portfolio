@@ -3,7 +3,7 @@ import { X } from 'lucide-react'
 import { useLayers } from '../LayersContext'
 import { seededComments } from '../../../data/collaborators'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 /** A pin anchored to a frame, like real Figma comments: frame id +
  *  offset from the frame's top-left in local (unzoomed) units. Pins

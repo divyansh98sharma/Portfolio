@@ -1,8 +1,8 @@
 import { Mail, ArrowRight, Check, Download, Globe } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Silkscreen', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 export function Contact() {
   const isVisible = useFrameReveal()

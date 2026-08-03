@@ -1,5 +1,5 @@
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Silkscreen', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 interface CoverArtProps {
   product: string
@@ -11,16 +11,16 @@ interface CoverArtProps {
 }
 
 /**
- * Generated Figma-community-style cover: accent gradient, faint dot grid,
+ * Generated Figma-community-style cover: dark gradient, faint dot grid,
  * an abstract UI wireframe, and the product wordmark. Replaces the stock
  * Unsplash thumbnails until real work shots exist.
  */
-export function CoverArt({ product, company, accent, className = '', large = false }: CoverArtProps) {
+export function CoverArt({ product, company, className = '', large = false }: CoverArtProps) {
   return (
     <div
       className={`relative flex h-full w-full flex-col justify-end overflow-hidden ${className}`}
       style={{
-        background: `linear-gradient(135deg, color-mix(in srgb, ${accent} 88%, #16161c) 0%, color-mix(in srgb, ${accent} 40%, #101016) 100%)`,
+        background: 'linear-gradient(135deg, #000000 0%, #262626 100%)',
       }}
       aria-hidden="true"
     >
@@ -71,8 +71,8 @@ export function CoverArt({ product, company, accent, className = '', large = fal
       {/* wordmark */}
       <div className="relative p-5 sm:p-6">
         <p
-          className={`${large ? 'text-2xl sm:text-4xl' : 'text-xl sm:text-2xl'} font-black leading-none text-white drop-shadow-md`}
-          style={montserrat}
+          className={`${large ? 'text-2xl sm:text-4xl' : 'text-xl sm:text-2xl'} font-black leading-none text-white`}
+          style={{ ...montserrat, textShadow: '2px 2px 0 #000' }}
         >
           {product}
         </p>

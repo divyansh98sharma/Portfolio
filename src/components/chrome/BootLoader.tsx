@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 const STEPS = [
   'Opening divyansh-portfolio.fig…',

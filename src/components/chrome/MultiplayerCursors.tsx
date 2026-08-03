@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useLayers } from './LayersContext'
 import { cursorCast } from '../../data/collaborators'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 interface CursorState {
   x: number

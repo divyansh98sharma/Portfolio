@@ -4,7 +4,7 @@ import { FigmaIcon } from './icons/FigmaIcon'
 import { useRouter } from './Router'
 import type { CaseStudy } from '../data/caseStudies'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Space Mono', sans-serif" }
 
 interface FigFileCardProps {
   study: CaseStudy
@@ -37,8 +37,9 @@ export function FigFileCard({
       }`}
       style={{
         transitionDelay: isVisible ? `${index * delayStep}ms` : '0ms',
-        borderColor: hovered ? study.accent : 'var(--border)',
-        boxShadow: hovered ? `0 0 0 1px ${study.accent}, 0 16px 48px rgba(0,0,0,0.14)` : undefined,
+        borderColor: 'var(--border)',
+        boxShadow: hovered ? '4px 4px 0 0 #000' : undefined,
+        transform: hovered ? 'translate(-2px, -2px)' : undefined,
       }}
       onClick={() => navigateTo(study.id)}
       onKeyDown={(e) => {
@@ -88,7 +89,7 @@ export function FigFileCard({
             className={`text-[11px] font-semibold transition-all duration-300 ${
               hovered ? 'translate-x-0 opacity-100' : '-translate-x-1 opacity-0'
             }`}
-            style={{ ...inter, color: study.accent }}
+            style={{ ...inter, color: '#000000' }}
             aria-hidden="true"
           >
             Open ↗
