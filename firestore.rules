@@ -71,5 +71,25 @@ service cloud.firestore {
 
       allow delete: if false;
     }
+
+    // FigJam-style sticker stamps. Same trust model as comment pins:
+    // anyone can create or reposition, nothing can be deleted.
+    match /stickers/{stickerId} {
+      allow read: if true;
+
+      allow create: if request.resource.data.frameId is string
+        && request.resource.data.dx is number
+        && request.resource.data.dy is number
+        && request.resource.data.emoji in ['🔥', '✨', '💯', '👀', '🚀', '🎉', '😂', '💡']
+        && request.resource.data.clientId is string
+        && request.resource.data.createdAt == request.time;
+
+      // Dragging a sticker only ever touches dx/dy.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['dx', 'dy'])
+        && request.resource.data.dx is number
+        && request.resource.data.dy is number;
+
+      allow delete: if false;
+    }
   }
 }

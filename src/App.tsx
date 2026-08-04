@@ -38,6 +38,12 @@ const CommentTool = lazy(() =>
 const NameCapturePrompt = lazy(() =>
   import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt }))
 )
+const StickerTool = lazy(() =>
+  import('./components/chrome/tools/StickerTool').then((m) => ({ default: m.StickerTool }))
+)
+const StickerPalette = lazy(() =>
+  import('./components/chrome/StickerPalette').then((m) => ({ default: m.StickerPalette }))
+)
 
 const pageVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -81,6 +87,11 @@ function AppContent() {
           <ToolButtons />
         </div>
       )}
+      {hasCanvasChrome && (
+        <Suspense fallback={null}>
+          <StickerPalette />
+        </Suspense>
+      )}
       <main
         id="main-content"
         tabIndex={-1}
@@ -94,6 +105,11 @@ function AppContent() {
           {hasCanvasChrome && (
             <Suspense fallback={null}>
               <CommentTool />
+            </Suspense>
+          )}
+          {hasCanvasChrome && (
+            <Suspense fallback={null}>
+              <StickerTool />
             </Suspense>
           )}
         </ZoomCanvas>
