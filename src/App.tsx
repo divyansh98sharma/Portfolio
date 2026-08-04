@@ -33,6 +33,11 @@ const CaseStudyLayout = lazy(() =>
 const CommentTool = lazy(() =>
   import('./components/chrome/tools/CommentTool').then((m) => ({ default: m.CommentTool }))
 )
+// Same lazy-loading reasoning as CommentTool, but shown on every device
+// since the visitor prompt/avatar-stack isn't canvas-chrome-specific.
+const NameCapturePrompt = lazy(() =>
+  import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt }))
+)
 
 const pageVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -97,6 +102,9 @@ function AppContent() {
       {hasCanvasChrome && <ToolEffects />}
       {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
       <BootLoader />
+      <Suspense fallback={null}>
+        <NameCapturePrompt />
+      </Suspense>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react'
 import { ChevronDown, Compass } from 'lucide-react'
 import { useRouter, type Page } from '../Router'
 import { scrollToSection, scrollToSectionWithDelay } from '../utils/scrollToSection'
@@ -7,6 +8,12 @@ import { FigmaIcon } from '../icons/FigmaIcon'
 import { collaborators } from '../../data/collaborators'
 import { caseStudies } from '../../data/caseStudies'
 import { useWalkthroughTour } from './WalkthroughTour'
+
+// Pulls in the Firebase SDK, so it's kept out of the main bundle — shares
+// its chunk with CommentTool/ReactionBar rather than duplicating it.
+const LiveVisitorBubbles = lazy(() =>
+  import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles }))
+)
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -121,7 +128,7 @@ export function FigmaTopBar() {
 
       {/* Right pill: collaborators + theme + share */}
       <div className={pill} style={pillStyle}>
-        <div className="hidden sm:flex items-center px-1" aria-hidden="true">
+        <div className="isolate hidden sm:flex items-center px-1" aria-hidden="true">
           {collaborators.map((c, i) => (
             <div
               key={c.initials}
@@ -138,6 +145,9 @@ export function FigmaTopBar() {
               {c.initials}
             </div>
           ))}
+          <Suspense fallback={null}>
+            <LiveVisitorBubbles />
+          </Suspense>
         </div>
         <button
           onClick={startTour}

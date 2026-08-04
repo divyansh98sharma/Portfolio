@@ -59,5 +59,17 @@ service cloud.firestore {
       allow update: if false;
       allow delete: if true;
     }
+
+    // One doc per browser (keyed by clientId) — powers the live avatar
+    // stack in the top bar. Upserted via setDoc merge, so create and
+    // update need the same validation.
+    match /visitors/{visitorId} {
+      allow read: if true;
+
+      allow create, update: if isValidName(request.resource.data.name)
+        && request.resource.data.lastSeen == request.time;
+
+      allow delete: if false;
+    }
   }
 }
