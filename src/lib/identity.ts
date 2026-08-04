@@ -1,5 +1,24 @@
 const NAME_KEY = 'portfolio-visitor-name'
 const CLIENT_ID_KEY = 'portfolio-client-id'
+const PROMPTED_KEY = 'portfolio-name-prompted'
+
+/** Whether the landing name-capture prompt has already been shown once
+ *  (submitted or skipped) — so it never nags a returning visitor twice. */
+export function hasBeenPrompted(): boolean {
+  try {
+    return localStorage.getItem(PROMPTED_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function markPrompted(): void {
+  try {
+    localStorage.setItem(PROMPTED_KEY, '1')
+  } catch {
+    /* ignore */
+  }
+}
 
 /** Stable anonymous id for this browser, used to toggle reactions on/off
  *  without needing an account. */
