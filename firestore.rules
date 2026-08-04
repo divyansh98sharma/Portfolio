@@ -44,5 +44,20 @@ service cloud.firestore {
         allow update, delete: if false;
       }
     }
+
+    // Emoji reactions on testimonials (and future content). No auth, so
+    // "own reaction" isn't enforceable — anyone can delete any reaction,
+    // matching the trust model already used for dragging comment pins.
+    match /reactions/{reactionId} {
+      allow read: if true;
+
+      allow create: if request.resource.data.targetId is string
+        && request.resource.data.clientId is string
+        && request.resource.data.emoji in ['👍', '❤️', '🎉']
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if false;
+      allow delete: if true;
+    }
   }
 }

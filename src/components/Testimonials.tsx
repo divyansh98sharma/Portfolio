@@ -1,4 +1,9 @@
+import { Suspense, lazy } from 'react'
 import { useFrameReveal } from './chrome/Frame'
+
+// Pulls in the Firebase SDK, so it's kept out of the main bundle — only
+// loads once a testimonial card actually renders its reaction bar.
+const ReactionBar = lazy(() => import('./ReactionBar').then((m) => ({ default: m.ReactionBar })))
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -98,23 +103,18 @@ export function Testimonials() {
                   <p className="leading-relaxed text-foreground">"{t.quote}"</p>
                 </blockquote>
                 {/* Reactions */}
-                <div className="mt-4 flex items-center gap-2" role="img" aria-label={`${t.stars} out of 5 stars`}>
+                <div className="mt-4 flex flex-wrap items-center gap-2">
                   <span
                     className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
                     style={inter}
+                    role="img"
+                    aria-label={`${t.stars} out of 5 stars`}
                   >
                     ⭐ {t.stars}
                   </span>
-                  <span
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
-                    style={inter}
-                    aria-hidden="true"
-                  >
-                    👍 {index === 0 ? 4 : 3}
-                  </span>
-                  <span className="text-[11px] text-muted-foreground/60" style={inter} aria-hidden="true">
-                    Reply…
-                  </span>
+                  <Suspense fallback={null}>
+                    <ReactionBar targetId={`testimonial-${index}`} />
+                  </Suspense>
                 </div>
               </div>
             </div>
