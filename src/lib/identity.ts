@@ -1,4 +1,20 @@
 const NAME_KEY = 'portfolio-visitor-name'
+const CLIENT_ID_KEY = 'portfolio-client-id'
+
+/** Stable anonymous id for this browser, used to toggle reactions on/off
+ *  without needing an account. */
+export function getClientId(): string {
+  try {
+    let id = localStorage.getItem(CLIENT_ID_KEY)
+    if (!id) {
+      id = crypto.randomUUID()
+      localStorage.setItem(CLIENT_ID_KEY, id)
+    }
+    return id
+  } catch {
+    return 'anon'
+  }
+}
 
 /** The visitor's self-chosen display name, remembered across visits. */
 export function getStoredName(): string | null {
