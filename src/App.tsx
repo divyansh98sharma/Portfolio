@@ -12,7 +12,6 @@ import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
 import { ToolButtons } from './components/chrome/ToolButtons'
 import { ToolEffects } from './components/chrome/tools/ToolEffects'
-import { CommentTool } from './components/chrome/tools/CommentTool'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
 import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
@@ -28,6 +27,11 @@ const AllCaseStudies = lazy(() =>
 )
 const CaseStudyLayout = lazy(() =>
   import('./components/case-studies/CaseStudyLayout').then((m) => ({ default: m.CaseStudyLayout }))
+)
+// Pulls in the Firebase SDK, so it's kept out of the main bundle — only
+// desktop/tablet gets the comment tool at all (see hasCanvasChrome below).
+const CommentTool = lazy(() =>
+  import('./components/chrome/tools/CommentTool').then((m) => ({ default: m.CommentTool }))
 )
 
 const pageVariants = {
@@ -82,7 +86,11 @@ function AppContent() {
             <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
           </AnimatePresence>
           <Footer />
-          {hasCanvasChrome && <CommentTool />}
+          {hasCanvasChrome && (
+            <Suspense fallback={null}>
+              <CommentTool />
+            </Suspense>
+          )}
         </ZoomCanvas>
       </main>
       <StatusBar />
