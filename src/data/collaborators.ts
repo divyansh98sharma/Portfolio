@@ -1,5 +1,5 @@
 // The fake "multiplayer" cast. One source of truth for the top-bar avatar
-// stack, the drifting canvas cursors, and the pre-seeded comment pins.
+// stack and the drifting canvas cursors.
 
 export interface Collaborator {
   initials: string
@@ -23,9 +23,3 @@ export const collaborators: Collaborator[] = [
 
 /** The three collaborators whose cursors drift on the canvas (desktop only) */
 export const cursorCast = [collaborators[0], collaborators[1], collaborators[2]]
-
-/** Pre-seeded comment pins shown by the comment tool */
-export const seededComments = [
-  { author: collaborators[3], text: 'The metric callouts here are 🔥', section: 'experience' },
-  { author: collaborators[1], text: 'Can we ship this designer to my team?', section: 'case-studies' },
-]

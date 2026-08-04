@@ -1,38 +1,26 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { X } from 'lucide-react'
 import { useLayers } from '../LayersContext'
-import { seededComments } from '../../../data/collaborators'
+import {
+  addComment,
+  addReply,
+  subscribeToComments,
+  subscribeToReplies,
+  updateCommentPosition,
+  type CommentDoc,
+  type ReplyDoc,
+} from '../../../lib/comments'
+import { colorForName, getStoredName, initialsForName, setStoredName } from '../../../lib/identity'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 
-/** A pin anchored to a frame, like real Figma comments: frame id +
- *  offset from the frame's top-left in local (unzoomed) units. Pins
- *  follow their frame through zoom changes and layout reflows. */
-interface Pin {
-  id: number
-  frameId: string
-  dx: number
-  dy: number
-  text: string
-}
-
-const MAX_PINS = 10
-const STORAGE_KEY = 'fig-comments-v2'
+const MAX_PINS = 200
 const DRAG_THRESHOLD = 5
-
-function loadPins(): Pin[] {
-  try {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]')
-  } catch {
-    return []
-  }
-}
 
 /**
  * The Comment tool. With C active, click anywhere to drop a pin and
- * type a note. Every pin — yours or a seeded collaborator's — can be
- * dragged anywhere with any tool. Pins anchor to their nearest frame,
- * so they stay glued through zoom changes and reflows. Desktop only.
+ * type a note — real, shared with every visitor via Firestore, with
+ * threaded replies. Any pin can be dragged anywhere with any tool
+ * (there's no auth, so "yours" isn't tracked once posted). Desktop only.
  */
 export function CommentTool() {
   const { activeTool, setActiveTool, frames, zoom } = useLayers()
@@ -40,13 +28,17 @@ export function CommentTool() {
   zoomRef.current = zoom
   const overlayRef = useRef<HTMLDivElement>(null)
 
-  const [userPins, setUserPins] = useState<Pin[]>(loadPins)
-  const [seedPins, setSeedPins] = useState<Pin[]>([])
+  const [comments, setComments] = useState<CommentDoc[]>([])
   const [draft, setDraft] = useState<{ frameId: string; dx: number; dy: number } | null>(null)
   const [draftText, setDraftText] = useState('')
-  const [openId, setOpenId] = useState<number | null>(null)
+  const [nameInput, setNameInput] = useState(() => getStoredName() ?? '')
+  const [hasStoredName, setHasStoredName] = useState(() => !!getStoredName())
+  const [openId, setOpenId] = useState<string | null>(null)
+  const [replies, setReplies] = useState<ReplyDoc[]>([])
+  const [replyText, setReplyText] = useState('')
+  const [posting, setPosting] = useState(false)
   const [, setLayoutTick] = useState(0)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const textInputRef = useRef<HTMLInputElement>(null)
 
   /* recompute pin screen positions when the layout reflows */
   useEffect(() => {
@@ -54,6 +46,18 @@ export function CommentTool() {
     window.addEventListener('resize', bump)
     return () => window.removeEventListener('resize', bump)
   }, [])
+
+  /* live comments, shared across every visitor */
+  useEffect(() => subscribeToComments(setComments), [])
+
+  /* replies for whichever thread is currently open */
+  useEffect(() => {
+    if (!openId) {
+      setReplies([])
+      return
+    }
+    return subscribeToReplies(openId, setReplies)
+  }, [openId])
 
   /** local-space top-left of a frame relative to the overlay */
   const frameLocal = useCallback(
@@ -73,7 +77,6 @@ export function CommentTool() {
   const toAnchor = useCallback(
     (clientX: number, clientY: number) => {
       const z = zoomRef.current
-      // prefer the frame the point is inside; fall back to the nearest
       let best: { id: string; rect: DOMRect } | null = null
       let bestDist = Infinity
       for (const f of frames) {
@@ -101,35 +104,6 @@ export function CommentTool() {
     [frames]
   )
 
-  const save = useCallback((next: Pin[]) => {
-    setUserPins(next)
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-    } catch {
-      /* ignore */
-    }
-  }, [])
-
-  /* seed collaborator comments onto their home frames */
-  useEffect(() => {
-    setSeedPins((prev) => {
-      if (prev.length) return prev // keep positions once seeded (user may drag)
-      const next: Pin[] = []
-      seededComments.forEach((s, i) => {
-        const local = frameLocal(s.section)
-        if (!local) return
-        next.push({
-          id: -(i + 1),
-          frameId: s.section,
-          dx: local.width - 48,
-          dy: 56 + i * 44,
-          text: s.text,
-        })
-      })
-      return next
-    })
-  }, [frames, frameLocal])
-
   /* click to drop a draft pin */
   useEffect(() => {
     if (activeTool !== 'comment') {
@@ -139,7 +113,7 @@ export function CommentTool() {
     const onClick = (e: MouseEvent) => {
       const t = e.target as HTMLElement
       if (t.closest('header, aside, button, a, input, [role="dialog"], [data-comment-ui]')) return
-      if (userPins.length >= MAX_PINS) return
+      if (comments.length >= MAX_PINS) return
       const anchor = toAnchor(e.clientX, e.clientY)
       if (!anchor) return
       setDraft(anchor)
@@ -148,32 +122,53 @@ export function CommentTool() {
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
-  }, [activeTool, userPins.length, toAnchor])
+  }, [activeTool, comments.length, toAnchor])
 
   useEffect(() => {
-    if (draft) inputRef.current?.focus()
+    if (draft) textInputRef.current?.focus()
   }, [draft])
 
-  const commitDraft = () => {
-    if (draft && draftText.trim()) {
-      // 🛡️ Security: Enforce input length limit to prevent storage exhaustion
-      const safeText = draftText.trim().slice(0, 280)
-      save([...userPins, { id: Date.now(), ...draft, text: safeText }])
+  const commitDraft = async () => {
+    const name = nameInput.trim()
+    const text = draftText.trim()
+    if (!draft || !name || !text || posting) return
+    setPosting(true)
+    setStoredName(name)
+    setHasStoredName(true)
+    try {
+      await addComment({ ...draft, text, authorName: name })
+      setDraft(null)
+      setDraftText('')
+    } finally {
+      setPosting(false)
     }
-    setDraft(null)
-    setDraftText('')
+  }
+
+  const commitReply = async () => {
+    const name = nameInput.trim()
+    const text = replyText.trim()
+    if (!openId || !name || !text || posting) return
+    setPosting(true)
+    setStoredName(name)
+    setHasStoredName(true)
+    try {
+      await addReply(openId, { text, authorName: name })
+      setReplyText('')
+    } finally {
+      setPosting(false)
+    }
   }
 
   /* ---------- pin dragging (works with any tool) ---------- */
   const dragState = useRef<{
-    id: number
+    id: string
     startX: number
     startY: number
     origin: { dx: number; dy: number }
     moved: boolean
   } | null>(null)
 
-  const startDrag = (pin: Pin, e: React.PointerEvent) => {
+  const startDrag = (pin: CommentDoc, e: React.PointerEvent) => {
     if (e.button !== 0) return
     dragState.current = {
       id: pin.id,
@@ -195,26 +190,17 @@ export function CommentTool() {
       const ddy = (e.clientY - d.startY) / z
       if (!d.moved && Math.hypot(e.clientX - d.startX, e.clientY - d.startY) < DRAG_THRESHOLD) return
       d.moved = true
-      const apply = (p: Pin) =>
-        p.id === d.id ? { ...p, dx: d.origin.dx + ddx, dy: d.origin.dy + ddy } : p
-      if (d.id < 0) setSeedPins((prev) => prev.map(apply))
-      else setUserPins((prev) => prev.map(apply))
+      setComments((prev) =>
+        prev.map((p) => (p.id === d.id ? { ...p, dx: d.origin.dx + ddx, dy: d.origin.dy + ddy } : p))
+      )
     }
     const onUp = () => {
       const d = dragState.current
       dragState.current = null
       if (!d) return
       if (d.moved) {
-        if (d.id >= 0) {
-          setUserPins((prev) => {
-            try {
-              sessionStorage.setItem(STORAGE_KEY, JSON.stringify(prev))
-            } catch {
-              /* ignore */
-            }
-            return prev
-          })
-        }
+        const pin = comments.find((p) => p.id === d.id)
+        if (pin) updateCommentPosition(pin.id, pin.dx, pin.dy).catch(() => {})
       } else {
         setOpenId((cur) => (cur === d.id ? null : d.id))
       }
@@ -225,7 +211,8 @@ export function CommentTool() {
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerup', onUp)
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comments])
 
   const pinStyle = (color: string): React.CSSProperties => ({
     ...inter,
@@ -235,13 +222,13 @@ export function CommentTool() {
     touchAction: 'none',
   })
 
-  const renderPos = (pin: Pin) => {
-    const local = frameLocal(pin.frameId)
+  const renderPos = (frameId: string, dx: number, dy: number) => {
+    const local = frameLocal(frameId)
     if (!local) return null
-    return { left: local.left + pin.dx, top: local.top + pin.dy }
+    return { left: local.left + dx, top: local.top + dy }
   }
 
-  const seedAuthor = (id: number) => seededComments[-id - 1]?.author
+  const needsName = !nameInput.trim()
 
   return (
     <div
@@ -250,75 +237,82 @@ export function CommentTool() {
       style={{ zIndex: 45 }}
       aria-hidden="true"
     >
-      {/* seeded collaborator comments */}
-      {seedPins.map((pin) => {
-        const pos = renderPos(pin)
-        const author = seedAuthor(pin.id)
-        if (!pos || !author) return null
+      {comments.map((pin) => {
+        const pos = renderPos(pin.frameId, pin.dx, pin.dy)
+        if (!pos) return null
+        const color = colorForName(pin.authorName)
         return (
           <div key={pin.id} className="absolute" style={pos}>
             <button
               data-comment-ui
               onPointerDown={(e) => startDrag(pin, e)}
               className="comment-pin pointer-events-auto flex h-8 w-8 items-center justify-center text-[10px] font-bold text-white shadow-lg"
-              style={pinStyle(author.color)}
+              style={pinStyle(color)}
               tabIndex={-1}
+              aria-label={`Comment by ${pin.authorName}`}
             >
-              {author.initials}
+              {initialsForName(pin.authorName)}
             </button>
             {openId === pin.id && (
               <div
                 data-comment-ui
-                className="pointer-events-auto absolute left-9 top-0 w-56 rounded-xl rounded-tl-sm border p-3 shadow-xl"
+                className="pointer-events-auto absolute left-9 top-0 w-64 rounded-xl rounded-tl-sm border p-3 shadow-xl"
                 style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)' }}
               >
                 <p className="text-[11px] font-semibold" style={{ ...inter, color: 'var(--figma-text)' }}>
-                  {author.name} · {author.role}
+                  {pin.authorName}
                 </p>
                 <p className="mt-1 text-[12px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
                   {pin.text}
                 </p>
-              </div>
-            )}
-          </div>
-        )
-      })}
 
-      {/* user comments */}
-      {userPins.map((pin) => {
-        const pos = renderPos(pin)
-        if (!pos) return null
-        return (
-          <div key={pin.id} className="absolute" style={pos}>
-            <button
-              data-comment-ui
-              onPointerDown={(e) => startDrag(pin, e)}
-              className="comment-pin pointer-events-auto flex h-8 w-8 items-center justify-center text-[10px] font-bold text-white shadow-lg"
-              style={pinStyle('var(--figma-blue)')}
-              tabIndex={-1}
-            >
-              You
-            </button>
-            {openId === pin.id && (
-              <div
-                data-comment-ui
-                className="pointer-events-auto absolute left-9 top-0 w-56 rounded-xl rounded-tl-sm border p-3 shadow-xl"
-                style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)' }}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <p className="text-[12px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text)' }}>
-                    {pin.text}
-                  </p>
-                  <button
-                    onClick={() => {
-                      save(userPins.filter((x) => x.id !== pin.id))
-                      setOpenId(null)
-                    }}
-                    className="flex-shrink-0"
-                    style={{ color: 'var(--figma-text-dim)' }}
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
+                {replies.length > 0 && (
+                  <div className="mt-2 space-y-2 border-t pt-2" style={{ borderColor: 'var(--figma-border)' }}>
+                    {replies.map((r) => (
+                      <div key={r.id}>
+                        <p className="text-[10px] font-semibold" style={{ ...inter, color: 'var(--figma-text)' }}>
+                          {r.authorName}
+                        </p>
+                        <p className="text-[11px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
+                          {r.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="mt-2 border-t pt-2" style={{ borderColor: 'var(--figma-border)' }}>
+                  {!hasStoredName && (
+                    <input
+                      value={nameInput}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      placeholder="Your name"
+                      maxLength={40}
+                      className="mb-1.5 w-full rounded-md border bg-transparent px-2 py-1 text-[11px] outline-none"
+                      style={{ ...inter, color: 'var(--figma-text)', borderColor: 'var(--figma-border)' }}
+                    />
+                  )}
+                  <div className="flex items-center gap-1.5">
+                    <input
+                      value={replyText}
+                      onChange={(e) => setReplyText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') commitReply()
+                      }}
+                      placeholder="Reply…"
+                      maxLength={280}
+                      className="w-full bg-transparent text-[12px] outline-none"
+                      style={{ ...inter, color: 'var(--figma-text)' }}
+                    />
+                    <button
+                      onClick={commitReply}
+                      disabled={posting || needsName || !replyText.trim()}
+                      className="flex-shrink-0 rounded-md px-2 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
+                      style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+                    >
+                      Reply
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -326,10 +320,10 @@ export function CommentTool() {
         )
       })}
 
-      {/* draft pin + input */}
+      {/* draft pin + composer */}
       {draft &&
         (() => {
-          const pos = renderPos({ id: 0, ...draft, text: '' })
+          const pos = renderPos(draft.frameId, draft.dx, draft.dy)
           if (!pos) return null
           return (
             <div className="absolute" style={pos}>
@@ -337,37 +331,50 @@ export function CommentTool() {
                 className="comment-pin flex h-8 w-8 items-center justify-center text-[10px] font-bold text-white shadow-lg"
                 style={pinStyle('var(--figma-blue)')}
               >
-                You
+                {needsName ? '?' : initialsForName(nameInput)}
               </span>
               <div
                 data-comment-ui
-                className="pointer-events-auto absolute left-9 top-0 flex w-64 items-center gap-2 rounded-xl rounded-tl-sm border p-2 shadow-xl"
+                className="pointer-events-auto absolute left-9 top-0 w-64 rounded-xl rounded-tl-sm border p-2 shadow-xl"
                 style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)' }}
               >
-                <input
-                  ref={inputRef}
-                  value={draftText}
-                  onChange={(e) => setDraftText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') commitDraft()
-                    if (e.key === 'Escape') {
-                      e.stopPropagation()
-                      setDraft(null)
-                      setActiveTool('select')
-                    }
-                  }}
-                  placeholder="Add a comment…"
-                  maxLength={280}
-                  className="w-full bg-transparent text-[12px] outline-none"
-                  style={{ ...inter, color: 'var(--figma-text)' }}
-                />
-                <button
-                  onClick={commitDraft}
-                  className="rounded-md px-2 py-1 text-[11px] font-semibold text-white"
-                  style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
-                >
-                  Post
-                </button>
+                {!hasStoredName && (
+                  <input
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
+                    placeholder="Your name"
+                    maxLength={40}
+                    className="mb-1.5 w-full rounded-md border bg-transparent px-2 py-1 text-[12px] outline-none"
+                    style={{ ...inter, color: 'var(--figma-text)', borderColor: 'var(--figma-border)' }}
+                  />
+                )}
+                <div className="flex items-center gap-2">
+                  <input
+                    ref={textInputRef}
+                    value={draftText}
+                    onChange={(e) => setDraftText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') commitDraft()
+                      if (e.key === 'Escape') {
+                        e.stopPropagation()
+                        setDraft(null)
+                        setActiveTool('select')
+                      }
+                    }}
+                    placeholder="Add a comment…"
+                    maxLength={280}
+                    className="w-full bg-transparent text-[12px] outline-none"
+                    style={{ ...inter, color: 'var(--figma-text)' }}
+                  />
+                  <button
+                    onClick={commitDraft}
+                    disabled={posting || needsName || !draftText.trim()}
+                    className="flex-shrink-0 rounded-md px-2 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
+                    style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+                  >
+                    Post
+                  </button>
+                </div>
               </div>
             </div>
           )

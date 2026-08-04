@@ -1,0 +1,48 @@
+rules_version = '2';
+
+// No auth on this site — comments are anonymous and attributed by a
+// self-chosen display name. These rules validate shape/size rather than
+// identity: anyone can post a well-formed comment/reply, anyone can drag
+// an existing pin to reposition it (matches the pre-existing decorative
+// comment tool's behavior), but nobody can rewrite another visitor's
+// text/author after the fact, and nothing can be deleted.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidText(text) {
+      return text is string && text.size() > 0 && text.size() <= 280;
+    }
+
+    function isValidName(name) {
+      return name is string && name.size() > 0 && name.size() <= 40;
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+
+      allow create: if isValidText(request.resource.data.text)
+        && isValidName(request.resource.data.authorName)
+        && request.resource.data.frameId is string
+        && request.resource.data.dx is number
+        && request.resource.data.dy is number
+        && request.resource.data.createdAt == request.time;
+
+      // Dragging a pin only ever touches dx/dy.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['dx', 'dy'])
+        && request.resource.data.dx is number
+        && request.resource.data.dy is number;
+
+      allow delete: if false;
+
+      match /replies/{replyId} {
+        allow read: if true;
+
+        allow create: if isValidText(request.resource.data.text)
+          && isValidName(request.resource.data.authorName)
+          && request.resource.data.createdAt == request.time;
+
+        allow update, delete: if false;
+      }
+    }
+  }
+}
