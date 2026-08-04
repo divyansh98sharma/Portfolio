@@ -16,6 +16,7 @@ import { CommentTool } from './components/chrome/tools/CommentTool'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
 import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
+import { WalkthroughTourProvider } from './components/chrome/WalkthroughTour'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
@@ -97,7 +98,9 @@ export default function App() {
     <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
       <LayersProvider>
         <Router>
-          <AppContent />
+          <WalkthroughTourProvider>
+            <AppContent />
+          </WalkthroughTourProvider>
         </Router>
       </LayersProvider>
     </ThemeProvider>

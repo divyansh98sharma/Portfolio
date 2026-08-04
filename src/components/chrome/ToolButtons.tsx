@@ -24,6 +24,7 @@ export function ToolButtons() {
     <div
       role="toolbar"
       aria-label="Canvas tools"
+      data-tour="tool-buttons"
       className="figma-chrome flex items-center gap-1 rounded-[14px] border p-1.5 shadow-xl"
       style={{
         backgroundColor: 'var(--figma-panel)',

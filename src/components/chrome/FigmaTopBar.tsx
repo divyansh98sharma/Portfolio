@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Compass } from 'lucide-react'
 import { useRouter, type Page } from '../Router'
 import { scrollToSection, scrollToSectionWithDelay } from '../utils/scrollToSection'
 import { ThemeToggle } from '../ThemeToggle'
@@ -6,6 +6,7 @@ import { SharePopover } from './SharePopover'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { collaborators } from '../../data/collaborators'
 import { caseStudies } from '../../data/caseStudies'
+import { useWalkthroughTour } from './WalkthroughTour'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,6 +45,7 @@ const pillStyle = {
  */
 export function FigmaTopBar() {
   const { currentPage, navigateTo } = useRouter()
+  const { start: startTour, hasSeenTour } = useWalkthroughTour()
 
   const goToSection = (sectionId: string) => {
     if (currentPage !== 'home') {
@@ -79,6 +81,7 @@ export function FigmaTopBar() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
+              data-tour="file-menu"
               className="flex min-h-0 min-w-0 h-8 max-w-[46vw] items-center gap-1.5 rounded-lg px-2 text-[13px] font-medium transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] sm:max-w-none"
               style={inter}
               aria-label="File menu — navigate the portfolio"
@@ -136,6 +139,21 @@ export function FigmaTopBar() {
             </div>
           ))}
         </div>
+        <button
+          onClick={startTour}
+          className="relative flex h-8 w-8 min-h-0 min-w-0 items-center justify-center rounded-lg transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)]"
+          aria-label="Take a tour of this site"
+          title="Take a tour"
+        >
+          <Compass className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+          {!hasSeenTour && (
+            <span
+              className="absolute right-1 top-1 h-2 w-2 rounded-full"
+              style={{ backgroundColor: 'var(--figma-blue)' }}
+              aria-hidden="true"
+            />
+          )}
+        </button>
         <ThemeToggle />
         <SharePopover />
       </div>
