@@ -36,7 +36,7 @@ export function ToolEffects() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isTypingTarget(e.target) || e.metaKey || e.ctrlKey || e.altKey) return
-      const map: Record<string, ToolName> = { v: 'move', h: 'hand', p: 'draw', c: 'comment' }
+      const map: Record<string, ToolName> = { v: 'move', h: 'hand', p: 'draw', c: 'comment', s: 'sticker' }
       const key = e.key.toLowerCase()
       if (map[key]) {
         setActiveTool(map[key])
@@ -283,7 +283,9 @@ export function ToolEffects() {
           ? 'Draw'
           : activeTool === 'comment'
             ? 'Comment'
-            : ''
+            : activeTool === 'sticker'
+              ? 'Sticker'
+              : ''
 
   return (
     <>

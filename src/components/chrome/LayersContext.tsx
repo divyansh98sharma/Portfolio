@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react'
 
-export type ToolName = 'select' | 'move' | 'hand' | 'draw' | 'comment'
+export type ToolName = 'select' | 'move' | 'hand' | 'draw' | 'comment' | 'sticker'
 
 interface FrameEntry {
   id: string
@@ -29,6 +29,9 @@ interface LayersContextValue {
   /** canvas zoom, 1 = 100% */
   zoom: number
   setZoom: (zoom: number) => void
+  /** which emoji the sticker tool currently stamps */
+  stickerEmoji: string
+  setStickerEmoji: (emoji: string) => void
 }
 
 const LayersContext = createContext<LayersContextValue | undefined>(undefined)
@@ -38,6 +41,10 @@ export function LayersProvider({ children }: { children: ReactNode }) {
   const [activeFrameId, setActiveFrameId] = useState<string | null>(null)
   const [activeTool, setActiveTool] = useState<ToolName>('select')
   const [zoom, setZoomState] = useState(1)
+  // Default kept in sync with STICKER_EMOJI[0] in lib/stickers.ts — not
+  // imported directly so this always-loaded context doesn't pull the
+  // Firebase-adjacent sticker module into the main bundle.
+  const [stickerEmoji, setStickerEmoji] = useState('🔥')
   const ratios = useRef<Map<string, number>>(new Map())
 
   const setZoom = useCallback((z: number) => {
@@ -96,7 +103,18 @@ export function LayersProvider({ children }: { children: ReactNode }) {
 
   return (
     <LayersContext.Provider
-      value={{ frames, activeFrameId, registerFrame, unregisterFrame, activeTool, setActiveTool, zoom, setZoom }}
+      value={{
+        frames,
+        activeFrameId,
+        registerFrame,
+        unregisterFrame,
+        activeTool,
+        setActiveTool,
+        zoom,
+        setZoom,
+        stickerEmoji,
+        setStickerEmoji,
+      }}
     >
       {children}
     </LayersContext.Provider>
