@@ -109,6 +109,7 @@ export function LayersPanel() {
 
   return (
     <aside
+      data-tour="layers-panel"
       className="figma-chrome fixed left-3 top-[72px] bottom-[76px] z-40 hidden lg:flex flex-col rounded-[14px] border shadow-xl overflow-hidden"
       style={{
         width: LAYERS_PANEL_WIDTH,
