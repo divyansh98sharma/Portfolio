@@ -156,8 +156,8 @@ export function LayersPanel() {
               return (
                 <li key={page.label}>
                   <div
-                    className="flex min-h-0 w-full items-center gap-2 rounded px-2.5 opacity-50"
-                    style={{ ...inter, height: 28, color: 'var(--figma-text-dim)', cursor: 'default' }}
+                    className="layers-row w-full min-h-0 min-w-0 opacity-50"
+                    style={{ ...inter, height: 28, cursor: 'default' }}
                   >
                     <FileText className="h-3 w-3 flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
                     <span className="flex-1 truncate">{page.label}</span>
