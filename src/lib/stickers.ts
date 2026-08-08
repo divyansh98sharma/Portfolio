@@ -2,6 +2,7 @@ import {
   collection,
   addDoc,
   updateDoc,
+  deleteDoc,
   doc,
   onSnapshot,
   orderBy,
@@ -53,4 +54,8 @@ export async function addSticker(input: {
 
 export async function updateStickerPosition(id: string, dx: number, dy: number): Promise<void> {
   await updateDoc(doc(db, 'stickers', id), { dx, dy })
+}
+
+export async function deleteSticker(id: string): Promise<void> {
+  await deleteDoc(doc(db, 'stickers', id))
 }

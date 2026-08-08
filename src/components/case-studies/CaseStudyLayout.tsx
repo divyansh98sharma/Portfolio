@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
 import { useRouter } from '../Router'
 import { PrototypeModal } from './PrototypeModal'
@@ -7,6 +7,8 @@ import { FigmaIcon } from '../icons/FigmaIcon'
 import { ComponentGlyph } from '../icons/ComponentGlyph'
 import { ImageWithFallback } from '../figma/ImageWithFallback'
 import { CoverArt } from '../CoverArt'
+import { getClientId } from '../../lib/identity'
+import { trackScrollDepth } from '../../lib/engagement'
 import type { CaseStudyContent } from '../../data/case-studies'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
@@ -66,6 +68,47 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
   const { navigateTo } = useRouter()
   const [showPrototype, setShowPrototype] = useState(false)
   const pad = 'px-6 py-14 sm:px-10 sm:py-16'
+
+  // Anonymous, best-effort scroll-depth instrumentation — disclosed in the
+  // footer. Only writes at 25/50/75/100 bucket crossings, not every scroll
+  // event, plus a flush on tab-hide/close so a mid-scroll close isn't lost.
+  useEffect(() => {
+    const clientId = getClientId()
+    let maxPercent = 0
+    let lastBucketSent = 0
+    let ticking = false
+
+    const compute = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight
+      const percent = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 100
+      maxPercent = Math.max(maxPercent, percent)
+      const bucket = Math.floor(maxPercent / 25) * 25
+      if (bucket > lastBucketSent) {
+        lastBucketSent = bucket
+        void trackScrollDepth({ caseStudyId: data.id, clientId, percent: maxPercent })
+      }
+      ticking = false
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(compute)
+      }
+    }
+    const flush = () => {
+      if (maxPercent > 0) void trackScrollDepth({ caseStudyId: data.id, clientId, percent: maxPercent })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    document.addEventListener('visibilitychange', flush)
+    window.addEventListener('pagehide', flush)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      document.removeEventListener('visibilitychange', flush)
+      window.removeEventListener('pagehide', flush)
+      flush()
+    }
+  }, [data.id])
 
   return (
     <div

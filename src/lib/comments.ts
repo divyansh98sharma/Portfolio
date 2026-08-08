@@ -2,6 +2,7 @@ import {
   collection,
   addDoc,
   updateDoc,
+  deleteDoc,
   doc,
   onSnapshot,
   orderBy,
@@ -72,6 +73,10 @@ export async function updateCommentPosition(id: string, dx: number, dy: number):
   await updateDoc(doc(db, 'comments', id), { dx, dy })
 }
 
+export async function deleteComment(id: string): Promise<void> {
+  await deleteDoc(doc(db, 'comments', id))
+}
+
 export function subscribeToReplies(
   commentId: string,
   onChange: (replies: ReplyDoc[]) => void
@@ -101,4 +106,8 @@ export async function addReply(
     authorName: input.authorName.trim().slice(0, MAX_NAME),
     createdAt: serverTimestamp(),
   })
+}
+
+export async function deleteReply(commentId: string, replyId: string): Promise<void> {
+  await deleteDoc(doc(db, 'comments', commentId, 'replies', replyId))
 }

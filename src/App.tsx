@@ -16,6 +16,7 @@ import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
 import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { WalkthroughTourProvider } from './components/chrome/WalkthroughTour'
+import { ConsentProvider } from './components/chrome/CookieConsent'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
@@ -131,7 +132,9 @@ export default function App() {
       <LayersProvider>
         <Router>
           <WalkthroughTourProvider>
-            <AppContent />
+            <ConsentProvider>
+              <AppContent />
+            </ConsentProvider>
           </WalkthroughTourProvider>
         </Router>
       </LayersProvider>

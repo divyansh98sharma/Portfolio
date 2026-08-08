@@ -48,6 +48,14 @@ export function Footer() {
       <p className="mt-3 text-[12px]">
         © {currentYear} Divyansh Sharma · Designed as a Figma file, because that's where I live
       </p>
+
+      <p className="mx-auto mt-3 max-w-[680px] text-[12px] leading-relaxed">
+        This site remembers you the way a browser can, not the way a login would: a random ID and
+        the name you type into the corner prompt power the live comments, reactions, sticker
+        stamps, and visitor stack. I also log anonymous scroll depth per case study and resume
+        download counts, so I know what's actually being read. Google Analytics only runs if you
+        say yes to it — off by default, no ad personalization. No ads, nothing sold.
+      </p>
     </footer>
   )
 }
