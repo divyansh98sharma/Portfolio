@@ -53,6 +53,9 @@ const STEPS: Step[] = [
 interface TourContextValue {
   start: () => void
   hasSeenTour: boolean
+  /** Called by BootLoader once its overlay is fully gone, so the
+   *  auto-start tour never fights it for the screen. */
+  notifyBootComplete: () => void
 }
 
 const TourContext = createContext<TourContextValue | null>(null)
@@ -140,6 +143,19 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
     goTo(0, 1)
   }, [goTo])
 
+  const [bootComplete, setBootComplete] = useState(false)
+  const notifyBootComplete = useCallback(() => setBootComplete(true), [])
+
+  // Auto-launch once per browser, but only once BootLoader's own splash
+  // has fully cleared the screen — otherwise the tour was popping up
+  // underneath/behind it before the boot animation even finished.
+  // Returning visitors (tour-seen already set) are left alone.
+  useEffect(() => {
+    if (hasSeenTour || !bootComplete) return
+    const timer = window.setTimeout(start, 400)
+    return () => window.clearTimeout(timer)
+  }, [hasSeenTour, bootComplete, start])
+
   // Reposition on scroll/resize while a step with a target is showing
   useEffect(() => {
     if (stepIndex === null) return
@@ -175,7 +191,7 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
   const step = stepIndex !== null ? STEPS[stepIndex] : null
 
   return (
-    <TourContext.Provider value={{ start, hasSeenTour }}>
+    <TourContext.Provider value={{ start, hasSeenTour, notifyBootComplete }}>
       {children}
       {step && (
         <div className="figma-chrome fixed inset-0 z-[90]" role="presentation">

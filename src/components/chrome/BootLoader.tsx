@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useWalkthroughTour } from './WalkthroughTour'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 
@@ -22,6 +23,7 @@ const SESSION_KEY = 'fig-booted'
  */
 export function BootLoader() {
   const reduced = useReducedMotion()
+  const { notifyBootComplete } = useWalkthroughTour()
   const [booting, setBooting] = useState(() => {
     if (typeof window === 'undefined') return false
     try {
@@ -44,7 +46,12 @@ export function BootLoader() {
   }
 
   useEffect(() => {
-    if (!booting || reduced) return
+    if (!booting || reduced) {
+      // Nothing to boot this session (or motion is reduced) — the
+      // overlay was never shown, so it's already "complete".
+      notifyBootComplete()
+      return
+    }
 
     const stepTimer = window.setInterval(
       () => setStep((s) => Math.min(s + 1, STEPS.length - 1)),
