@@ -9,9 +9,22 @@ import { LAYERS_PANEL_WIDTH } from '../../lib/chrome'
 const inter = { fontFamily: "'Inter', sans-serif" }
 
 /* ---------- pages: real destinations, named for what they are ---------- */
-const PAGES: { id: Page; label: string }[] = [
+interface PageEntry {
+  id: Page
+  label: string
+}
+interface ComingSoonEntry {
+  id?: undefined
+  label: string
+  comingSoon: true
+}
+
+// Case studies without an `id` (status: 'coming-soon') have no page to
+// route to — listed but disabled, matching FigFileCard's treatment of
+// the same flag, instead of silently falling through to the home page.
+const PAGES: (PageEntry | ComingSoonEntry)[] = [
   { id: 'home', label: 'Portfolio' },
-  ...caseStudies.map((s) => ({ id: s.id, label: s.product })),
+  ...caseStudies.map((s) => (s.id ? { id: s.id, label: s.product } : { label: s.product, comingSoon: true as const })),
   { id: 'all-case-studies', label: 'All files' },
 ]
 
@@ -139,6 +152,25 @@ export function LayersPanel() {
         </div>
         <ul className="space-y-0.5">
           {PAGES.map((page) => {
+            if ('comingSoon' in page) {
+              return (
+                <li key={page.label}>
+                  <div
+                    className="layers-row w-full min-h-0 min-w-0 opacity-50"
+                    style={{ ...inter, height: 28, cursor: 'default' }}
+                  >
+                    <FileText className="h-3 w-3 flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
+                    <span className="flex-1 truncate">{page.label}</span>
+                    <span
+                      className="flex-shrink-0 rounded px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
+                      style={{ backgroundColor: 'color-mix(in srgb, var(--figma-text) 10%, transparent)' }}
+                    >
+                      Soon
+                    </span>
+                  </div>
+                </li>
+              )
+            }
             const active = currentPage === page.id
             return (
               <li key={page.id}>
