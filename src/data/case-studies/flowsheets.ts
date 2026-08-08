@@ -163,6 +163,6 @@ export const flowsheets: CaseStudyContent = {
     { title: 'Advanced Filtering', description: 'Enhanced search and filter capabilities for complex patient data queries' },
   ],
 
-  prev: { id: 'case-study-2', label: 'RBAC' },
+  prev: { id: 'case-study-4', label: 'File Manager' },
   next: { id: 'case-study-1', label: 'Analytics Central' },
 }

@@ -62,6 +62,19 @@ export const caseStudies: CaseStudy[] = [
     fileName: 'flowsheets.fig'
   },
   {
+    id: 'case-study-4',
+    title: 'File Manager – Peak.ai',
+    product: 'File Manager',
+    company: 'Peak.ai',
+    accent: '#0fb5ae',
+    description: 'A ground-up file management experience for Peak.ai — folders, previews, and real file operations, replacing a workflow that forced users into AWS or a full data pipeline just to look at a file.',
+    image: '',
+    tags: ['Enterprise UX', 'Data Platform', 'Multi-Tenant Security'],
+    impact: 'Eliminated AWS console access and the data-feed detour for basic file viewing',
+    year: '2026',
+    fileName: 'file-manager.fig'
+  },
+  {
     title: 'eClinicalWorks Design System',
     product: 'Design System',
     company: 'eClinicalWorks',
