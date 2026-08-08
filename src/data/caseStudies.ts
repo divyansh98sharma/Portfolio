@@ -62,19 +62,6 @@ export const caseStudies: CaseStudy[] = [
     fileName: 'flowsheets.fig'
   },
   {
-    id: 'case-study-4',
-    title: 'This Site — Portfolio as a Live Product',
-    product: 'This Site',
-    company: 'Self-Directed',
-    accent: '#f2994a',
-    description: 'A portfolio that behaves like the tool it’s about — built through iterative, AI-paired engineering, with live comments, reactions, and sticker stamps anyone can leave.',
-    image: '',
-    tags: ['AI-Assisted Development', 'Realtime / Firestore', 'Systems Thinking'],
-    impact: '6 live Firestore-backed features, zero custom backend servers',
-    year: '2026',
-    fileName: 'this-site.fig'
-  },
-  {
     title: 'eClinicalWorks Design System',
     product: 'Design System',
     company: 'eClinicalWorks',

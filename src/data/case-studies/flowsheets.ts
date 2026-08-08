@@ -164,5 +164,5 @@ export const flowsheets: CaseStudyContent = {
   ],
 
   prev: { id: 'case-study-2', label: 'RBAC' },
-  next: { id: 'case-study-4', label: 'This Site' },
+  next: { id: 'case-study-1', label: 'Analytics Central' },
 }
