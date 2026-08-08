@@ -164,6 +164,6 @@ export const analyticsCentral: CaseStudyContent = {
     { title: 'Advanced Visualizations', description: 'Interactive storytelling for complex healthcare data' },
   ],
 
-  prev: { id: 'case-study-3', label: 'Flowsheets' },
+  prev: { id: 'case-study-4', label: 'This Site' },
   next: { id: 'case-study-2', label: 'RBAC' },
 }

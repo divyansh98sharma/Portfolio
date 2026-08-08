@@ -1,6 +1,7 @@
 import profilePhoto from 'figma:asset/3f12db942eb596cb7c744a13790a87207de8db2c.png'
 import { ArrowRight, Download } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
+import { getClientId } from '../lib/identity'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
@@ -133,6 +134,9 @@ export function About() {
               <a
                 href="/resume.pdf"
                 download="Divyansh-Sharma-Resume.pdf"
+                onClick={() => {
+                  void import('../lib/engagement').then((m) => m.trackResumeDownload(getClientId()))
+                }}
                 className="no-underline inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Download resume as PDF"
               >

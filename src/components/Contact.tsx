@@ -1,5 +1,6 @@
 import { Mail, ArrowRight, Check, Download, Globe } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
+import { getClientId } from '../lib/identity'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -84,6 +85,9 @@ export function Contact() {
                 <a
                   href="/resume.pdf"
                   download="Divyansh-Sharma-Resume.pdf"
+                  onClick={() => {
+                    void import('../lib/engagement').then((m) => m.trackResumeDownload(getClientId()))
+                  }}
                   className="no-underline mt-4 flex items-center justify-between rounded-lg border border-black/10 px-4 py-3 transition-colors hover:border-black/25"
                   aria-label="Download resume as PDF"
                 >

@@ -91,5 +91,43 @@ service cloud.firestore {
 
       allow delete: if false;
     }
+
+    // Per-case-study scroll depth, keyed by "<caseStudyId>__<clientId>". Max
+    // percent only ever ratchets up — a lower value than what's stored is a
+    // stale/replay write and is rejected, not silently accepted.
+    match /scrollDepth/{docId} {
+      allow read: if true;
+
+      allow create: if request.resource.data.caseStudyId is string
+        && request.resource.data.clientId is string
+        && request.resource.data.maxPercent is number
+        && request.resource.data.maxPercent >= 0
+        && request.resource.data.maxPercent <= 100
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['maxPercent', 'updatedAt'])
+        && request.resource.data.maxPercent is number
+        && request.resource.data.maxPercent >= resource.data.maxPercent
+        && request.resource.data.maxPercent <= 100
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    // One doc per browser (keyed by clientId, same shape as /visitors) —
+    // counts resume downloads. count only ever increments by exactly 1 per
+    // write, so a client can't fabricate an inflated count in one call.
+    match /resumeDownloads/{clientId} {
+      allow read: if true;
+
+      allow create: if request.resource.data.count == 1
+        && request.resource.data.lastAt == request.time;
+
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'lastAt'])
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.lastAt == request.time;
+
+      allow delete: if false;
+    }
   }
 }
