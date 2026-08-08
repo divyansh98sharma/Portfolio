@@ -53,6 +53,9 @@ const STEPS: Step[] = [
 interface TourContextValue {
   start: () => void
   hasSeenTour: boolean
+  /** Called by BootLoader once its overlay is fully gone, so the
+   *  auto-start tour never fights it for the screen. */
+  notifyBootComplete: () => void
 }
 
 const TourContext = createContext<TourContextValue | null>(null)
@@ -140,6 +143,19 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
     goTo(0, 1)
   }, [goTo])
 
+  const [bootComplete, setBootComplete] = useState(false)
+  const notifyBootComplete = useCallback(() => setBootComplete(true), [])
+
+  // Auto-launch once per browser, but only once BootLoader's own splash
+  // has fully cleared the screen — otherwise the tour was popping up
+  // underneath/behind it before the boot animation even finished.
+  // Returning visitors (tour-seen already set) are left alone.
+  useEffect(() => {
+    if (hasSeenTour || !bootComplete) return
+    const timer = window.setTimeout(start, 400)
+    return () => window.clearTimeout(timer)
+  }, [hasSeenTour, bootComplete, start])
+
   // Reposition on scroll/resize while a step with a target is showing
   useEffect(() => {
     if (stepIndex === null) return
@@ -175,7 +191,7 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
   const step = stepIndex !== null ? STEPS[stepIndex] : null
 
   return (
-    <TourContext.Provider value={{ start, hasSeenTour }}>
+    <TourContext.Provider value={{ start, hasSeenTour, notifyBootComplete }}>
       {children}
       {step && (
         <div className="figma-chrome fixed inset-0 z-[90]" role="presentation">
@@ -214,10 +230,20 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
                     borderColor: 'var(--figma-border)',
                     color: 'var(--figma-text)',
                     left: Math.min(Math.max(rect.left, 16), window.innerWidth - 356),
-                    top:
-                      rect.bottom + PAD + 180 < window.innerHeight
-                        ? rect.bottom + PAD + 12
-                        : Math.max(rect.top - PAD - 200, 16),
+                    // Below the target if it fits; else above it, anchored
+                    // by `bottom` (not a hardcoded height guess — the
+                    // dialog's real height varies per step's body length,
+                    // and a fixed top-offset was undershooting for longer
+                    // steps, overlapping the very target it pointed at,
+                    // e.g. the bottom-docked tool buttons on step 4); else
+                    // — a target spanning nearly the full viewport, like
+                    // the layers panel, leaves no clean room either side —
+                    // clamp to the top of the screen so it stays on-screen.
+                    ...(rect.bottom + PAD + 220 < window.innerHeight
+                      ? { top: rect.bottom + PAD + 12 }
+                      : rect.top - PAD > 220
+                        ? { bottom: window.innerHeight - rect.top + PAD }
+                        : { top: 16 }),
                   }
                 : {
                     backgroundColor: 'var(--figma-panel)',

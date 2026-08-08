@@ -151,11 +151,14 @@ export function FigmaTopBar() {
         </div>
         <button
           onClick={startTour}
-          className="relative flex h-8 w-8 min-h-0 min-w-0 items-center justify-center rounded-lg transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)]"
+          className="relative flex h-8 min-h-0 items-center gap-1.5 rounded-lg px-2.5 transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)]"
           aria-label="Take a tour of this site"
           title="Take a tour"
         >
-          <Compass className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+          <Compass className="h-4 w-4 flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
+          <span className="text-[11px] font-medium whitespace-nowrap" style={inter}>
+            Tour
+          </span>
           {!hasSeenTour && (
             <span
               className="absolute right-1 top-1 h-2 w-2 rounded-full"
