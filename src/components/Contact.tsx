@@ -1,12 +1,49 @@
-import { Mail, ArrowRight, Check, Download, Globe } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { Mail, ArrowRight, Check, Download, Loader2, AlertCircle } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 import { getClientId } from '../lib/identity'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
 
+// One-time setup: create a free form at https://formspree.io, then swap
+// this for your real form ID. Submissions email straight to you — nothing
+// is stored publicly the way comments/reactions are.
+const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'
+
+const SERVICES = [
+  'Fractional / contract UX design',
+  'Design systems audit',
+  '1:1 mentorship',
+  'Something else',
+]
+
+type Status = 'idle' | 'sending' | 'sent' | 'error'
+
 export function Contact() {
   const isVisible = useFrameReveal()
+  const [status, setStatus] = useState<Status>('idle')
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setStatus('sending')
+    const form = e.currentTarget
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        form.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
 
   return (
     <div className="bg-primary text-primary-foreground">
@@ -41,45 +78,91 @@ export function Contact() {
             >
               {/* dialog header */}
               <div className="flex items-center justify-between border-b border-black/10 px-6 py-4">
-                <p className="text-[14px] font-semibold" style={inter}>Share this designer</p>
+                <p className="text-[14px] font-semibold" style={inter}>Start a project</p>
                 <span className="text-black/30 text-lg leading-none" aria-hidden="true">✕</span>
               </div>
 
               <div className="px-6 py-5">
-                {/* invite row */}
-                <div className="mb-5 flex items-center gap-2">
-                  <div className="flex h-10 flex-1 items-center rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] text-black/50">
-                    work.divyanshsharma@gmail.com
+                {status === 'sent' ? (
+                  <div className="flex flex-col items-center gap-3 border-b border-black/10 py-6 pb-5 text-center">
+                    <span
+                      className="flex h-10 w-10 items-center justify-center rounded-full"
+                      style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}
+                    >
+                      <Check className="h-5 w-5" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
+                    </span>
+                    <p className="text-[13px] font-semibold text-black/80">Sent — I'll get back to you soon.</p>
                   </div>
-                  <a
-                    href="mailto:work.divyanshsharma@gmail.com"
-                    className="no-underline flex h-10 items-center rounded-lg px-4 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
-                    style={{ backgroundColor: 'var(--figma-blue)' }}
-                    aria-label="Send email"
-                  >
-                    <Mail className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-                    Invite
-                  </a>
-                </div>
-
-                {/* what you get */}
-                <div className="space-y-3 border-b border-black/10 pb-5">
-                  {[
-                    'Portfolio walkthrough',
-                    'Design process deep-dive',
-                    'No commitment required',
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <span
-                        className="flex h-5 w-5 items-center justify-center rounded-full"
-                        style={{ backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)' }}
-                      >
-                        <Check className="h-3 w-3" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
-                      </span>
-                      <span className="text-[13px] text-black/70">{item}</span>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-2.5 border-b border-black/10 pb-5">
+                    <input type="hidden" name="_subject" value="New portfolio inquiry" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        name="name"
+                        required
+                        placeholder="Your name"
+                        className="h-10 rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] outline-none focus:border-black/30"
+                        style={inter}
+                      />
+                      <input
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="Email"
+                        className="h-10 rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] outline-none focus:border-black/30"
+                        style={inter}
+                      />
                     </div>
-                  ))}
-                </div>
+                    <select
+                      name="service"
+                      required
+                      defaultValue=""
+                      className="h-10 w-full rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] text-black/70 outline-none focus:border-black/30"
+                      style={inter}
+                    >
+                      <option value="" disabled>
+                        What do you need help with?
+                      </option>
+                      {SERVICES.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                    <textarea
+                      name="message"
+                      required
+                      rows={3}
+                      placeholder="A bit about your project or goals"
+                      className="w-full resize-none rounded-lg border border-black/15 bg-black/[0.03] px-3 py-2 text-[13px] outline-none focus:border-black/30"
+                      style={inter}
+                    />
+                    <button
+                      type="submit"
+                      disabled={status === 'sending'}
+                      className="flex h-10 w-full items-center justify-center gap-2 rounded-lg text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                      style={{ backgroundColor: 'var(--figma-blue)' }}
+                    >
+                      {status === 'sending' ? (
+                        <>
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+                          Send
+                        </>
+                      )}
+                    </button>
+                    {status === 'error' && (
+                      <p className="flex items-center gap-1.5 text-[11px]" style={{ ...inter, color: '#dc2626' }}>
+                        <AlertCircle className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
+                        Something went wrong — email me directly instead.
+                      </p>
+                    )}
+                  </form>
+                )}
 
                 {/* export row — the resume */}
                 <a
@@ -97,17 +180,6 @@ export function Contact() {
                   </span>
                   <span className="text-[11px] text-black/40">PDF · 1x</span>
                 </a>
-
-                {/* access row */}
-                <div className="flex items-center justify-between pt-4 text-[12px] text-black/50">
-                  <span className="flex items-center gap-2">
-                    <Globe className="h-3.5 w-3.5" aria-hidden="true" />
-                    Anyone with the link
-                  </span>
-                  <span className="flex items-center gap-1 font-medium text-black/70">
-                    can hire ▾
-                  </span>
-                </div>
 
                 <p className="mt-4 text-center text-[11px] text-black/40">
                   Or connect on{' '}
