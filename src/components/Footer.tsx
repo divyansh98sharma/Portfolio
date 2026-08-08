@@ -1,5 +1,3 @@
-import { useConsent } from './chrome/CookieConsent'
-
 const inter = { fontFamily: "'Inter', sans-serif" }
 
 /**
@@ -8,7 +6,6 @@ const inter = { fontFamily: "'Inter', sans-serif" }
  */
 export function Footer() {
   const currentYear = new Date().getFullYear()
-  const { consent, reopen } = useConsent()
 
   return (
     <footer
@@ -57,14 +54,7 @@ export function Footer() {
         the name you type into the corner prompt power the live comments, reactions, sticker
         stamps, and visitor stack. I also log anonymous scroll depth per case study and resume
         download counts, so I know what's actually being read. Google Analytics only runs if you
-        say yes to it — off by default, no ad personalization. No ads, nothing sold.{' '}
-        <button
-          onClick={reopen}
-          className="inline p-0 no-underline font-medium transition-colors hover:text-[var(--figma-blue)]"
-          style={{ color: 'var(--figma-text-dim)', background: 'none', border: 0 }}
-        >
-          Cookie preferences{consent ? ` (currently ${consent})` : ''}
-        </button>
+        say yes to it — off by default, no ad personalization. No ads, nothing sold.
       </p>
     </footer>
   )
