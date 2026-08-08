@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { X } from 'lucide-react'
 import { useLayers } from '../LayersContext'
-import { addSticker, subscribeToStickers, updateStickerPosition, type StickerDoc } from '../../../lib/stickers'
+import {
+  addSticker,
+  deleteSticker,
+  subscribeToStickers,
+  updateStickerPosition,
+  type StickerDoc,
+} from '../../../lib/stickers'
 import { getClientId } from '../../../lib/identity'
 
 const MAX_STICKERS = 150
@@ -9,9 +16,10 @@ const DRAG_THRESHOLD = 5
 /**
  * The Sticker tool's canvas layer — FigJam-style stamps. With S active,
  * click anywhere to stamp the emoji selected in StickerPalette; real,
- * shared with every visitor via Firestore. Stickers can be dragged with
- * any tool, same trust model as comment pins (no auth, so nothing is
- * "yours"). Lives inside the zoomed canvas so pins pan/scale with it —
+ * shared with every visitor via Firestore. Stickers can be dragged or
+ * removed (hover for the × ) with any tool, same trust model as comment
+ * pins (no auth, so nothing is "yours"). Lives inside the zoomed canvas
+ * so pins pan/scale with it —
  * the palette itself renders separately, outside the zoom transform.
  * Desktop only.
  */
@@ -148,17 +156,28 @@ export function StickerTool() {
         const pos = renderPos(s.frameId, s.dx, s.dy)
         if (!pos) return null
         return (
-          <button
-            key={s.id}
-            data-sticker-ui
-            onPointerDown={(e) => startDrag(s, e)}
-            className="pointer-events-auto absolute flex items-center justify-center text-2xl leading-none drop-shadow-md"
-            style={{ ...pos, cursor: 'grab', touchAction: 'none' }}
-            tabIndex={-1}
-            aria-label={`Sticker: ${s.emoji}`}
-          >
-            {s.emoji}
-          </button>
+          <div key={s.id} data-sticker-ui className="group pointer-events-auto absolute" style={pos}>
+            <button
+              onPointerDown={(e) => startDrag(s, e)}
+              className="flex items-center justify-center text-2xl leading-none drop-shadow-md"
+              style={{ cursor: 'grab', touchAction: 'none' }}
+              tabIndex={-1}
+              aria-label={`Sticker: ${s.emoji}`}
+            >
+              {s.emoji}
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                deleteSticker(s.id).catch(() => {})
+              }}
+              className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full opacity-0 shadow transition-opacity group-hover:opacity-100"
+              style={{ backgroundColor: 'var(--figma-panel)', border: '1px solid var(--figma-border)', color: 'var(--figma-text-dim)' }}
+              aria-label={`Remove sticker: ${s.emoji}`}
+            >
+              <X className="h-2.5 w-2.5" strokeWidth={2.5} aria-hidden="true" />
+            </button>
+          </div>
         )
       })}
     </div>

@@ -32,7 +32,9 @@ service cloud.firestore {
         && request.resource.data.dx is number
         && request.resource.data.dy is number;
 
-      allow delete: if false;
+      // No auth, so "own comment" isn't enforceable — anyone can dismiss
+      // any comment, same trust model as reactions and dragging pins.
+      allow delete: if true;
 
       match /replies/{replyId} {
         allow read: if true;
@@ -41,7 +43,8 @@ service cloud.firestore {
           && isValidName(request.resource.data.authorName)
           && request.resource.data.createdAt == request.time;
 
-        allow update, delete: if false;
+        allow update: if false;
+        allow delete: if true;
       }
     }
 
@@ -73,7 +76,7 @@ service cloud.firestore {
     }
 
     // FigJam-style sticker stamps. Same trust model as comment pins:
-    // anyone can create or reposition, nothing can be deleted.
+    // anyone can create, reposition, or remove one.
     match /stickers/{stickerId} {
       allow read: if true;
 
@@ -89,7 +92,7 @@ service cloud.firestore {
         && request.resource.data.dx is number
         && request.resource.data.dy is number;
 
-      allow delete: if false;
+      allow delete: if true;
     }
 
     // Per-case-study scroll depth, keyed by "<caseStudyId>__<clientId>". Max

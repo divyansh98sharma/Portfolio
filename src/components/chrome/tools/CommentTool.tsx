@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Trash2, X } from 'lucide-react'
 import { useLayers } from '../LayersContext'
 import {
   addComment,
   addReply,
+  deleteComment,
+  deleteReply,
   subscribeToComments,
   subscribeToReplies,
   updateCommentPosition,
@@ -19,8 +22,9 @@ const DRAG_THRESHOLD = 5
 /**
  * The Comment tool. With C active, click anywhere to drop a pin and
  * type a note — real, shared with every visitor via Firestore, with
- * threaded replies. Any pin can be dragged anywhere with any tool
- * (there's no auth, so "yours" isn't tracked once posted). Desktop only.
+ * threaded replies. Any pin can be dragged, removed, or have any of its
+ * replies removed, with any tool (there's no auth, so "yours" isn't
+ * tracked once posted). Desktop only.
  */
 export function CommentTool() {
   const { activeTool, setActiveTool, frames, zoom } = useLayers()
@@ -259,9 +263,22 @@ export function CommentTool() {
                 className="pointer-events-auto absolute left-9 top-0 w-64 rounded-xl rounded-tl-sm border p-3 shadow-xl"
                 style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)' }}
               >
-                <p className="text-[11px] font-semibold" style={{ ...inter, color: 'var(--figma-text)' }}>
-                  {pin.authorName}
-                </p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-[11px] font-semibold" style={{ ...inter, color: 'var(--figma-text)' }}>
+                    {pin.authorName}
+                  </p>
+                  <button
+                    onClick={() => {
+                      deleteComment(pin.id).catch(() => {})
+                      setOpenId(null)
+                    }}
+                    className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100"
+                    style={{ color: 'var(--figma-text-dim)' }}
+                    aria-label="Remove this comment"
+                  >
+                    <Trash2 className="h-3 w-3" strokeWidth={2} aria-hidden="true" />
+                  </button>
+                </div>
                 <p className="mt-1 text-[12px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
                   {pin.text}
                 </p>
@@ -269,13 +286,23 @@ export function CommentTool() {
                 {replies.length > 0 && (
                   <div className="mt-2 space-y-2 border-t pt-2" style={{ borderColor: 'var(--figma-border)' }}>
                     {replies.map((r) => (
-                      <div key={r.id}>
-                        <p className="text-[10px] font-semibold" style={{ ...inter, color: 'var(--figma-text)' }}>
-                          {r.authorName}
-                        </p>
-                        <p className="text-[11px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
-                          {r.text}
-                        </p>
+                      <div key={r.id} className="group flex items-start justify-between gap-1">
+                        <div>
+                          <p className="text-[10px] font-semibold" style={{ ...inter, color: 'var(--figma-text)' }}>
+                            {r.authorName}
+                          </p>
+                          <p className="text-[11px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
+                            {r.text}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => deleteReply(pin.id, r.id).catch(() => {})}
+                          className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded opacity-0 transition-opacity hover:opacity-100 group-hover:opacity-60"
+                          style={{ color: 'var(--figma-text-dim)' }}
+                          aria-label={`Remove reply from ${r.authorName}`}
+                        >
+                          <X className="h-2.5 w-2.5" strokeWidth={2.5} aria-hidden="true" />
+                        </button>
                       </div>
                     ))}
                   </div>
