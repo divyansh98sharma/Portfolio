@@ -1,3 +1,5 @@
+import { useConsent } from './chrome/CookieConsent'
+
 const inter = { fontFamily: "'Inter', sans-serif" }
 
 /**
@@ -6,6 +8,7 @@ const inter = { fontFamily: "'Inter', sans-serif" }
  */
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const { consent, reopen } = useConsent()
 
   return (
     <footer
@@ -53,8 +56,15 @@ export function Footer() {
         This site remembers you the way a browser can, not the way a login would: a random ID and
         the name you type into the corner prompt power the live comments, reactions, sticker
         stamps, and visitor stack. I also log anonymous scroll depth per case study and resume
-        download counts, so I know what's actually being read. No ads, no ad trackers, nothing
-        sold.
+        download counts, so I know what's actually being read. Google Analytics only runs if you
+        say yes to it — off by default, no ad personalization. No ads, nothing sold.{' '}
+        <button
+          onClick={reopen}
+          className="no-underline font-medium transition-colors hover:text-[var(--figma-blue)]"
+          style={{ color: 'var(--figma-text-dim)' }}
+        >
+          Cookie preferences{consent ? ` (currently ${consent})` : ''}
+        </button>
       </p>
     </footer>
   )

@@ -11,7 +11,8 @@ const firebaseConfig = {
   storageBucket: 'divyansh-portfolio-2a903.firebasestorage.app',
   messagingSenderId: '45481375965',
   appId: '1:45481375965:web:173597266cc048e87d0334',
+  measurementId: 'G-BY7GWM8J1M',
 }
 
-const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
