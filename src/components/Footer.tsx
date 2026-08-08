@@ -52,7 +52,7 @@ export function Footer() {
         © {currentYear} Divyansh Sharma · Designed as a Figma file, because that's where I live
       </p>
 
-      <p className="mx-auto mt-3 max-w-[560px] text-[12px] leading-relaxed">
+      <p className="mx-auto mt-3 max-w-[680px] text-[12px] leading-relaxed">
         This site remembers you the way a browser can, not the way a login would: a random ID and
         the name you type into the corner prompt power the live comments, reactions, sticker
         stamps, and visitor stack. I also log anonymous scroll depth per case study and resume
@@ -60,8 +60,8 @@ export function Footer() {
         say yes to it — off by default, no ad personalization. No ads, nothing sold.{' '}
         <button
           onClick={reopen}
-          className="no-underline font-medium transition-colors hover:text-[var(--figma-blue)]"
-          style={{ color: 'var(--figma-text-dim)' }}
+          className="inline p-0 no-underline font-medium transition-colors hover:text-[var(--figma-blue)]"
+          style={{ color: 'var(--figma-text-dim)', background: 'none', border: 0 }}
         >
           Cookie preferences{consent ? ` (currently ${consent})` : ''}
         </button>
