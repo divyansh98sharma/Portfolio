@@ -230,10 +230,20 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
                     borderColor: 'var(--figma-border)',
                     color: 'var(--figma-text)',
                     left: Math.min(Math.max(rect.left, 16), window.innerWidth - 356),
-                    top:
-                      rect.bottom + PAD + 180 < window.innerHeight
-                        ? rect.bottom + PAD + 12
-                        : Math.max(rect.top - PAD - 200, 16),
+                    // Below the target if it fits; else above it, anchored
+                    // by `bottom` (not a hardcoded height guess — the
+                    // dialog's real height varies per step's body length,
+                    // and a fixed top-offset was undershooting for longer
+                    // steps, overlapping the very target it pointed at,
+                    // e.g. the bottom-docked tool buttons on step 4); else
+                    // — a target spanning nearly the full viewport, like
+                    // the layers panel, leaves no clean room either side —
+                    // clamp to the top of the screen so it stays on-screen.
+                    ...(rect.bottom + PAD + 220 < window.innerHeight
+                      ? { top: rect.bottom + PAD + 12 }
+                      : rect.top - PAD > 220
+                        ? { bottom: window.innerHeight - rect.top + PAD }
+                        : { top: 16 }),
                   }
                 : {
                     backgroundColor: 'var(--figma-panel)',
