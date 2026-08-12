@@ -1,12 +1,10 @@
-const { onRequest } = require('firebase-functions/v2/https')
-const { defineSecret } = require('firebase-functions/params')
-const { Resend } = require('resend')
+import { http } from '@google-cloud/functions-framework'
+import { Resend } from 'resend'
 
-const RESEND_API_KEY = defineSecret('RESEND_API_KEY')
-
-// Custom domain + the raw GitHub Pages URL as a fallback, so the function
-// only answers CORS preflight for requests actually coming from this site.
-const ALLOWED_ORIGINS = ['https://divyanshsharma.work', 'https://divyansh98sharma.github.io']
+const ALLOWED_ORIGINS = new Set([
+  'https://divyanshsharma.work',
+  'https://divyansh98sharma.github.io',
+])
 
 const SERVICES = new Set([
   'Fractional / contract UX design',
@@ -29,34 +27,44 @@ function isValidSubmission(body) {
   )
 }
 
-exports.sendContactEmail = onRequest(
-  { region: 'us-central1', secrets: [RESEND_API_KEY], cors: ALLOWED_ORIGINS },
-  async (req, res) => {
-    if (req.method !== 'POST') {
-      res.status(405).json({ error: 'Method not allowed' })
-      return
-    }
-
-    if (!isValidSubmission(req.body)) {
-      res.status(400).json({ error: 'Invalid submission' })
-      return
-    }
-
-    const { name, email, service, message } = req.body
-    const resend = new Resend(RESEND_API_KEY.value())
-
-    try {
-      await resend.emails.send({
-        from: 'Portfolio Contact <onboarding@resend.dev>',
-        to: 'work.divyanshsharma@gmail.com',
-        replyTo: email,
-        subject: `New portfolio inquiry — ${service}`,
-        text: `From: ${name.trim()} <${email}>\nService: ${service}\n\n${message.trim()}`,
-      })
-      res.status(200).json({ ok: true })
-    } catch (err) {
-      console.error('Resend send failed', err)
-      res.status(502).json({ error: 'Failed to send' })
-    }
+http('sendContactEmail', async (req, res) => {
+  const origin = req.headers.origin
+  if (ALLOWED_ORIGINS.has(origin)) {
+    res.set('Access-Control-Allow-Origin', origin)
+    res.set('Vary', 'Origin')
   }
-)
+  res.set('Access-Control-Allow-Methods', 'POST')
+  res.set('Access-Control-Allow-Headers', 'Content-Type')
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
+
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' })
+    return
+  }
+
+  if (!isValidSubmission(req.body)) {
+    res.status(400).json({ error: 'Invalid submission' })
+    return
+  }
+
+  const { name, email, service, message } = req.body
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  try {
+    await resend.emails.send({
+      from: 'Portfolio Contact <contact@send.thecollabrix.com>',
+      to: 'work.divyanshsharma@gmail.com',
+      replyTo: email,
+      subject: `New portfolio inquiry — ${service}`,
+      text: `From: ${name.trim()} <${email}>\nService: ${service}\n\n${message.trim()}`,
+    })
+    res.status(200).json({ ok: true })
+  } catch (err) {
+    console.error('Resend send failed', err)
+    res.status(502).json({ error: 'Failed to send' })
+  }
+})

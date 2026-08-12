@@ -6,13 +6,11 @@ import { getClientId } from '../lib/identity'
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
 
-// One-time setup: deploy functions/sendContactEmail (see functions/index.js),
-// with a RESEND_API_KEY secret bound to it. This is the standard invocation
-// URL for that function/region/project — verify it matches what the
-// Firebase/GCP console shows once deployed, and update if not. Submissions
-// email straight to you via Resend — nothing is stored publicly the way
+// Cloud Run function (functions/index.js) deployed via GCP Console's "Write a
+// function" flow, with a RESEND_API_KEY secret bound to it. Submissions email
+// straight to you via Resend — nothing is stored publicly the way
 // comments/reactions are.
-const FORM_ENDPOINT = 'https://us-central1-divyansh-portfolio-2a903.cloudfunctions.net/sendContactEmail'
+const FORM_ENDPOINT = 'https://send-contact-email-45481375965.us-central1.run.app'
 
 const SERVICES = [
   'Fractional / contract UX design',
