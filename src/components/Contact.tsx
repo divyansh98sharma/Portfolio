@@ -6,10 +6,13 @@ import { getClientId } from '../lib/identity'
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
 
-// One-time setup: create a free form at https://formspree.io, then swap
-// this for your real form ID. Submissions email straight to you — nothing
-// is stored publicly the way comments/reactions are.
-const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'
+// One-time setup: deploy functions/sendContactEmail (see functions/index.js),
+// with a RESEND_API_KEY secret bound to it. This is the standard invocation
+// URL for that function/region/project — verify it matches what the
+// Firebase/GCP console shows once deployed, and update if not. Submissions
+// email straight to you via Resend — nothing is stored publicly the way
+// comments/reactions are.
+const FORM_ENDPOINT = 'https://us-central1-divyansh-portfolio-2a903.cloudfunctions.net/sendContactEmail'
 
 const SERVICES = [
   'Fractional / contract UX design',
@@ -31,8 +34,8 @@ export function Contact() {
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
       })
       if (res.ok) {
         setStatus('sent')
@@ -95,7 +98,6 @@ export function Contact() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-2.5 border-b border-black/10 pb-5">
-                    <input type="hidden" name="_subject" value="New portfolio inquiry" />
                     <div className="grid grid-cols-2 gap-2">
                       <input
                         name="name"
