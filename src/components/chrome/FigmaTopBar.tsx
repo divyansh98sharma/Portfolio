@@ -5,7 +5,6 @@ import { scrollToSection, scrollToSectionWithDelay } from '../utils/scrollToSect
 import { ThemeToggle } from '../ThemeToggle'
 import { SharePopover } from './SharePopover'
 import { FigmaIcon } from '../icons/FigmaIcon'
-import { collaborators } from '../../data/collaborators'
 import { caseStudies } from '../../data/caseStudies'
 import { useWalkthroughTour } from './WalkthroughTour'
 
@@ -126,25 +125,9 @@ export function FigmaTopBar() {
         </DropdownMenu>
       </div>
 
-      {/* Right pill: collaborators + theme + share */}
+      {/* Right pill: live visitors + theme + share */}
       <div className={pill} style={pillStyle}>
         <div className="isolate hidden sm:flex items-center px-1" aria-hidden="true">
-          {collaborators.map((c, i) => (
-            <div
-              key={c.initials}
-              className="flex h-7 w-7 items-center justify-center rounded-full border-2 text-[9px] font-bold text-white select-none"
-              style={{
-                backgroundColor: c.color,
-                borderColor: 'var(--figma-panel)',
-                marginLeft: i > 0 ? '-8px' : 0,
-                zIndex: collaborators.length - i,
-                position: 'relative',
-              }}
-              title={`${c.name} · ${c.role}`}
-            >
-              {c.initials}
-            </div>
-          ))}
           <Suspense fallback={null}>
             <LiveVisitorBubbles />
           </Suspense>
