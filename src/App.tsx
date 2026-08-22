@@ -4,6 +4,8 @@ import { ThemeProvider } from './components/ThemeProvider'
 import { Router, useRouter } from './components/Router'
 import { HomePage } from './components/HomePage'
 import { caseStudyContent } from './data/case-studies'
+import { caseStudies } from './data/caseStudies'
+import { useDocumentMeta } from './hooks/useDocumentMeta'
 
 import { Footer } from './components/Footer'
 import { LayersProvider } from './components/chrome/LayersContext'
@@ -52,10 +54,35 @@ const pageVariants = {
   exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
 }
 
+const DEFAULT_DESCRIPTION =
+  'UX Designer portfolio of Divyansh Sharma. Crafting meaningful digital experiences through research-driven design, turning complex problems into intuitive solutions.'
+
 function AppContent() {
   const { currentPage } = useRouter()
   const hasCanvasChrome = useMediaQuery(TABLET_CHROME_QUERY)
   const reducedMotion = useReducedMotion()
+
+  const summary = caseStudies.find((s) => s.id === currentPage)
+  useDocumentMeta(
+    currentPage === 'all-case-studies'
+      ? {
+          title: 'All Case Studies · Divyansh Sharma - UX Designer Portfolio',
+          description: 'Browse every UX case study by Divyansh Sharma — healthcare, enterprise, and dashboard design work.',
+          path: '/all-case-studies',
+        }
+      : summary
+        ? {
+            title: `${summary.title} · Divyansh Sharma`,
+            description: summary.description,
+            image: summary.image,
+            path: `/${currentPage}`,
+          }
+        : {
+            title: 'Divyansh Sharma - UX Designer Portfolio',
+            description: DEFAULT_DESCRIPTION,
+            path: '/',
+          }
+  )
 
   const renderMainContent = () => {
     const study = caseStudyContent[currentPage]
