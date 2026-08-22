@@ -2,6 +2,9 @@ const NAME_KEY = 'portfolio-visitor-name'
 const CLIENT_ID_KEY = 'portfolio-client-id'
 const PROMPTED_KEY = 'portfolio-name-prompted'
 
+/** Placeholder identity for a visitor who hasn't chosen a name yet. */
+export const GHOST_NAME = 'Ghost'
+
 /** Whether the landing name-capture prompt has already been shown once
  *  (submitted or skipped) — so it never nags a returning visitor twice. */
 export function hasBeenPrompted(): boolean {

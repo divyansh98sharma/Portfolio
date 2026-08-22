@@ -12,7 +12,8 @@ import {
   type CommentDoc,
   type ReplyDoc,
 } from '../../../lib/comments'
-import { colorForName, getStoredName, initialsForName, setStoredName } from '../../../lib/identity'
+import { colorForName, getClientId, getStoredName, initialsForName, setStoredName } from '../../../lib/identity'
+import { upsertVisitor } from '../../../lib/visitors'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 
@@ -137,6 +138,7 @@ export function CommentTool() {
     const text = draftText.trim()
     if (!draft || !name || !text || posting) return
     setPosting(true)
+    if (!hasStoredName) upsertVisitor({ clientId: getClientId(), name }).catch(() => {})
     setStoredName(name)
     setHasStoredName(true)
     try {
@@ -153,6 +155,7 @@ export function CommentTool() {
     const text = replyText.trim()
     if (!openId || !name || !text || posting) return
     setPosting(true)
+    if (!hasStoredName) upsertVisitor({ clientId: getClientId(), name }).catch(() => {})
     setStoredName(name)
     setHasStoredName(true)
     try {

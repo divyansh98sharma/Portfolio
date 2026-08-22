@@ -1,5 +1,4 @@
-// The fake "multiplayer" cast. One source of truth for the top-bar avatar
-// stack and the drifting canvas cursors.
+// The fake "multiplayer" cast that drives the drifting canvas cursors.
 
 export interface Collaborator {
   initials: string
@@ -13,7 +12,7 @@ export interface Collaborator {
   chat?: string
 }
 
-export const collaborators: Collaborator[] = [
+const collaborators: Collaborator[] = [
   { initials: 'EC', name: 'Emily', role: 'Recruiter', color: 'var(--figma-cursor-purple)', homeSection: 'case-studies', chat: 'strong case studies 👀' },
   { initials: 'PA', name: 'Priya', role: 'PM', color: 'var(--figma-cursor-green)', homeSection: 'process', chat: 'love this process' },
   { initials: 'TG', name: 'Tom', role: 'Eng Lead', color: 'var(--figma-cursor-orange)', homeSection: 'experience', chat: 'nice ✦' },

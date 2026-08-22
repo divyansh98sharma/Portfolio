@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
+import { Ghost } from 'lucide-react'
 import { subscribeToVisitors, type VisitorDoc } from '../../lib/visitors'
-import { colorForName, initialsForName } from '../../lib/identity'
+import { GHOST_NAME, colorForName, initialsForName } from '../../lib/identity'
 
-const MAX_SHOWN = 3
+const MAX_SHOWN = 6
 
-/** Real visitors who left a name, appended to the decorative collaborator
- *  cast — the avatar stack grows live as people join. */
+/** The real, live visitor stack — every current visitor, named or not.
+ *  Unnamed visitors render as a generic gray Ghost, matching Figma's
+ *  placeholder-until-you-join-in behavior. */
 export function LiveVisitorBubbles() {
   const [visitors, setVisitors] = useState<VisitorDoc[]>([])
 
@@ -18,22 +20,25 @@ export function LiveVisitorBubbles() {
 
   return (
     <>
-      {shown.map((v, i) => (
-        <div
-          key={v.id}
-          className="flex h-7 w-7 items-center justify-center rounded-full border-2 text-[9px] font-bold text-white select-none"
-          style={{
-            backgroundColor: colorForName(v.name),
-            borderColor: 'var(--figma-panel)',
-            marginLeft: '-8px',
-            zIndex: -1 - i,
-            position: 'relative',
-          }}
-          title={v.name}
-        >
-          {initialsForName(v.name)}
-        </div>
-      ))}
+      {shown.map((v, i) => {
+        const isGhost = v.name === GHOST_NAME
+        return (
+          <div
+            key={v.id}
+            className="flex h-7 w-7 items-center justify-center rounded-full border-2 text-[9px] font-bold text-white select-none"
+            style={{
+              backgroundColor: isGhost ? 'var(--figma-text-dim)' : colorForName(v.name),
+              borderColor: 'var(--figma-panel)',
+              marginLeft: i > 0 ? '-8px' : 0,
+              zIndex: shown.length - i,
+              position: 'relative',
+            }}
+            title={isGhost ? 'Anonymous visitor' : v.name}
+          >
+            {isGhost ? <Ghost className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden="true" /> : initialsForName(v.name)}
+          </div>
+        )
+      })}
       {extra > 0 && (
         <div
           className="flex h-7 w-7 items-center justify-center rounded-full border-2 text-[9px] font-bold select-none"
