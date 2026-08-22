@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { Mail, ArrowRight, Check, Download, Loader2, AlertCircle } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 import { getClientId } from '../lib/identity'
@@ -24,6 +24,7 @@ type Status = 'idle' | 'sending' | 'sent' | 'error'
 export function Contact() {
   const isVisible = useFrameReveal()
   const [status, setStatus] = useState<Status>('idle')
+  const formStartedAt = useRef(Date.now())
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -96,6 +97,25 @@ export function Contact() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-2.5 border-b border-black/10 pb-5">
+                    {/* Silent bot checks. Kept out of the visual and keyboard flow. */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute -left-[10000px] h-px w-px overflow-hidden"
+                    >
+                      <label htmlFor="contact-website">Website</label>
+                      <input
+                        id="contact-website"
+                        name="website"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
+                    <input
+                      name="formStartedAt"
+                      type="hidden"
+                      value={formStartedAt.current}
+                    />
                     <div className="grid grid-cols-2 gap-2">
                       <input
                         name="name"
