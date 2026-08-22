@@ -85,10 +85,9 @@ function AppContent() {
   )
 
   const renderMainContent = () => {
-    const study = caseStudyContent[currentPage]
-    const key = study ? study.id : currentPage === 'all-case-studies' ? 'all-case-studies' : 'home'
+    const study = currentPage in caseStudyContent ? caseStudyContent[currentPage as keyof typeof caseStudyContent] : undefined
     return (
-      <motion.div key={key} initial="hidden" animate="visible" exit="exit" variants={pageVariants}>
+      <motion.div key={currentPage} initial="hidden" animate="visible" exit="exit" variants={pageVariants}>
         {study ? (
           <CaseStudyLayout data={study} />
         ) : currentPage === 'all-case-studies' ? (

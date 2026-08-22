@@ -161,7 +161,4 @@ export const rbac: CaseStudyContent = {
     { title: 'Predictive Permissions', description: 'AI recommendations for role setups based on usage patterns' },
     { title: 'Enhanced Reporting', description: 'Advanced analytics to track anomalies and optimize configurations' },
   ],
-
-  prev: { id: 'case-study-1', label: 'Analytics Central' },
-  next: { id: 'case-study-3', label: 'Flowsheets' },
 }

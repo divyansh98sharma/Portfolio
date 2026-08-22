@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { caseStudyContent, type CaseStudyId } from '../data/case-studies'
 
-export type Page = 'home' | 'case-study-1' | 'case-study-2' | 'case-study-3' | 'all-case-studies'
+export type Page = 'home' | 'all-case-studies' | CaseStudyId
 
 type RouterContextType = {
   currentPage: Page
@@ -11,13 +12,9 @@ const RouterContext = createContext<RouterContextType | undefined>(undefined)
 
 function getPageFromPath(path: string): Page {
   const clean = path.replace(/^\/|\/$/g, '')
-  switch (clean) {
-    case 'case-study-1': return 'case-study-1'
-    case 'case-study-2': return 'case-study-2'
-    case 'case-study-3': return 'case-study-3'
-    case 'all-case-studies': return 'all-case-studies'
-    default: return 'home'
-  }
+  if (clean === 'all-case-studies') return 'all-case-studies'
+  if (clean in caseStudyContent) return clean as CaseStudyId
+  return 'home'
 }
 
 function getPathFromPage(page: Page): string {
