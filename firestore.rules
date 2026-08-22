@@ -117,6 +117,24 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Optional "reach out to me" email, offered alongside the name prompt.
+    // Write-only — nobody, including other visitors, can read these back
+    // through the client SDK; the owner checks them via the Firebase
+    // console. Deliberately separate from /visitors, which stays public.
+    match /leads/{leadId} {
+      allow read: if false;
+
+      allow create: if isValidName(request.resource.data.name)
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 0
+        && request.resource.data.email.size() <= 200
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+[.][^@\\s]+$')
+        && request.resource.data.clientId is string
+        && request.resource.data.createdAt == request.time;
+
+      allow update, delete: if false;
+    }
+
     // One doc per browser (keyed by clientId, same shape as /visitors) —
     // counts resume downloads. count only ever increments by exactly 1 per
     // write, so a client can't fabricate an inflated count in one call.

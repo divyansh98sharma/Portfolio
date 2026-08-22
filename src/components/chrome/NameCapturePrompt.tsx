@@ -2,19 +2,23 @@ import { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import { GHOST_NAME, getClientId, getStoredName, hasBeenPrompted, markPrompted, setStoredName } from '../../lib/identity'
 import { upsertVisitor } from '../../lib/visitors'
+import { isValidEmail, submitLead } from '../../lib/leads'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 const SHOW_DELAY_MS = 2500
 
 /** A one-time, dismissible nudge for first-time visitors to leave a name —
- *  joining the real, live visitor avatar stack in the top bar. Skippable,
- *  never shown twice, and a no-op if they've already left a name via the
- *  comment tool (they're upserted as a visitor silently instead). Visitors
- *  with no name yet are upserted as GHOST_NAME on every mount, so they show
- *  up live in the stack (and keep refreshing lastSeen) until they join. */
+ *  joining the real, live visitor avatar stack in the top bar — with an
+ *  optional email so they can be followed up with. Skippable, never shown
+ *  twice, and a no-op if they've already left a name via the comment tool
+ *  (they're upserted as a visitor silently instead). Visitors with no name
+ *  yet are upserted as GHOST_NAME on every mount, so they show up live in
+ *  the stack (and keep refreshing lastSeen) until they join. The email, if
+ *  given, is write-only — it never joins the public visitor stack. */
 export function NameCapturePrompt() {
   const [visible, setVisible] = useState(false)
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
 
   useEffect(() => {
     const stored = getStoredName()
@@ -37,9 +41,14 @@ export function NameCapturePrompt() {
   const submit = () => {
     const trimmed = name.trim()
     if (!trimmed) return
+    const trimmedEmail = email.trim()
+    const clientId = getClientId()
     setStoredName(trimmed)
     markPrompted()
-    upsertVisitor({ clientId: getClientId(), name: trimmed }).catch(() => {})
+    upsertVisitor({ clientId, name: trimmed }).catch(() => {})
+    if (trimmedEmail && isValidEmail(trimmedEmail)) {
+      submitLead({ clientId, name: trimmed, email: trimmedEmail }).catch(() => {})
+    }
     setVisible(false)
   }
 
@@ -65,7 +74,7 @@ export function NameCapturePrompt() {
       <p className="mt-1 text-[11px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
         Join the live visitor stack up top — no account needed.
       </p>
-      <div className="mt-3 flex items-center gap-2">
+      <div className="mt-3 space-y-1.5">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -78,15 +87,30 @@ export function NameCapturePrompt() {
           className="w-full rounded-md border bg-transparent px-2.5 py-1.5 text-[12px] outline-none"
           style={{ ...inter, color: 'var(--figma-text)', borderColor: 'var(--figma-border)' }}
         />
-        <button
-          onClick={submit}
-          disabled={!name.trim()}
-          className="flex-shrink-0 rounded-md px-3 py-1.5 text-[12px] font-semibold text-white disabled:opacity-40"
-          style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
-        >
-          Join
-        </button>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') submit()
+          }}
+          placeholder="Email (optional)"
+          maxLength={200}
+          className="w-full rounded-md border bg-transparent px-2.5 py-1.5 text-[12px] outline-none"
+          style={{ ...inter, color: 'var(--figma-text)', borderColor: 'var(--figma-border)' }}
+        />
       </div>
+      <p className="mt-1.5 text-[10px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
+        Email's optional — only used if I want to follow up, never shown publicly.
+      </p>
+      <button
+        onClick={submit}
+        disabled={!name.trim()}
+        className="mt-2 w-full rounded-md px-3 py-1.5 text-[12px] font-semibold text-white disabled:opacity-40"
+        style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+      >
+        Join
+      </button>
     </div>
   )
 }
