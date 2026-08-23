@@ -39,7 +39,11 @@ function setCanonical(href: string) {
 export function useDocumentMeta({ title, description, image, path }: DocumentMeta) {
   useEffect(() => {
     const url = `${SITE_URL}${path}`
-    const resolvedImage = image ?? DEFAULT_IMAGE
+    // Case-study cover images are Vite asset imports, which resolve to
+    // root-relative build paths (e.g. "/assets/foo-hash.jpg") — social
+    // crawlers need an absolute URL, so resolve against the site origin.
+    // Already-absolute URLs (or the default) pass through unchanged.
+    const resolvedImage = new URL(image ?? DEFAULT_IMAGE, SITE_URL).href
     document.title = title
     setMetaByAttr('name', 'description', description)
     setMetaByAttr('property', 'og:title', title)
