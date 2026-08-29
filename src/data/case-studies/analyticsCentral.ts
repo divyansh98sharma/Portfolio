@@ -1,4 +1,6 @@
 import type { CaseStudyContent } from './types'
+import analyticsHero from '../../assets/case-studies/analytics-hero.jpg'
+import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
 
 export const analyticsCentral: CaseStudyContent = {
   id: 'case-study-1',
@@ -13,7 +15,7 @@ export const analyticsCentral: CaseStudyContent = {
   tags: ['Healthcare UX', 'Dashboard Design', 'Usability Testing', 'AI Integration'],
   prototypeUrl: 'https://www.figma.com/prototype/YOUR_PROTOTYPE_LINK',
   heroImage: {
-    src: 'https://images.unsplash.com/photo-1575388902449-6bca946ad549?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXNoYm9hcmQlMjBhbmFseXRpY3MlMjBpbnRlcmZhY2V8ZW58MXx8fHwxNzU3MDk4NDM2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    src: analyticsHero,
     alt: 'Healthcare analytics dashboard interface showing consolidated KPIs and metrics with clean modern design',
   },
   heroStat: { label: 'Time Saved', value: '30%' },
@@ -99,7 +101,7 @@ export const analyticsCentral: CaseStudyContent = {
     cite: '– Dr. Rodriguez, Physician',
   },
   researchImage: {
-    src: 'https://images.unsplash.com/photo-1563457012475-13cf086fd600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwdGVhbSUyMG1lZXRpbmclMjByZXNlYXJjaCUyMHNlc3Npb258ZW58MXx8fHwxNTc3MTAwNzcxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    src: healthcareTeamMeeting,
     alt: 'Healthcare team meeting and stakeholder research session',
   },
 

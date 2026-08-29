@@ -1,4 +1,6 @@
 import type { CaseStudyContent } from './types'
+import flowsheetsHero from '../../assets/case-studies/flowsheets-hero.jpg'
+import flowsheetsResearch from '../../assets/case-studies/flowsheets-research.jpg'
 
 export const flowsheets: CaseStudyContent = {
   id: 'case-study-3',
@@ -12,7 +14,7 @@ export const flowsheets: CaseStudyContent = {
     'A redesigned Flowsheets window that improved visibility of patient progress, streamlined documentation, and enhanced provider workflows through a modernized UI.',
   tags: ['Healthcare UX', 'Workflow Optimization', 'EHR Usability', 'Interface Redesign'],
   heroImage: {
-    src: 'https://images.unsplash.com/photo-1698306642516-9841228dcff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwcGF0aWVudCUyMG1vbml0b3JpbmclMjBmbG93c2hlZXQlMjBpbnRlcmZhY2UlMjBjbGluaWNhbCUyMGRhdGF8ZW58MXx8fHwxNzU4OTgwNzIwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    src: flowsheetsHero,
     alt: 'Healthcare flowsheets interface showing patient monitoring data with clinical design elements',
   },
   heroStat: { label: 'Efficiency', value: '+35%' },
@@ -98,7 +100,7 @@ export const flowsheets: CaseStudyContent = {
     cite: '– Healthcare Provider',
   },
   researchImage: {
-    src: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwdGVhbSUyMG1lZXRpbmclMjByZXNlYXJjaCUyMHNlc3Npb258ZW58MXx8fHwxNTc3MTAwNzcxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    src: flowsheetsResearch,
     alt: 'Healthcare team meeting and provider research session in clinical setting',
   },
 

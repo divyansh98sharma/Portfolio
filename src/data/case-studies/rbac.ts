@@ -1,4 +1,6 @@
 import type { CaseStudyContent } from './types'
+import rbacHero from '../../assets/case-studies/rbac-hero.jpg'
+import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
 
 export const rbac: CaseStudyContent = {
   id: 'case-study-2',
@@ -12,7 +14,7 @@ export const rbac: CaseStudyContent = {
     'A role-based access control system that increased admin efficiency by 40%, reduced access errors by 25%, and provided a scalable framework for enterprise-grade security and usability.',
   tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
   heroImage: {
-    src: 'https://images.unsplash.com/photo-1697382608786-bcf4c113b86e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMGFjY2VzcyUyMGNvbnRyb2wlMjBkYXNoYm9hcmQlMjBpbnRlcmZhY2V8ZW58MXx8fHwxNzU3MTc2OTYzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    src: rbacHero,
     alt: 'Security access control dashboard interface showing role management and permissions matrix with enterprise design',
   },
   heroStat: { label: 'Efficiency', value: '+40%' },
@@ -97,7 +99,7 @@ export const rbac: CaseStudyContent = {
     cite: '– Enterprise IT Admin',
   },
   researchImage: {
-    src: 'https://images.unsplash.com/photo-1563457012475-13cf086fd600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwdGVhbSUyMG1lZXRpbmclMjByZXNlYXJjaCUyMHNlc3Npb258ZW58MXx8fHwxNTc3MTAwNzcxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    src: healthcareTeamMeeting,
     alt: 'Enterprise team meeting and stakeholder research session',
   },
 

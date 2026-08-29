@@ -39,7 +39,7 @@ export function SharePopover() {
     <Popover>
       <PopoverTrigger asChild>
         <button
-          className="inline-flex items-center min-h-0 min-w-0 h-8 px-3.5 rounded-md text-[12px] font-semibold text-white transition-opacity hover:opacity-90"
+          className="inline-flex items-center min-h-0 min-w-0 h-8 px-2.5 sm:px-3.5 rounded-md text-[12px] font-semibold text-white transition-opacity hover:opacity-90"
           style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
           aria-label="Share this portfolio — contact options"
         >
