@@ -37,7 +37,7 @@ const navItems = [
 ]
 
 const pill =
-  'pointer-events-auto flex items-center gap-1 rounded-[14px] border p-1.5 shadow-lg'
+  'pointer-events-auto flex items-center gap-0.5 p-1 sm:gap-1 sm:p-1.5 rounded-[14px] border shadow-lg'
 const pillStyle = {
   backgroundColor: 'var(--figma-panel)',
   borderColor: 'var(--figma-border)',
@@ -66,7 +66,7 @@ export function FigmaTopBar() {
     'text-[12px] rounded-md px-3 py-2 cursor-pointer focus:bg-[color-mix(in_srgb,var(--figma-blue)_15%,transparent)] focus:text-[var(--figma-blue)]'
 
   return (
-    <header className="figma-chrome pointer-events-none fixed top-3 left-3 right-3 z-50 flex items-center justify-between gap-3">
+    <header className="figma-chrome pointer-events-none fixed top-2 left-2 right-2 z-50 flex items-center justify-between gap-1.5 sm:top-3 sm:left-3 sm:right-3 sm:gap-3">
       {/* Left pill: logo + file */}
       <div className={pill} style={pillStyle}>
         <button
@@ -88,7 +88,7 @@ export function FigmaTopBar() {
           <DropdownMenuTrigger asChild>
             <button
               data-tour="file-menu"
-              className="flex min-h-0 min-w-0 h-8 max-w-[46vw] items-center gap-1.5 rounded-lg px-2 text-[13px] font-medium transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] sm:max-w-none"
+              className="flex min-h-0 min-w-0 h-8 max-w-[34vw] items-center gap-1.5 rounded-lg px-2 text-[13px] font-medium transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] sm:max-w-none"
               style={inter}
               aria-label="File menu — navigate the portfolio"
             >
@@ -134,12 +134,12 @@ export function FigmaTopBar() {
         </div>
         <button
           onClick={startTour}
-          className="relative flex h-8 min-h-0 items-center gap-1.5 rounded-lg px-2.5 transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)]"
+          className="relative flex h-8 min-h-0 items-center gap-0 rounded-lg px-2 transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] sm:gap-1.5 sm:px-2.5"
           aria-label="Take a tour of this site"
           title="Take a tour"
         >
           <Compass className="h-4 w-4 flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
-          <span className="text-[11px] font-medium whitespace-nowrap" style={inter}>
+          <span className="hidden sm:inline text-[11px] font-medium whitespace-nowrap" style={inter}>
             Tour
           </span>
           {!hasSeenTour && (
