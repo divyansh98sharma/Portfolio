@@ -162,7 +162,4 @@ export const flowsheets: CaseStudyContent = {
     { title: 'Mobile Responsiveness', description: 'Optimized interface for tablet and mobile access during bedside care' },
     { title: 'Advanced Filtering', description: 'Enhanced search and filter capabilities for complex patient data queries' },
   ],
-
-  prev: { id: 'case-study-2', label: 'RBAC' },
-  next: { id: 'case-study-1', label: 'Analytics Central' },
 }

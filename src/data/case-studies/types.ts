@@ -1,5 +1,3 @@
-import type { Page } from '../../components/Router'
-
 export interface CaseStat {
   /** big number, e.g. "2024", "8", "95" */
   value: string
@@ -32,7 +30,8 @@ export interface CaseSolution {
 }
 
 export interface CaseStudyContent {
-  id: Page
+  /** must match this study's key in case-studies/index.ts's caseStudyContent map */
+  id: string
   fileName: string
   title: string
   /** short product name for cover art, e.g. "Analytics Central" */
@@ -76,7 +75,4 @@ export interface CaseStudyContent {
 
   keyLearnings: { title: string; description: string }[]
   futureOpportunities: { title: string; description: string }[]
-
-  prev: { id: Page; label: string }
-  next: { id: Page; label: string }
 }

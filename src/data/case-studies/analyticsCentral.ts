@@ -163,7 +163,4 @@ export const analyticsCentral: CaseStudyContent = {
     { title: 'Mobile Integration', description: 'Responsive dashboard for on-the-go use' },
     { title: 'Advanced Visualizations', description: 'Interactive storytelling for complex healthcare data' },
   ],
-
-  prev: { id: 'case-study-3', label: 'Flowsheets' },
-  next: { id: 'case-study-2', label: 'RBAC' },
 }

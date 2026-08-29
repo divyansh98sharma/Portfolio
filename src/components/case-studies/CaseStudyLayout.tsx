@@ -9,7 +9,19 @@ import { ImageWithFallback } from '../figma/ImageWithFallback'
 import { CoverArt } from '../CoverArt'
 import { getClientId } from '../../lib/identity'
 import { trackScrollDepth } from '../../lib/engagement'
-import type { CaseStudyContent } from '../../data/case-studies'
+import { caseStudyContent, type CaseStudyContent } from '../../data/case-studies'
+
+const caseStudyIds = Object.keys(caseStudyContent) as (keyof typeof caseStudyContent)[]
+
+/** Prev/next in the file-tree footer follow registration order in
+ *  case-studies/index.ts, wrapping around — no hand-authored links to
+ *  keep in sync when a study is added or reordered. */
+function adjacentStudies(id: string) {
+  const idx = caseStudyIds.indexOf(id as (typeof caseStudyIds)[number])
+  const prevId = caseStudyIds[(idx - 1 + caseStudyIds.length) % caseStudyIds.length]
+  const nextId = caseStudyIds[(idx + 1) % caseStudyIds.length]
+  return { prevId, prevStudy: caseStudyContent[prevId], nextId, nextStudy: caseStudyContent[nextId] }
+}
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -66,6 +78,7 @@ const PIN_COLORS = ['var(--figma-cursor-orange)', 'var(--figma-cursor-purple)', 
 
 export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
   const { navigateTo } = useRouter()
+  const { prevId, prevStudy, nextId, nextStudy } = adjacentStudies(data.id)
   const [showPrototype, setShowPrototype] = useState(false)
   const pad = 'px-6 py-14 sm:px-10 sm:py-16'
 
@@ -588,21 +601,21 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
 
         <div className="flex gap-3">
           <button
-            onClick={() => navigateTo(data.prev.id)}
+            onClick={() => navigateTo(prevId)}
             className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--cs-accent)] hover:border-[var(--cs-accent)]"
             style={{ borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
-            aria-label={`View ${data.prev.label} case study`}
+            aria-label={`View ${prevStudy.product} case study`}
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            {data.prev.label}
+            {prevStudy.product}
           </button>
           <button
-            onClick={() => navigateTo(data.next.id)}
+            onClick={() => navigateTo(nextId)}
             className="flex min-h-0 min-w-0 items-center gap-2 rounded-md border px-4 py-2.5 text-[12px] font-medium transition-colors hover:text-[var(--cs-accent)] hover:border-[var(--cs-accent)]"
             style={{ borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
-            aria-label={`View ${data.next.label} case study`}
+            aria-label={`View ${nextStudy.product} case study`}
           >
-            {data.next.label}
+            {nextStudy.product}
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
         </div>
