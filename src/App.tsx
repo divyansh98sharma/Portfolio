@@ -41,6 +41,8 @@ const CommentTool = lazy(() =>
 const NameCapturePrompt = lazy(() =>
   import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt }))
 )
+// Same lazy-loading reasoning as NameCapturePrompt — shown on every device.
+const AiChat = lazy(() => import('./components/chrome/AiChat').then((m) => ({ default: m.AiChat })))
 const StickerTool = lazy(() =>
   import('./components/chrome/tools/StickerTool').then((m) => ({ default: m.StickerTool }))
 )
@@ -147,6 +149,9 @@ function AppContent() {
       <BootLoader />
       <Suspense fallback={null}>
         <NameCapturePrompt />
+      </Suspense>
+      <Suspense fallback={null}>
+        <AiChat />
       </Suspense>
     </div>
   )
