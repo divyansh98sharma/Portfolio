@@ -14,6 +14,20 @@ import type { CaseStudyContent } from '../../data/case-studies'
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
 
+// Every existing case study happens to have 5 design phases, so a fixed
+// lg:grid-cols-5 always looked right — but with fewer phases it leaves an
+// empty column-width gap instead of filling the row. Keyed by literal
+// class strings (not built via interpolation) so Tailwind's build-time
+// scanner still picks them up.
+const PROCESS_LG_COLS: Record<number, string> = {
+  1: 'lg:grid-cols-1',
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
+  5: 'lg:grid-cols-5',
+  6: 'lg:grid-cols-6',
+}
+
 /** Figma-style redline measurement bar: value + annotated progress line */
 function SpecBar({ progress, color = 'var(--cs-accent)' }: { progress: number; color?: string }) {
   return (
@@ -445,7 +459,9 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
           <SectionHeading id="cs-process-heading" label="Design Process" title="How we got there." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.processIntro}</p>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div
+            className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${PROCESS_LG_COLS[data.designPhases.length] ?? 'lg:grid-cols-5'}`}
+          >
             {data.designPhases.map((phase, i) => (
               <div key={phase.title} className="relative">
                 <span className="mb-1.5 flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground" style={inter} aria-hidden="true">
@@ -523,7 +539,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
             <div className="grid gap-5 md:grid-cols-3">
               {data.feedback.map((f, i) => (
                 <div key={f.cite} className="flex items-start gap-3">
-                  <Pin initials={f.cite.replace(/^– /, '').slice(0, 1).toUpperCase() + (i + 1)} color={PIN_COLORS[i % PIN_COLORS.length]} />
+                  <Pin initials={f.cite.replace(/^[–—]\s*/, '').slice(0, 1).toUpperCase() + (i + 1)} color={PIN_COLORS[i % PIN_COLORS.length]} />
                   <div className="flex-1 rounded-xl rounded-tl-sm border border-border bg-card p-5">
                     <p className="text-sm italic leading-relaxed text-foreground">{f.quote}</p>
                     <cite className="mt-2 block text-[12px] font-medium not-italic text-muted-foreground" style={inter}>{f.cite}</cite>

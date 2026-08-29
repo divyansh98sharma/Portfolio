@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
-export type Page = 'home' | 'case-study-1' | 'case-study-2' | 'case-study-3' | 'all-case-studies'
+export type Page = 'home' | 'case-study-1' | 'case-study-2' | 'case-study-3' | 'case-study-4' | 'all-case-studies'
 
 type RouterContextType = {
   currentPage: Page
@@ -15,6 +15,7 @@ function getPageFromPath(path: string): Page {
     case 'case-study-1': return 'case-study-1'
     case 'case-study-2': return 'case-study-2'
     case 'case-study-3': return 'case-study-3'
+    case 'case-study-4': return 'case-study-4'
     case 'all-case-studies': return 'all-case-studies'
     default: return 'home'
   }

@@ -163,5 +163,5 @@ export const rbac: CaseStudyContent = {
   ],
 
   prev: { id: 'case-study-1', label: 'Analytics Central' },
-  next: { id: 'case-study-3', label: 'Flowsheets' },
+  next: { id: 'case-study-4', label: 'File Manager' },
 }
