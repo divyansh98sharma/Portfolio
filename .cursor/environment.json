@@ -1,0 +1,17 @@
+{
+  "name": "UX Design Portfolio",
+  "install": "npm ci && npm --prefix functions ci",
+  "terminals": [
+    {
+      "name": "dev-server",
+      "command": "npm run dev",
+      "description": "Vite dev server for the portfolio site, served on http://localhost:3000."
+    }
+  ],
+  "ports": [
+    {
+      "name": "vite-dev-server",
+      "port": 3000
+    }
+  ]
+}
