@@ -29,7 +29,6 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (consent !== 'denied') {
       void import('../../lib/analytics').then((m) => m.initAnalytics())
-      void import('../../lib/contentsquare').then((m) => m.initContentsquare())
     }
   }, [consent])
 
