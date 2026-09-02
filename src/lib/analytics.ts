@@ -3,9 +3,9 @@ import { app } from './firebase'
 
 let instance: Analytics | null = null
 
-/** Only ever called after the visitor has actively opted in — never on
- *  page load. Consumers must import this module dynamically so the
- *  Analytics SDK stays out of the main bundle until consent is granted. */
+/** Called on page load unless the visitor has actively opted out. Consumers
+ *  must import this module dynamically so the Analytics SDK stays out of the
+ *  main bundle until collection actually starts. */
 export async function initAnalytics(): Promise<void> {
   if (instance) return
   try {

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@contentsquare/tag-sdk": "^1.1.0",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/montserrat": "^5.3.0",
     "@radix-ui/react-accordion": "^1.2.3",
