@@ -14,16 +14,16 @@ function readConsent(): Consent | null {
   }
 }
 
-/** Real opt-in gate for Google Analytics — nothing in src/lib/analytics.ts
- *  runs until a visitor actively accepts. The banner itself shows on every
- *  page load (not just the first), so consent stays visible and
- *  revisitable every visit rather than needing a "reopen" link. */
+/** Opt-out gate for Google Analytics — collection is on by default and
+ *  starts on page load unless the visitor has actively declined. The banner
+ *  itself shows on every page load (not just the first), so consent stays
+ *  visible and revisitable every visit rather than needing a "reopen" link. */
 export function ConsentProvider({ children }: { children: ReactNode }) {
   const [consent, setConsent] = useState<Consent | null>(() => readConsent())
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    if (consent === 'granted') {
+    if (consent !== 'denied') {
       void import('../../lib/analytics').then((m) => m.initAnalytics())
     }
   }, [consent])
@@ -61,12 +61,12 @@ function CookieBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline
       aria-label="Cookie preferences"
     >
       <p className="text-[13px] font-semibold" style={inter}>
-        🍪 Analytics, only if you say yes
+        🍪 Analytics, on by default
       </p>
       <p className="mt-1.5 text-[11px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
-        Google Analytics is off by default. If you accept, it helps me see which pages get read — no
-        ads, no ad personalization, nothing sold. You'll see this again next visit, so you can
-        change your mind anytime.
+        Google Analytics is on by default — it helps me see which pages get read, with no ads, no ad
+        personalization, and nothing sold. You can decline to opt out anytime. You'll see this again
+        next visit, so you can change your mind whenever you like.
       </p>
       <div className="mt-3 flex items-center justify-end gap-2">
         <button
