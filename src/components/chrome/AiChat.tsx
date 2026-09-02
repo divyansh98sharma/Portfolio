@@ -8,7 +8,7 @@ const inter = { fontFamily: "'Inter', sans-serif" }
 // same way as send-contact-email — see Contact.tsx. Verify this URL against
 // the actual deployed service before shipping; Cloud Run derives it from the
 // function name, so it won't match until the function has been deployed.
-const CHAT_ENDPOINT = 'https://chatwithportfolio-45481375965.us-central1.run.app'
+const CHAT_ENDPOINT = 'https://chat-with-portfolio-45481375965.us-central1.run.app'
 
 const GREETING = "Hi! I'm here to answer questions about Divyansh's work, background, and case studies. What would you like to know?"
 

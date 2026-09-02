@@ -172,7 +172,7 @@ http('sendContactEmail', sendContactEmail)
 
 const GCP_PROJECT_ID = process.env.GCP_PROJECT || process.env.GOOGLE_CLOUD_PROJECT || 'divyansh-portfolio-2a903'
 const VERTEX_LOCATION = 'us-central1'
-const CHAT_MODEL = 'gemini-2.0-flash-001'
+const CHAT_MODEL = 'gemini-2.5-flash'
 
 const CHAT_RATE_LIMIT_WINDOW_MS = 60 * 60 * 1_000
 const CHAT_RATE_LIMIT_MAX = 20
