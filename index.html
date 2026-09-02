@@ -3,6 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Contentsquare analytics tag. Loaded from the static <head> (not React)
+         so it is present in the page source and starts collecting immediately.
+         On by default; skipped only when the visitor has opted out via the
+         cookie banner (analytics-consent="denied" in localStorage). -->
+    <script type="text/javascript">
+      ;(function () {
+        try {
+          if (localStorage.getItem('analytics-consent') === 'denied') return
+        } catch (e) {
+          /* localStorage unavailable — default to loading */
+        }
+        window._uxa = window._uxa || []
+        window._uxa.push(['setPath', window.location.pathname + window.location.hash.replace('#', '?__')])
+        var mt = document.createElement('script')
+        mt.type = 'text/javascript'
+        mt.async = true
+        mt.src = '//t.contentsquare.net/uxa/ed2abf2b5708c.js'
+        document.getElementsByTagName('head')[0].appendChild(mt)
+      })()
+    </script>
     <title>Divyansh Sharma - UX Designer Portfolio</title>
     <meta name="description" content="UX Designer portfolio of Divyansh Sharma. Crafting meaningful digital experiences through research-driven design, turning complex problems into intuitive solutions." />
     <meta name="author" content="Divyansh Sharma" />
