@@ -1,10 +1,25 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useRouter } from '../Router'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 const CONSENT_KEY = 'analytics-consent'
 
 type Consent = 'granted' | 'denied'
+
+type ConsentUi = { visible: boolean; accept: () => void; decline: () => void }
+
+const ConsentUiContext = createContext<ConsentUi>({
+  visible: false,
+  accept: () => {},
+  decline: () => {},
+})
+
+/** Lets the layout render the cookie banner inside a shared bottom-left stack
+ *  (alongside the name-capture prompt) so the two reflow instead of overlapping
+ *  or stranding each other when one is dismissed. */
+export function useConsentUi(): ConsentUi {
+  return useContext(ConsentUiContext)
+}
 
 function readConsent(): Consent | null {
   try {
@@ -60,17 +75,18 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   }, [persist])
 
   return (
-    <>
+    <ConsentUiContext.Provider value={{ visible, accept, decline }}>
       {children}
-      {visible && <CookieBanner onAccept={accept} onDecline={decline} />}
-    </>
+    </ConsentUiContext.Provider>
   )
 }
 
-function CookieBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline: () => void }) {
+/** Presentational banner only — positioning is owned by the shared bottom-left
+ *  stack in App.tsx, which renders this when `useConsentUi().visible` is true. */
+export function CookieBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline: () => void }) {
   return (
     <div
-      className="figma-chrome fixed bottom-4 left-4 z-[60] w-[min(320px,calc(100vw-32px))] rounded-xl border p-4 shadow-xl"
+      className="figma-chrome pointer-events-auto w-[min(320px,calc(100vw-32px))] rounded-xl border p-4 shadow-xl"
       style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
       role="dialog"
       aria-label="Cookie preferences"

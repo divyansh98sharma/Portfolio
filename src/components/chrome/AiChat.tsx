@@ -19,10 +19,10 @@ interface ChatTurn {
 
 type Status = 'idle' | 'sending' | 'error'
 
-/** Floating chat trigger (bottom-left, mirroring NameCapturePrompt's
- *  bottom-right placement) that opens a small Q&A panel grounded in
- *  Divyansh's real bio/case-study facts — see functions/index.js's
- *  PORTFOLIO_CONTEXT for what it actually knows. */
+/** Floating chat trigger, bottom-right, sitting just above the Figma status
+ *  pill (StatusBar). Opens a small Q&A panel grounded in Divyansh's real
+ *  bio/case-study facts — see functions/index.js's PORTFOLIO_CONTEXT for what
+ *  it actually knows. */
 export function AiChat() {
   const [open, setOpen] = useState(false)
   const [turns, setTurns] = useState<ChatTurn[]>([])
@@ -66,7 +66,7 @@ export function AiChat() {
     <>
       {open && (
         <div
-          className="figma-chrome fixed bottom-80 left-4 z-[60] flex w-80 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border shadow-xl"
+          className="figma-chrome fixed bottom-32 right-4 z-[60] flex w-80 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border shadow-xl"
           style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
           role="dialog"
           aria-label="Ask about Divyansh"
@@ -131,7 +131,7 @@ export function AiChat() {
 
       <button
         onClick={() => setOpen((v) => !v)}
-        className="figma-chrome pointer-events-auto fixed bottom-64 left-4 z-[60] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg transition-transform hover:scale-105"
+        className="figma-chrome pointer-events-auto fixed bottom-16 right-4 z-[60] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg transition-transform hover:scale-105"
         style={{ backgroundColor: 'var(--figma-blue)', borderColor: 'var(--figma-border)' }}
         aria-label={open ? 'Close chat' : 'Ask about Divyansh'}
         title="Ask about Divyansh"
