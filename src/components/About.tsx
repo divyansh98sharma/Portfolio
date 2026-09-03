@@ -123,15 +123,6 @@ export function About() {
                 <ArrowRight className="h-4 w-4 ml-2" />
               </a>
               <a
-                href="https://www.linkedin.com/in/divyansh98sharma"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="no-underline inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 448 512" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.52 0 53.4 0 23.27 24.09-1.3 53.79-1.3c29.32 0 53.79 24.57 53.79 54.7 0 30.12-24.47 54.7-53.79 54.7zM447.9 448h-92.1V304.1c0-34.3-12.3-57.7-43.1-57.7-23.5 0-37.6 15.8-43.7 31.1-2.2 5.2-2.8 12.4-2.8 19.7V448h-92.2s1.2-270.1 0-299.1h92.1v42.4c12.2-18.9 34.1-45.8 83.1-45.8 60.7 0 105.8 39.7 105.8 125.1V448z"/></svg>
-                Connect on LinkedIn
-              </a>
-              <a
                 href="/resume.pdf"
                 download="Divyansh-Sharma-Resume.pdf"
                 onClick={() => {
