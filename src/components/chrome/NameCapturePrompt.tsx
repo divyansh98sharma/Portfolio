@@ -56,7 +56,7 @@ export function NameCapturePrompt() {
 
   return (
     <div
-      className="figma-chrome pointer-events-auto w-72 max-w-[calc(100vw-2rem)] rounded-xl border p-4 shadow-xl"
+      className="figma-chrome pointer-events-auto w-[min(320px,calc(100vw-32px))] rounded-xl border p-4 shadow-xl"
       style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
       role="dialog"
       aria-label="Add your name"
