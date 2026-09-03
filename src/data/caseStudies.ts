@@ -89,5 +89,18 @@ export const caseStudies: CaseStudy[] = [
     year: '2026',
     fileName: 'design-system.fig',
     status: 'coming-soon'
+  },
+  {
+    title: 'Design Resources & UI Kit',
+    product: 'UI Kit',
+    company: 'Collabrix',
+    accent: '#ffa629',
+    description: 'A downloadable library of Figma UI components, templates, and design-system building blocks for teams and solo designers. Currently in the works.',
+    image: '',
+    tags: ['Figma', 'UI Kit', 'In Design Phase'],
+    impact: 'Coming soon',
+    year: '2026',
+    fileName: 'ui-kit.fig',
+    status: 'coming-soon'
   }
 ]
