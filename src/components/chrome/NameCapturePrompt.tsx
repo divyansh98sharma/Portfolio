@@ -61,16 +61,18 @@ export function NameCapturePrompt() {
       role="dialog"
       aria-label="Add your name"
     >
-      <button
-        onClick={dismiss}
-        className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)]"
-        aria-label="Dismiss"
-      >
-        <X className="h-3.5 w-3.5" style={{ color: 'var(--figma-text-dim)' }} />
-      </button>
-      <p className="pr-5 text-[13px] font-semibold" style={inter}>
-        👋 What should we call you?
-      </p>
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-[13px] font-semibold" style={inter}>
+          👋 What should we call you?
+        </p>
+        <button
+          onClick={dismiss}
+          className="-mr-1 -mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)]"
+          aria-label="Dismiss"
+        >
+          <X className="h-3.5 w-3.5" style={{ color: 'var(--figma-text-dim)' }} />
+        </button>
+      </div>
       <p className="mt-1 text-[11px] leading-relaxed" style={{ ...inter, color: 'var(--figma-text-dim)' }}>
         Join the live visitor stack up top — no account needed.
       </p>
