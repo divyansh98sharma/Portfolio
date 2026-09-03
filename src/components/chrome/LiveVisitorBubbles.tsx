@@ -1,22 +1,36 @@
 import { useEffect, useState } from 'react'
 import { Ghost } from 'lucide-react'
-import { subscribeToVisitors, type VisitorDoc } from '../../lib/visitors'
+import { subscribeToVisitors, ONLINE_WINDOW_MS, type VisitorDoc } from '../../lib/visitors'
 import { GHOST_NAME, colorForName, initialsForName } from '../../lib/identity'
 
 const MAX_SHOWN = 6
 
-/** The real, live visitor stack — every current visitor, named or not.
- *  Unnamed visitors render as a generic gray Ghost, matching Figma's
- *  placeholder-until-you-join-in behavior. */
+/** The real, live visitor stack — only people currently on the site.
+ *  Each visitor heartbeats while their tab is open; here we keep just the
+ *  ones seen within ONLINE_WINDOW_MS and re-check on a timer so they drop
+ *  off shortly after they leave (nothing renders when nobody's around).
+ *  Unnamed visitors render as a generic gray Ghost, named ones as colored
+ *  initials — matching Figma's placeholder-until-you-join-in behavior. */
 export function LiveVisitorBubbles() {
   const [visitors, setVisitors] = useState<VisitorDoc[]>([])
+  const [now, setNow] = useState(() => Date.now())
 
   useEffect(() => subscribeToVisitors(setVisitors), [])
 
-  if (visitors.length === 0) return null
+  // Re-evaluate the online window periodically so visitors who stop
+  // heartbeating (closed/backgrounded tabs) fade out even without a new
+  // Firestore snapshot.
+  useEffect(() => {
+    const t = window.setInterval(() => setNow(Date.now()), 15_000)
+    return () => window.clearInterval(t)
+  }, [])
 
-  const shown = visitors.slice(0, MAX_SHOWN)
-  const extra = visitors.length - shown.length
+  const online = visitors.filter((v) => now - v.lastSeenMs < ONLINE_WINDOW_MS)
+
+  if (online.length === 0) return null
+
+  const shown = online.slice(0, MAX_SHOWN)
+  const extra = online.length - shown.length
 
   return (
     <>
