@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
-import { GHOST_NAME, getClientId, getStoredName, hasBeenPrompted, markPrompted, setStoredName } from '../../lib/identity'
-import { upsertVisitor } from '../../lib/visitors'
+import { getClientId, getStoredName, hasBeenPrompted, markPrompted, setStoredName } from '../../lib/identity'
+import { startPresenceHeartbeat, upsertVisitor } from '../../lib/visitors'
 import { isValidEmail, submitLead } from '../../lib/leads'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -11,26 +11,23 @@ const SHOW_DELAY_MS = 2500
  *  joining the real, live visitor avatar stack in the top bar — with an
  *  optional email so they can be followed up with. Skippable, never shown
  *  twice, and a no-op if they've already left a name via the comment tool
- *  (they're upserted as a visitor silently instead). Visitors with no name
- *  yet are upserted as GHOST_NAME on every mount, so they show up live in
- *  the stack (and keep refreshing lastSeen) until they join. The email, if
- *  given, is write-only — it never joins the public visitor stack. */
+ *  (they're upserted as a visitor silently instead). Also owns the presence
+ *  heartbeat that keeps this browser in the live stack (as a ghost until
+ *  they join, then as a named avatar). The email, if given, is write-only —
+ *  it never joins the public visitor stack. */
 export function NameCapturePrompt() {
   const [visible, setVisible] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
 
   useEffect(() => {
-    const stored = getStoredName()
-    const clientId = getClientId()
-    if (stored) {
-      upsertVisitor({ clientId, name: stored }).catch(() => {})
-      return
-    }
-    upsertVisitor({ clientId, name: GHOST_NAME }).catch(() => {})
-    if (hasBeenPrompted()) return
+    const stopHeartbeat = startPresenceHeartbeat()
+    if (getStoredName() || hasBeenPrompted()) return stopHeartbeat
     const timer = window.setTimeout(() => setVisible(true), SHOW_DELAY_MS)
-    return () => window.clearTimeout(timer)
+    return () => {
+      window.clearTimeout(timer)
+      stopHeartbeat()
+    }
   }, [])
 
   const dismiss = () => {
