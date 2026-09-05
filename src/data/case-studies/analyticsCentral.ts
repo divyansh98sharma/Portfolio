@@ -1,5 +1,4 @@
 import type { CaseStudyContent } from './types'
-import analyticsHero from '../../assets/case-studies/analytics-hero.jpg'
 import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
 import healthcareTeamMeetingWebp from '../../assets/case-studies/healthcare-team-meeting.webp'
 
@@ -12,12 +11,8 @@ export const analyticsCentral: CaseStudyContent = {
   accent: '#0d99ff',
   subtitle: 'Centralizing healthcare KPIs through user-centered design.',
   description:
-    'A comprehensive dashboard solution that reduced navigation time by 30% and improved clinician satisfaction by 25% through AI-powered search, customizable widgets, and role-based personalization.',
+    'A centralized clinical dashboard that consolidated fragmented KPIs into role-aware views, with AI-assisted search and customizable widgets for doctors, nurses, and administrators.',
   tags: ['Healthcare UX', 'Dashboard Design', 'Usability Testing', 'AI Integration'],
-  heroImage: {
-    src: analyticsHero,
-    alt: 'Healthcare analytics dashboard interface showing consolidated KPIs and metrics with clean modern design',
-  },
   heroStat: { label: 'Time Saved', value: '30%' },
 
   contextParagraphs: [
@@ -144,12 +139,13 @@ export const analyticsCentral: CaseStudyContent = {
     },
   ],
 
-  impactIntro: 'The new dashboard was validated through pilot testing and analytics tracking:',
-  impactMetrics: [
-    { value: '30%', label: 'reduction in navigation time' },
-    { value: '+25%', label: 'clinician satisfaction' },
-    { value: '95%', label: 'adoption rate across the pilot group' },
-    { value: '8/10', label: 'recommendation score from users' },
+  impactIntro: 'What changed for the people using it:',
+  impactMetrics: [],
+  whatChanged: [
+    'Each role saw only the most relevant KPIs, instead of one interface for everyone',
+    'AI search became the most frequently used entry point across roles',
+    'Streamlined workflows by reducing navigation overhead between modules',
+    'Responsive layout for use away from a desk',
   ],
   feedbackHeading: 'User Feedback',
   feedback: [

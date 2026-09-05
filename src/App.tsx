@@ -76,9 +76,9 @@ function AppContent() {
         }
       : currentPage === 'about'
       ? {
-          title: 'About Divyansh Sharma — Healthcare & Enterprise UX Designer',
+          title: 'About — Divyansh Sharma | Healthcare & Enterprise UX Designer',
           description:
-            'Divyansh Sharma is a senior UX designer at eClinicalWorks with 5+ years across healthcare, AI, and enterprise software — previously at Peak.ai (now part of UiPath).',
+            'Senior UX designer working on EHR and enterprise software at eClinicalWorks. Computer science background, research-first practice, design systems. Based in India.',
           path: '/about',
         }
       : summary

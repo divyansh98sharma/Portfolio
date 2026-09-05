@@ -531,14 +531,27 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
           <SectionHeading id="cs-impact-heading" label="Measurable Impact" title="The results." />
           <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{data.impactIntro}</p>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {data.impactMetrics.map((m, i) => (
-              <div key={m.label} className="rounded-xl border border-border bg-card p-6 text-center">
-                <div className="text-3xl font-bold" style={{ ...montserrat, color: PIN_COLORS[i % PIN_COLORS.length] }}>{m.value}</div>
-                <p className="mt-2 text-sm text-muted-foreground">{m.label}</p>
-              </div>
-            ))}
-          </div>
+          {data.whatChanged && data.whatChanged.length > 0 ? (
+            <ul className="max-w-3xl space-y-3" aria-label="What changed">
+              {data.whatChanged.map((w) => (
+                <li key={w} className="flex items-start gap-3 rounded-xl border border-border bg-card p-5">
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'color-mix(in srgb, var(--cs-accent) 12%, transparent)' }}>
+                    <Check className="h-3 w-3" style={{ color: 'var(--cs-accent)' }} aria-hidden="true" />
+                  </span>
+                  <span className="text-sm leading-relaxed text-foreground">{w}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {data.impactMetrics.map((m, i) => (
+                <div key={m.label} className="rounded-xl border border-border bg-card p-6 text-center">
+                  <div className="text-3xl font-bold" style={{ ...montserrat, color: PIN_COLORS[i % PIN_COLORS.length] }}>{m.value}</div>
+                  <p className="mt-2 text-sm text-muted-foreground">{m.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Feedback as comment threads */}
           <div className="mt-12">

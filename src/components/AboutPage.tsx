@@ -49,15 +49,18 @@ export function AboutPage() {
               className="leading-[1.1] tracking-tight"
               style={{ ...montserrat, fontWeight: 800, fontSize: 'clamp(2rem, 5vw, 3rem)' }}
             >
-              Divyansh Sharma — a UX designer who
-              <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}> started with people</span>, not pixels.
+              Divyansh Sharma — healthcare and enterprise
+              <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}> UX designer</span>.
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              I'm a senior UX designer with 5+ years designing user-centered products across
-              healthcare, AI platforms, and enterprise software. My background is in psychology —
-              which is really just a long way of saying I got interested in why people do what they
-              do before I ever got interested in interfaces. That order still shapes how I work:
-              research first, pixels later.
+              I design healthcare and enterprise software — EHR workflows, AI platforms, and the kind
+              of dense, expert tools people use for eight hours a day. Based in India, working with US
+              teams.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+              I came to design from computer science. That shows up in how I work: I design systems
+              rather than screens, I think about implementation while I'm still in Figma, and I've
+              never handed engineering something I couldn't discuss at the component level.
             </p>
           </header>
 
@@ -67,16 +70,17 @@ export function AboutPage() {
                 What I'm doing now
               </h2>
               <p>
-                At <strong className="text-foreground">eClinicalWorks</strong> — one of the largest
-                ambulatory EHR platforms in the US — I work as a UI/UX designer and usability
-                specialist on clinical software used by healthcare providers every day. That means
-                designing for high-stakes, high-density workflows where a confusing screen isn't a
-                bounce, it's a clinician losing time with a patient. My work there spans a
-                centralized analytics dashboard that cut navigation time ~30% and lifted clinician
-                satisfaction ~25%, a Flowsheets redesign that streamlined clinical documentation, and
-                a token-based design system that improved consistency ~40% and reduced development
-                time ~15%. I also mentor 3–5 designers and lead design critiques and quality reviews
-                across the team.
+                At <strong className="text-foreground">eClinicalWorks</strong>, one of the largest
+                ambulatory EHR platforms in the US, I design clinical software used by healthcare
+                providers every day. High-stakes, high-density workflows where a confusing screen
+                isn't a bounce — it's a clinician losing time with a patient.
+              </p>
+              <p className="mt-3">
+                Recent work: a centralized analytics dashboard that consolidated fragmented KPIs into
+                role-aware views with AI-assisted search; a Flowsheets redesign that streamlined
+                clinical documentation and improved visibility of patient progress; and a token-based
+                design system built to keep the product suite consistent and speed up delivery. I
+                also mentor designers on the team and lead design critiques and quality reviews.
               </p>
             </section>
 
@@ -86,12 +90,11 @@ export function AboutPage() {
               </h2>
               <p>
                 At <strong className="text-foreground">Peak.ai</strong> — an enterprise AI company
-                since acquired by <strong className="text-foreground">UiPath</strong> — I was an
-                associate product designer working on features like Segment Explorer, Product
-                Explorer, and Merchandiser, and I built a Storybook-backed component library that
-                raised design consistency ~30% across the platform. It's where I learned to design
-                complex, data-heavy tools for users who are experts in their domain and impatient
-                with friction.
+                since acquired by <strong className="text-foreground">UiPath</strong> — I worked on
+                Segment Explorer, Product Explorer, and Merchandiser, and built a Storybook-backed
+                component library that raised design consistency across the platform. It's where I
+                learned to design data-heavy tools for users who are experts in their domain and
+                impatient with friction.
               </p>
             </section>
 
@@ -100,23 +103,32 @@ export function AboutPage() {
                 How I work
               </h2>
               <p>
-                I believe the best design is invisible — it solves problems so cleanly that people
-                never notice the complexity underneath. In practice that looks like: talking to real
-                users, mapping the actual workflow (not the idealized one), prototyping fast,
-                usability-testing honestly, and building systems rather than one-off screens so the
-                work scales past me. I care as much about the handoff and the shipped result as the
-                Figma file.
+                I map the workflow people actually follow, not the one the org chart says they
+                follow. That gap is where most enterprise UX problems live.
+              </p>
+              <p className="mt-3">
+                In practice: talk to real users, prototype fast, usability-test honestly, and build
+                systems rather than one-off screens so the work scales past me. I care as much about
+                the handoff and the shipped result as the Figma file — a design engineering can't
+                implement cleanly isn't finished.
               </p>
             </section>
 
             <section>
               <h2 className="mb-3 text-xl tracking-tight text-foreground" style={{ ...montserrat, fontWeight: 700 }}>
-                Outside the work
+                Get in touch
               </h2>
               <p>
-                I mentor early-career UX designers on craft and career growth. If you're a team
-                building something in healthcare, enterprise, or AI — or a designer trying to level
-                up — I'd genuinely like to hear from you.
+                I mentor early-career designers on craft and career growth. If you're building
+                something in healthcare, enterprise, or AI — or you're a designer trying to level up —
+                email me at{' '}
+                <a
+                  href="mailto:work.divyansh@gmail.com"
+                  className="font-medium text-foreground underline decoration-muted-foreground/40 underline-offset-2 hover:decoration-foreground"
+                >
+                  work.divyansh@gmail.com
+                </a>
+                .
               </p>
             </section>
           </div>
@@ -132,7 +144,7 @@ export function AboutPage() {
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
             <a
-              href="mailto:work.divyanshsharma@gmail.com"
+              href="mailto:work.divyansh@gmail.com"
               className="no-underline inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <Mail className="h-4 w-4" aria-hidden="true" />

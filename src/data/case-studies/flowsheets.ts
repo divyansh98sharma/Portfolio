@@ -1,5 +1,4 @@
 import type { CaseStudyContent } from './types'
-import flowsheetsHero from '../../assets/case-studies/flowsheets-hero.jpg'
 import flowsheetsResearch from '../../assets/case-studies/flowsheets-research.jpg'
 import flowsheetsResearchWebp from '../../assets/case-studies/flowsheets-research.webp'
 
@@ -14,10 +13,6 @@ export const flowsheets: CaseStudyContent = {
   description:
     'A redesigned Flowsheets window that improved visibility of patient progress, streamlined documentation, and enhanced provider workflows through a modernized UI.',
   tags: ['Healthcare UX', 'Workflow Optimization', 'EHR Usability', 'Interface Redesign'],
-  heroImage: {
-    src: flowsheetsHero,
-    alt: 'Healthcare flowsheets interface showing patient monitoring data with clinical design elements',
-  },
   heroStat: { label: 'Efficiency', value: '+35%' },
 
   contextParagraphs: [

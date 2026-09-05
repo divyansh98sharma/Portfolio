@@ -1,6 +1,4 @@
 import type { Page } from '../components/Router'
-import analyticsHero from '../assets/case-studies/analytics-hero.jpg'
-import rbacHero from '../assets/case-studies/rbac-hero.jpg'
 import flowsheetsCover from '../assets/case-studies/flowsheets-cover.jpg'
 
 export interface CaseStudy {
@@ -14,7 +12,9 @@ export interface CaseStudy {
   /** per-project identity color used in cover art and accents */
   accent: string
   description: string
-  image: string
+  /** optional client-side og:image (Vite asset import); falls back to the
+   *  default og-image.png when omitted */
+  image?: string
   tags: string[]
   impact: string
   year: string
@@ -31,10 +31,9 @@ export const caseStudies: CaseStudy[] = [
     product: 'Analytics Central',
     company: 'eClinicalWorks',
     accent: '#0d99ff',
-    description: 'A centralized dashboard that cut navigation time by 30% and raised clinician satisfaction by 25% through AI search, widgets, and role-based views.',
-    image: analyticsHero,
+    description: 'A centralized clinical dashboard that consolidated fragmented KPIs into role-aware views, with AI-assisted search and customizable widgets for doctors, nurses, and administrators.',
     tags: ['Healthcare UX', 'Dashboard Design', 'Usability Testing', 'AI Integration'],
-    impact: '30% reduction in navigation time, 25% improvement in clinician satisfaction',
+    impact: 'Role-aware KPI views with AI-assisted search',
     year: '2024',
     fileName: 'analytics-central.fig'
   },
@@ -44,10 +43,9 @@ export const caseStudies: CaseStudy[] = [
     product: 'RBAC 2.0',
     company: 'Peak.ai',
     accent: '#9747ff',
-    description: 'Scalable RBAC framework that improved efficiency 40% and cut errors 25% for enterprise security.',
-    image: rbacHero,
+    description: 'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
     tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
-    impact: '40% increase in admin efficiency, 25% reduction in access errors',
+    impact: 'Template-driven roles replacing a ~48-click manual setup',
     year: '2022',
     fileName: 'rbac-access-control.fig'
   },
