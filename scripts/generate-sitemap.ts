@@ -37,6 +37,7 @@ async function main() {
 
   const urls: { loc: string; lastmod: string; priority: string }[] = [
     { loc: '/', lastmod: gitLastmod('src/components/HomePage.tsx'), priority: '1.0' },
+    { loc: '/about', lastmod: gitLastmod('src/components/AboutPage.tsx'), priority: '0.8' },
     { loc: '/all-case-studies', lastmod: gitLastmod('src/components/AllCaseStudies.tsx'), priority: '0.7' },
     ...caseStudies
       .filter((s: { id?: string }) => !!s.id)

@@ -16,8 +16,14 @@ const SITE_URL = 'https://divyanshsharma.work'
 // Per-route title/description. Route → case-study mapping matches the real
 // registry: case-study-1 = Analytics Central, case-study-2 = RBAC,
 // case-study-3 = Flowsheets.
-interface RouteMeta { title: string; description: string; contentId?: string }
+interface RouteMeta { title: string; description: string; contentId?: string; about?: boolean }
 const ROUTES: Record<string, RouteMeta> = {
+  '/about': {
+    title: 'About Divyansh Sharma — Healthcare & Enterprise UX Designer',
+    description:
+      'Divyansh Sharma is a senior UX designer at eClinicalWorks with 5+ years across healthcare, AI, and enterprise software — ex-Peak.ai, ex-UiPath, Northeastern University.',
+    about: true,
+  },
   '/all-case-studies': {
     title: 'Case Studies · Divyansh Sharma — UX Designer',
     description: 'Browse every UX case study — healthcare dashboards, clinical flowsheets, and enterprise access control.',
@@ -123,6 +129,56 @@ function articleJsonLd(c: Content, url: string): string {
   return `<script type="application/ld+json">\n${JSON.stringify(obj)}\n    </script>`
 }
 
+// Clean, indexable prose for /about — no bracketed placeholders (unlike the
+// React page, which still has TODOs for the UiPath/Northeastern specifics).
+// Names are asserted; no titles/degrees are invented here.
+const ABOUT_BIO: string[] = [
+  'Divyansh Sharma is a senior UX designer with more than five years of experience designing user-centered products across healthcare, AI platforms, and enterprise software.',
+  'He works at eClinicalWorks, one of the largest ambulatory EHR platforms in the United States, as a UI/UX designer and usability specialist for clinical software used by healthcare providers. His work there includes a centralized analytics dashboard that cut navigation time by around 30% and raised clinician satisfaction by around 25%, a Flowsheets redesign that streamlined clinical documentation, and a token-based design system that improved consistency by around 40% and reduced development time by around 15%.',
+  'Previously he was an associate product designer at Peak.ai, working on enterprise AI features including Segment Explorer, Product Explorer, and Merchandiser, and building a Storybook-backed component library. Earlier in his career he worked at UiPath, and he studied at Northeastern University.',
+  'His background is in psychology, which shapes a research-first approach: understanding user behavior and motivations before designing interfaces. He mentors early-career UX designers and runs Collabrix, a design and talent studio.',
+]
+
+function aboutNoscript(): string {
+  const p = ['<h1>About Divyansh Sharma</h1>', ...ABOUT_BIO.map((s) => `<p>${escHtml(s)}</p>`)]
+  return `<noscript>\n      <article>\n        ${p.join('\n        ')}\n      </article>\n    </noscript>`
+}
+
+function profilePageJsonLd(url: string): string {
+  const obj = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url,
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Divyansh Sharma',
+      jobTitle: 'Senior UX Designer',
+      url: `${SITE_URL}/`,
+      image: `${SITE_URL}/og-image.png`,
+      description: ABOUT_BIO[0],
+      worksFor: { '@type': 'Organization', name: 'eClinicalWorks' },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Northeastern University' },
+      knowsAbout: [
+        'Healthcare UX',
+        'EHR Design',
+        'Clinical Workflows',
+        'Design Systems',
+        'Enterprise UX',
+        'Usability Testing',
+        'Accessibility',
+        'AI Product Design',
+      ],
+      address: { '@type': 'PostalAddress', addressCountry: 'IN' },
+      sameAs: [
+        'https://www.linkedin.com/in/divyansh98sharma',
+        'https://medium.com/@divyansh98sharma',
+        'https://github.com/divyansh98sharma',
+      ],
+    },
+  }
+  return `<script type="application/ld+json">\n${JSON.stringify(obj)}\n    </script>`
+}
+
 function applyMeta(t: string, title: string, description: string, url: string): string {
   const et = escHtml(title)
   const ed = escHtml(description)
@@ -154,6 +210,9 @@ async function main() {
     if (c) {
       html = html.replace('</head>', `  ${articleJsonLd(c, url)}\n  </head>`)
       html = html.replace('<div id="root"></div>', `${noscriptFor(c)}\n    <div id="root"></div>`)
+    } else if (meta.about) {
+      html = html.replace('</head>', `  ${profilePageJsonLd(url)}\n  </head>`)
+      html = html.replace('<div id="root"></div>', `${aboutNoscript()}\n    <div id="root"></div>`)
     }
     writeFileSync(`build${path}.html`, html)
     count++

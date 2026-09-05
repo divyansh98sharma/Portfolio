@@ -2,12 +2,14 @@ import profilePhoto from 'figma:asset/3f12db942eb596cb7c744a13790a87207de8db2c.p
 import profilePhotoWebp from '../assets/3f12db942eb596cb7c744a13790a87207de8db2c.webp'
 import { ArrowRight, Download } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
+import { useRouter } from './Router'
 import { getClientId } from '../lib/identity'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
 export function About() {
   const isVisible = useFrameReveal()
+  const { navigateTo } = useRouter()
 
   return (
     <div className="section-pad bg-secondary">
@@ -117,16 +119,15 @@ export function About() {
 
             {/* CTA */}
             <div className="flex flex-wrap items-center gap-4">
-              <a
-                href="https://www.linkedin.com/in/divyansh98sharma"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => navigateTo('about')}
                 className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-full bg-accent hover:opacity-90 transition-all duration-300 shadow-md"
                 style={{ ...montserrat, color: 'var(--accent-foreground)' }}
+                aria-label="Read the full bio"
               >
                 Full Bio
                 <ArrowRight className="h-4 w-4 ml-2" />
-              </a>
+              </button>
               <a
                 href="/resume.pdf"
                 download="Divyansh-Sharma-Resume.pdf"

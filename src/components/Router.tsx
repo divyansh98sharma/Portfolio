@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { caseStudyContent, type CaseStudyId } from '../data/case-studies'
 
-export type Page = 'home' | 'all-case-studies' | CaseStudyId
+export type Page = 'home' | 'all-case-studies' | 'about' | CaseStudyId
 
 type RouterContextType = {
   currentPage: Page
@@ -13,6 +13,7 @@ const RouterContext = createContext<RouterContextType | undefined>(undefined)
 function getPageFromPath(path: string): Page {
   const clean = path.replace(/^\/|\/$/g, '')
   if (clean === 'all-case-studies') return 'all-case-studies'
+  if (clean === 'about') return 'about'
   if (clean in caseStudyContent) return clean as CaseStudyId
   return 'home'
 }
