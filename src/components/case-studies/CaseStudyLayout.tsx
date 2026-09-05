@@ -445,7 +445,17 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               <span className="frame-handle frame-handle--bl" aria-hidden="true" />
               <span className="frame-handle frame-handle--br" aria-hidden="true" />
               <div className="aspect-[4/3] overflow-hidden rounded-xl border border-border">
-                <ImageWithFallback src={data.researchImage.src} alt={data.researchImage.alt} className="h-full w-full object-cover" />
+                <picture>
+                  {data.researchImage.webp && <source srcSet={data.researchImage.webp} type="image/webp" />}
+                  <ImageWithFallback
+                    src={data.researchImage.src}
+                    alt={data.researchImage.alt}
+                    className="h-full w-full object-cover"
+                    width={data.researchImage.width}
+                    height={data.researchImage.height}
+                    loading="lazy"
+                  />
+                </picture>
               </div>
             </figure>
           </div>

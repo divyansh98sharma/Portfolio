@@ -1,6 +1,7 @@
 import type { CaseStudyContent } from './types'
 import analyticsHero from '../../assets/case-studies/analytics-hero.jpg'
 import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
+import healthcareTeamMeetingWebp from '../../assets/case-studies/healthcare-team-meeting.webp'
 
 export const analyticsCentral: CaseStudyContent = {
   id: 'case-study-1',
@@ -101,7 +102,10 @@ export const analyticsCentral: CaseStudyContent = {
   },
   researchImage: {
     src: healthcareTeamMeeting,
+    webp: healthcareTeamMeetingWebp,
     alt: 'Healthcare team meeting and stakeholder research session',
+    width: 1080,
+    height: 720,
   },
 
   processIntro: 'We followed a structured design methodology:',

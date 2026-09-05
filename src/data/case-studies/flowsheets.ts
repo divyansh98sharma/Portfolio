@@ -1,6 +1,7 @@
 import type { CaseStudyContent } from './types'
 import flowsheetsHero from '../../assets/case-studies/flowsheets-hero.jpg'
 import flowsheetsResearch from '../../assets/case-studies/flowsheets-research.jpg'
+import flowsheetsResearchWebp from '../../assets/case-studies/flowsheets-research.webp'
 
 export const flowsheets: CaseStudyContent = {
   id: 'case-study-3',
@@ -101,7 +102,10 @@ export const flowsheets: CaseStudyContent = {
   },
   researchImage: {
     src: flowsheetsResearch,
+    webp: flowsheetsResearchWebp,
     alt: 'Healthcare team meeting and provider research session in clinical setting',
+    width: 1080,
+    height: 608,
   },
 
   processIntro: 'We followed a structured design methodology:',
