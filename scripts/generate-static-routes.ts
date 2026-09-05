@@ -156,7 +156,7 @@ function profilePageJsonLd(url: string): string {
       name: 'Divyansh Sharma',
       jobTitle: 'Senior UX Designer',
       url: `${SITE_URL}/`,
-      email: 'work.divyansh@gmail.com',
+      email: 'work.divyanshsharma@gmail.com',
       image: `${SITE_URL}/og-image.png`,
       description: ABOUT_BIO[0],
       worksFor: { '@type': 'Organization', name: 'eClinicalWorks' },

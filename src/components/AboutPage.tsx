@@ -123,10 +123,10 @@ export function AboutPage() {
                 something in healthcare, enterprise, or AI — or you're a designer trying to level up —
                 email me at{' '}
                 <a
-                  href="mailto:work.divyansh@gmail.com"
+                  href="mailto:work.divyanshsharma@gmail.com"
                   className="font-medium text-foreground underline decoration-muted-foreground/40 underline-offset-2 hover:decoration-foreground"
                 >
-                  work.divyansh@gmail.com
+                  work.divyanshsharma@gmail.com
                 </a>
                 .
               </p>
@@ -144,7 +144,7 @@ export function AboutPage() {
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
             <a
-              href="mailto:work.divyansh@gmail.com"
+              href="mailto:work.divyanshsharma@gmail.com"
               className="no-underline inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <Mail className="h-4 w-4" aria-hidden="true" />
