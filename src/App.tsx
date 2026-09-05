@@ -18,7 +18,6 @@ import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
 import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { WalkthroughTourProvider } from './components/chrome/WalkthroughTour'
-import { ConsentProvider, useConsentUi, CookieBanner } from './components/chrome/CookieConsent'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
@@ -63,7 +62,6 @@ function AppContent() {
   const { currentPage } = useRouter()
   const hasCanvasChrome = useMediaQuery(TABLET_CHROME_QUERY)
   const reducedMotion = useReducedMotion()
-  const { visible: cookieVisible, accept: acceptCookies, decline: declineCookies } = useConsentUi()
 
   const summary = caseStudies.find((s) => s.id === currentPage)
   useDocumentMeta(
@@ -148,13 +146,11 @@ function AppContent() {
       {hasCanvasChrome && <ToolEffects />}
       {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
       <BootLoader />
-      {/* Bottom-left stack: name-capture prompt sits above the cookie banner and
-          both reflow together, so dismissing either never leaves a gap or overlap. */}
+      {/* Bottom-left: first-time name-capture prompt. */}
       <div className="pointer-events-none fixed bottom-4 left-4 z-[60] flex flex-col items-start gap-3">
         <Suspense fallback={null}>
           <NameCapturePrompt />
         </Suspense>
-        {cookieVisible && <CookieBanner onAccept={acceptCookies} onDecline={declineCookies} />}
       </div>
       <Suspense fallback={null}>
         <AiChat />
@@ -169,9 +165,7 @@ export default function App() {
       <LayersProvider>
         <Router>
           <WalkthroughTourProvider>
-            <ConsentProvider>
-              <AppContent />
-            </ConsentProvider>
+            <AppContent />
           </WalkthroughTourProvider>
         </Router>
       </LayersProvider>

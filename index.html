@@ -4,26 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="ochIOEgJwv4n27A3RIrOA40ilwhtfvSxXZoOJvp3Y_Y" />
-    <!-- Contentsquare analytics tag. Loaded from the static <head> (not React)
-         so it is present in the page source and starts collecting immediately.
-         On by default; skipped only when the visitor has opted out via the
-         cookie banner (analytics-consent="denied" in localStorage). -->
-    <script type="text/javascript">
-      ;(function () {
-        try {
-          if (localStorage.getItem('analytics-consent') === 'denied') return
-        } catch (e) {
-          /* localStorage unavailable — default to loading */
-        }
-        window._uxa = window._uxa || []
-        window._uxa.push(['setPath', window.location.pathname + window.location.hash.replace('#', '?__')])
-        var mt = document.createElement('script')
-        mt.type = 'text/javascript'
-        mt.async = true
-        mt.src = '//t.contentsquare.net/uxa/ed2abf2b5708c.js'
-        document.getElementsByTagName('head')[0].appendChild(mt)
-      })()
-    </script>
+    <!-- Cloudflare Web Analytics — cookieless, collects no personal data, so no
+         consent banner is required. Replaces the prior cookie-based analytics. -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "526b1e4913ef449da52d479f315043d7"}'></script>
     <title>Divyansh Sharma — Senior UX Designer, Healthcare &amp; Enterprise</title>
     <meta name="description" content="UX designer specialising in EHR, clinical workflows and enterprise design systems. Case studies from eClinicalWorks and Peak.ai." />
     <meta name="author" content="Divyansh Sharma" />
