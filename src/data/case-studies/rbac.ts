@@ -1,6 +1,7 @@
 import type { CaseStudyContent } from './types'
 import rbacHero from '../../assets/case-studies/rbac-hero.jpg'
 import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
+import healthcareTeamMeetingWebp from '../../assets/case-studies/healthcare-team-meeting.webp'
 
 export const rbac: CaseStudyContent = {
   id: 'case-study-2',
@@ -100,7 +101,10 @@ export const rbac: CaseStudyContent = {
   },
   researchImage: {
     src: healthcareTeamMeeting,
+    webp: healthcareTeamMeetingWebp,
     alt: 'Enterprise team meeting and stakeholder research session',
+    width: 1080,
+    height: 720,
   },
 
   processIntro: 'We followed a structured design methodology:',

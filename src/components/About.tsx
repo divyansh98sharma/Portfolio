@@ -1,4 +1,5 @@
 import profilePhoto from 'figma:asset/3f12db942eb596cb7c744a13790a87207de8db2c.png'
+import profilePhotoWebp from '../assets/3f12db942eb596cb7c744a13790a87207de8db2c.webp'
 import { ArrowRight, Download } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 import { getClientId } from '../lib/identity'
@@ -27,13 +28,17 @@ export function About() {
               <span className="frame-handle frame-handle--bl" aria-hidden="true" />
               <span className="frame-handle frame-handle--br" aria-hidden="true" />
               <div className="w-56 h-64 sm:w-64 sm:h-72 rounded-lg overflow-hidden shadow-xl" style={{ filter: 'grayscale(0.8)' }}>
-                <img
-                  src={profilePhoto}
-                  alt="Divyansh Sharma - UX Designer"
-                  className="w-full h-full object-cover"
-                  width={256}
-                  height={288}
-                />
+                <picture>
+                  <source srcSet={profilePhotoWebp} type="image/webp" />
+                  <img
+                    src={profilePhoto}
+                    alt="Divyansh Sharma - UX Designer"
+                    className="w-full h-full object-cover"
+                    width={256}
+                    height={288}
+                    loading="lazy"
+                  />
+                </picture>
               </div>
             </figure>
             <div

@@ -61,7 +61,7 @@ export interface CaseStudyContent {
   researchIntro: string
   researchMethods: string[]
   keyInsight: { quote: string; cite: string }
-  researchImage: { src: string; alt: string }
+  researchImage: { src: string; webp?: string; alt: string; width?: number; height?: number }
 
   processIntro: string
   designPhases: { title: string; description: string }[]
