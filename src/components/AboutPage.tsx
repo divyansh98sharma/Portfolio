@@ -7,9 +7,9 @@ const inter = { fontFamily: "'Inter', sans-serif" }
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 
 /** Dedicated /about page — the long-form bio that anchors the name query and
- *  gives search engines / LLMs the eClinicalWorks · Peak.ai · UiPath ·
- *  Northeastern narrative as real indexable text (the homepage About section
- *  is the short version). */
+ *  gives search engines / LLMs the eClinicalWorks · Peak.ai (now UiPath)
+ *  narrative as real indexable text (the homepage About section is the short
+ *  version). */
 export function AboutPage() {
   const { navigateTo } = useRouter()
 
@@ -85,19 +85,13 @@ export function AboutPage() {
                 Before this
               </h2>
               <p>
-                At <strong className="text-foreground">Peak.ai</strong> I was an associate product
-                designer working on enterprise AI features — Segment Explorer, Product Explorer, and
-                Merchandiser — and I built a Storybook-backed component library that raised design
-                consistency ~30% across the platform. It's where I learned to design complex,
-                data-heavy tools for users who are experts in their domain and impatient with
-                friction.
-              </p>
-              {/* TODO(divyansh): confirm role/dates/scope for the two below before shipping. */}
-              <p className="mt-3">
-                Earlier, I [ROLE] at <strong className="text-foreground">UiPath</strong>, where I
-                [ONE LINE ON WHAT YOU DID — e.g. designed for automation/RPA workflows]. And I studied
-                [DEGREE/PROGRAM] at <strong className="text-foreground">Northeastern University</strong>
-                [YEARS], where [ONE LINE — what it gave you].
+                At <strong className="text-foreground">Peak.ai</strong> — an enterprise AI company
+                since acquired by <strong className="text-foreground">UiPath</strong> — I was an
+                associate product designer working on features like Segment Explorer, Product
+                Explorer, and Merchandiser, and I built a Storybook-backed component library that
+                raised design consistency ~30% across the platform. It's where I learned to design
+                complex, data-heavy tools for users who are experts in their domain and impatient
+                with friction.
               </p>
             </section>
 
@@ -120,10 +114,9 @@ export function AboutPage() {
                 Outside the work
               </h2>
               <p>
-                I run <strong className="text-foreground">Collabrix</strong>, a design & talent
-                studio, and mentor early-career UX designers on craft and career growth. If you're a
-                team building something in healthcare, enterprise, or AI — or a designer trying to
-                level up — I'd genuinely like to hear from you.
+                I mentor early-career UX designers on craft and career growth. If you're a team
+                building something in healthcare, enterprise, or AI — or a designer trying to level
+                up — I'd genuinely like to hear from you.
               </p>
             </section>
           </div>

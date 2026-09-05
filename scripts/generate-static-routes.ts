@@ -21,7 +21,7 @@ const ROUTES: Record<string, RouteMeta> = {
   '/about': {
     title: 'About Divyansh Sharma — Healthcare & Enterprise UX Designer',
     description:
-      'Divyansh Sharma is a senior UX designer at eClinicalWorks with 5+ years across healthcare, AI, and enterprise software — ex-Peak.ai, ex-UiPath, Northeastern University.',
+      'Divyansh Sharma is a senior UX designer at eClinicalWorks with 5+ years across healthcare, AI, and enterprise software — previously at Peak.ai (now part of UiPath).',
     about: true,
   },
   '/all-case-studies': {
@@ -129,14 +129,12 @@ function articleJsonLd(c: Content, url: string): string {
   return `<script type="application/ld+json">\n${JSON.stringify(obj)}\n    </script>`
 }
 
-// Clean, indexable prose for /about — no bracketed placeholders (unlike the
-// React page, which still has TODOs for the UiPath/Northeastern specifics).
-// Names are asserted; no titles/degrees are invented here.
+// Clean, indexable prose for /about.
 const ABOUT_BIO: string[] = [
   'Divyansh Sharma is a senior UX designer with more than five years of experience designing user-centered products across healthcare, AI platforms, and enterprise software.',
   'He works at eClinicalWorks, one of the largest ambulatory EHR platforms in the United States, as a UI/UX designer and usability specialist for clinical software used by healthcare providers. His work there includes a centralized analytics dashboard that cut navigation time by around 30% and raised clinician satisfaction by around 25%, a Flowsheets redesign that streamlined clinical documentation, and a token-based design system that improved consistency by around 40% and reduced development time by around 15%.',
-  'Previously he was an associate product designer at Peak.ai, working on enterprise AI features including Segment Explorer, Product Explorer, and Merchandiser, and building a Storybook-backed component library. Earlier in his career he worked at UiPath, and he studied at Northeastern University.',
-  'His background is in psychology, which shapes a research-first approach: understanding user behavior and motivations before designing interfaces. He mentors early-career UX designers and runs Collabrix, a design and talent studio.',
+  'Previously he was an associate product designer at Peak.ai, an enterprise AI company since acquired by UiPath, working on features including Segment Explorer, Product Explorer, and Merchandiser, and building a Storybook-backed component library.',
+  'His background is in psychology, which shapes a research-first approach: understanding user behavior and motivations before designing interfaces. He mentors early-career UX designers on craft and career growth.',
 ]
 
 function aboutNoscript(): string {
@@ -157,7 +155,6 @@ function profilePageJsonLd(url: string): string {
       image: `${SITE_URL}/og-image.png`,
       description: ABOUT_BIO[0],
       worksFor: { '@type': 'Organization', name: 'eClinicalWorks' },
-      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Northeastern University' },
       knowsAbout: [
         'Healthcare UX',
         'EHR Design',

@@ -78,7 +78,7 @@ function AppContent() {
       ? {
           title: 'About Divyansh Sharma — Healthcare & Enterprise UX Designer',
           description:
-            'Divyansh Sharma is a senior UX designer at eClinicalWorks with 5+ years across healthcare, AI, and enterprise software — ex-Peak.ai, ex-UiPath, Northeastern University.',
+            'Divyansh Sharma is a senior UX designer at eClinicalWorks with 5+ years across healthcare, AI, and enterprise software — previously at Peak.ai (now part of UiPath).',
           path: '/about',
         }
       : summary
