@@ -13,7 +13,6 @@ export const analyticsCentral: CaseStudyContent = {
   description:
     'A comprehensive dashboard solution that reduced navigation time by 30% and improved clinician satisfaction by 25% through AI-powered search, customizable widgets, and role-based personalization.',
   tags: ['Healthcare UX', 'Dashboard Design', 'Usability Testing', 'AI Integration'],
-  prototypeUrl: 'https://www.figma.com/prototype/YOUR_PROTOTYPE_LINK',
   heroImage: {
     src: analyticsHero,
     alt: 'Healthcare analytics dashboard interface showing consolidated KPIs and metrics with clean modern design',

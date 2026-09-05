@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
 
-const SITE_URL = 'https://divyanshsharma.design'
+const SITE_URL = 'https://divyanshsharma.work'
 
 function LinkedInGlyph({ className = 'h-3.5 w-3.5' }: { className?: string }) {
   return (

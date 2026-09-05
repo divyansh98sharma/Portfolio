@@ -49,8 +49,8 @@ export const flowsheets: CaseStudyContent = {
     ],
   },
   teamGroups: [
-    { heading: 'Management & Research', items: ['Brian Prue – Manager & Researcher', 'Morgan Compart – Business Goals & Task Alignment'] },
-    { heading: 'Development Team', items: ['Bharat Kumar, Kunal Wagh, Parth Devani, Spencer Lederer'] },
+    { heading: 'Management & Research', items: ['Engineering manager & UX researcher', 'Business analyst (goals & task alignment)'] },
+    { heading: 'Development Team', items: ['Four-engineer development team'] },
     { heading: 'Clinical Stakeholders', items: ['Healthcare providers and clinical workflow experts'] },
   ],
 
