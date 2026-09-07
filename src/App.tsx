@@ -30,6 +30,9 @@ const AllCaseStudies = lazy(() =>
 const CaseStudyLayout = lazy(() =>
   import('./components/case-studies/CaseStudyLayout').then((m) => ({ default: m.CaseStudyLayout }))
 )
+const AboutPage = lazy(() =>
+  import('./components/AboutPage').then((m) => ({ default: m.AboutPage }))
+)
 // Pulls in the Firebase SDK, so it's kept out of the main bundle — only
 // desktop/tablet gets the comment tool at all (see hasCanvasChrome below).
 const CommentTool = lazy(() =>
@@ -71,6 +74,13 @@ function AppContent() {
           description: 'Browse every UX case study by Divyansh Sharma — healthcare, enterprise, and dashboard design work.',
           path: '/all-case-studies',
         }
+      : currentPage === 'about'
+      ? {
+          title: 'About — Divyansh Sharma | Healthcare & Enterprise UX Designer',
+          description:
+            'Senior UX designer working on EHR and enterprise software at eClinicalWorks. Computer science background, research-first practice, design systems. Based in India.',
+          path: '/about',
+        }
       : summary
         ? {
             title: `${summary.title} · Divyansh Sharma`,
@@ -93,6 +103,8 @@ function AppContent() {
           <CaseStudyLayout data={study} />
         ) : currentPage === 'all-case-studies' ? (
           <AllCaseStudies />
+        ) : currentPage === 'about' ? (
+          <AboutPage />
         ) : (
           <HomePage />
         )}

@@ -1,5 +1,4 @@
 import type { CaseStudyContent } from './types'
-import rbacHero from '../../assets/case-studies/rbac-hero.jpg'
 import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
 import healthcareTeamMeetingWebp from '../../assets/case-studies/healthcare-team-meeting.webp'
 
@@ -12,12 +11,8 @@ export const rbac: CaseStudyContent = {
   accent: '#9747ff',
   subtitle: 'Redefining access management through user-centered design.',
   description:
-    'A role-based access control system that increased admin efficiency by 40%, reduced access errors by 25%, and provided a scalable framework for enterprise-grade security and usability.',
+    'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
   tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
-  heroImage: {
-    src: rbacHero,
-    alt: 'Security access control dashboard interface showing role management and permissions matrix with enterprise design',
-  },
   heroStat: { label: 'Efficiency', value: '+40%' },
 
   contextParagraphs: [
@@ -143,12 +138,13 @@ export const rbac: CaseStudyContent = {
     },
   ],
 
-  impactIntro: 'The new RBAC system was validated through pilot testing and enterprise feedback:',
-  impactMetrics: [
-    { value: '40%', label: 'increase in admin efficiency' },
-    { value: '25%', label: 'reduction in access errors' },
-    { value: '90%', label: 'enterprise adoption rate' },
-    { value: '35%', label: 'reduction in support tickets' },
+  impactIntro: 'What changed for admins and end users:',
+  impactMetrics: [],
+  whatChanged: [
+    'Template-driven role creation replaced a ~48-click manual setup',
+    'Clear at-a-glance permissions overview, reducing confusion',
+    'Complete history of role assignments and permission changes',
+    'Scalable model adaptable to enterprise complexity',
   ],
   feedbackHeading: 'Enterprise Feedback',
   feedback: [

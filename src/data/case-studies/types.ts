@@ -44,7 +44,6 @@ export interface CaseStudyContent {
   description: string
   tags: string[]
   prototypeUrl?: string
-  heroImage: { src: string; alt: string }
   heroStat: { label: string; value: string }
 
   contextParagraphs: string[]
@@ -69,7 +68,12 @@ export interface CaseStudyContent {
   solutions: CaseSolution[]
 
   impactIntro: string
+  /** Quantitative outcome tiles. Left empty when the study uses the
+   *  qualitative `whatChanged` list instead (no invented/validated numbers). */
   impactMetrics: { value: string; label: string }[]
+  /** Qualitative "what changed" outcomes — rendered in place of impactMetrics
+   *  when present, so results read as honest changes rather than metrics. */
+  whatChanged?: string[]
   feedbackHeading: string
   feedback: { quote: string; cite: string }[]
 

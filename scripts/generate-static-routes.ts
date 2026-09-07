@@ -16,20 +16,26 @@ const SITE_URL = 'https://divyanshsharma.work'
 // Per-route title/description. Route → case-study mapping matches the real
 // registry: case-study-1 = Analytics Central, case-study-2 = RBAC,
 // case-study-3 = Flowsheets.
-interface RouteMeta { title: string; description: string; contentId?: string }
+interface RouteMeta { title: string; description: string; contentId?: string; about?: boolean }
 const ROUTES: Record<string, RouteMeta> = {
+  '/about': {
+    title: 'About — Divyansh Sharma | Healthcare & Enterprise UX Designer',
+    description:
+      'Senior UX designer working on EHR and enterprise software at eClinicalWorks. Computer science background, research-first practice, design systems. Based in India.',
+    about: true,
+  },
   '/all-case-studies': {
     title: 'Case Studies · Divyansh Sharma — UX Designer',
     description: 'Browse every UX case study — healthcare dashboards, clinical flowsheets, and enterprise access control.',
   },
   '/case-study-1': {
     title: 'Analytics Central — Healthcare KPI Dashboard | Divyansh Sharma',
-    description: 'A centralized clinical dashboard that cut navigation time 30% and raised clinician satisfaction 25% through AI search, widgets and role-based views.',
+    description: 'A centralized clinical dashboard that consolidated fragmented KPIs into role-aware views, with AI-assisted search and customizable widgets for doctors, nurses, and administrators.',
     contentId: 'case-study-1',
   },
   '/case-study-2': {
     title: 'Role-Based Access Control — Enterprise Admin UX | Divyansh Sharma',
-    description: 'An RBAC system that raised admin efficiency 40% and cut access errors 25%, reducing user setup from many clicks to a template-driven flow.',
+    description: 'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
     contentId: 'case-study-2',
   },
   '/case-study-3': {
@@ -59,6 +65,7 @@ interface Content {
   solutions: { title: string; description: string; impact: string; result: string }[]
   impactIntro: string
   impactMetrics: { value: string; label: string }[]
+  whatChanged?: string[]
   keyLearnings: { title: string; description: string }[]
   futureOpportunities: { title: string; description: string }[]
 }
@@ -82,6 +89,7 @@ function contentLines(c: Content): string[] {
   for (const s of c.solutions ?? []) lines.push(s.title, s.description, s.impact, s.result)
   if (c.impactIntro) lines.push(c.impactIntro)
   for (const m of c.impactMetrics ?? []) lines.push(`${m.value} — ${m.label}`)
+  lines.push(...(c.whatChanged ?? []))
   for (const l of c.keyLearnings ?? []) lines.push(l.title, l.description)
   for (const f of c.futureOpportunities ?? []) lines.push(f.title, f.description)
   return lines.filter(Boolean)
@@ -99,6 +107,7 @@ function noscriptFor(c: Content): string {
   if (c.solutions?.length) p.push(`<h2>Solutions</h2>`)
   for (const s of c.solutions ?? []) p.push(`<h3>${escHtml(s.title)}</h3>`, `<p>${escHtml(s.description)}</p>`, `<p>${escHtml(s.result)}</p>`)
   if (c.impactIntro) p.push(`<h2>Impact</h2>`, `<p>${escHtml(c.impactIntro)}</p>`)
+  if (c.whatChanged?.length) p.push(`<ul>`, ...c.whatChanged.map((w) => `<li>${escHtml(w)}</li>`), `</ul>`)
   for (const l of c.keyLearnings ?? []) p.push(`<h3>${escHtml(l.title)}</h3>`, `<p>${escHtml(l.description)}</p>`)
   return `<noscript>\n      <article>\n        ${p.join('\n        ')}\n      </article>\n    </noscript>`
 }
@@ -119,6 +128,54 @@ function articleJsonLd(c: Content, url: string): string {
     about: c.company,
     keywords: keywordsFor(c).join(', '),
     articleBody: contentLines(c).join(' '),
+  }
+  return `<script type="application/ld+json">\n${JSON.stringify(obj)}\n    </script>`
+}
+
+// Clean, indexable prose for /about — mirrors the visible page copy.
+const ABOUT_BIO: string[] = [
+  'Divyansh Sharma designs healthcare and enterprise software — EHR workflows, AI platforms, and the kind of dense, expert tools people use for eight hours a day. Based in India, working with US teams.',
+  "He came to design from computer science. That shows up in how he works: he designs systems rather than screens, thinks about implementation while still in Figma, and has never handed engineering something he couldn't discuss at the component level.",
+  'At eClinicalWorks, one of the largest ambulatory EHR platforms in the US, he designs clinical software used by healthcare providers every day — high-stakes, high-density workflows where a confusing screen means a clinician losing time with a patient. Recent work: a centralized analytics dashboard that consolidated fragmented KPIs into role-aware views with AI-assisted search; a Flowsheets redesign that streamlined clinical documentation and improved visibility of patient progress; and a token-based design system built to keep the product suite consistent and speed up delivery. He also mentors designers on the team and leads design critiques and quality reviews.',
+  'Previously, at Peak.ai — an enterprise AI company since acquired by UiPath — he worked on Segment Explorer, Product Explorer, and Merchandiser, and built a Storybook-backed component library that raised design consistency across the platform.',
+  'He maps the workflow people actually follow, not the one the org chart says they follow — the gap where most enterprise UX problems live. He talks to real users, prototypes fast, usability-tests honestly, and builds systems rather than one-off screens. He mentors early-career designers on craft and career growth.',
+]
+
+function aboutNoscript(): string {
+  const p = ['<h1>About Divyansh Sharma</h1>', ...ABOUT_BIO.map((s) => `<p>${escHtml(s)}</p>`)]
+  return `<noscript>\n      <article>\n        ${p.join('\n        ')}\n      </article>\n    </noscript>`
+}
+
+function profilePageJsonLd(url: string): string {
+  const obj = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url,
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Divyansh Sharma',
+      jobTitle: 'Senior UX Designer',
+      url: `${SITE_URL}/`,
+      email: 'work.divyanshsharma@gmail.com',
+      image: `${SITE_URL}/og-image.png`,
+      description: ABOUT_BIO[0],
+      worksFor: { '@type': 'Organization', name: 'eClinicalWorks' },
+      knowsAbout: [
+        'Healthcare UX',
+        'EHR Design',
+        'Clinical Workflows',
+        'Design Systems',
+        'Enterprise UX',
+        'Usability Testing',
+        'Accessibility',
+      ],
+      address: { '@type': 'PostalAddress', addressCountry: 'IN' },
+      sameAs: [
+        'https://www.linkedin.com/in/divyansh98sharma',
+        'https://medium.com/@divyansh98sharma',
+        'https://github.com/divyansh98sharma',
+      ],
+    },
   }
   return `<script type="application/ld+json">\n${JSON.stringify(obj)}\n    </script>`
 }
@@ -154,6 +211,9 @@ async function main() {
     if (c) {
       html = html.replace('</head>', `  ${articleJsonLd(c, url)}\n  </head>`)
       html = html.replace('<div id="root"></div>', `${noscriptFor(c)}\n    <div id="root"></div>`)
+    } else if (meta.about) {
+      html = html.replace('</head>', `  ${profilePageJsonLd(url)}\n  </head>`)
+      html = html.replace('<div id="root"></div>', `${aboutNoscript()}\n    <div id="root"></div>`)
     }
     writeFileSync(`build${path}.html`, html)
     count++
