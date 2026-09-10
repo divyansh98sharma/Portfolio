@@ -59,7 +59,7 @@ const pageVariants = {
 }
 
 const DEFAULT_DESCRIPTION =
-  'UX Designer portfolio of Divyansh Sharma. Crafting meaningful digital experiences through research-driven design, turning complex problems into intuitive solutions.'
+  'Product designer simplifying complex healthcare and enterprise software through usability research, systems thinking and scalable interaction design.'
 
 function AppContent() {
   const { currentPage } = useRouter()
@@ -89,7 +89,7 @@ function AppContent() {
             path: `/${currentPage}`,
           }
         : {
-            title: 'Divyansh Sharma - UX Designer Portfolio',
+            title: 'Divyansh Sharma — Product Designer | Healthcare & Complex Systems',
             description: DEFAULT_DESCRIPTION,
             path: '/',
           }

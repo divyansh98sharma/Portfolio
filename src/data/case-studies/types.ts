@@ -44,7 +44,9 @@ export interface CaseStudyContent {
   description: string
   tags: string[]
   prototypeUrl?: string
-  heroStat: { label: string; value: string }
+  /** Optional cover highlight. Omit rather than invent an impressive-looking
+   *  metric — a qualitative fact (or nothing) beats an unverified number. */
+  heroStat?: { label: string; value: string }
 
   contextParagraphs: string[]
   stats: CaseStat[]

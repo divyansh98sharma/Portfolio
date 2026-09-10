@@ -14,7 +14,7 @@ export interface Collaborator {
 
 const collaborators: Collaborator[] = [
   { initials: 'EC', name: 'Emily', role: 'Recruiter', color: 'var(--figma-cursor-purple)', homeSection: 'case-studies', chat: 'strong case studies 👀' },
-  { initials: 'PA', name: 'Priya', role: 'PM', color: 'var(--figma-cursor-green)', homeSection: 'process', chat: 'love this process' },
+  { initials: 'PA', name: 'Priya', role: 'PM', color: 'var(--figma-cursor-green)', homeSection: 'testimonials', chat: 'strong outcomes' },
   { initials: 'TG', name: 'Tom', role: 'Eng Lead', color: 'var(--figma-cursor-orange)', homeSection: 'experience', chat: 'nice ✦' },
   { initials: 'MS', name: 'Maya', role: 'Design Lead', color: 'var(--figma-cursor-red)', homeSection: 'about', chat: '' },
   { initials: 'AZ', name: 'Arjun', role: 'Founder', color: 'var(--figma-cursor-blue)', homeSection: 'contact', chat: '' },

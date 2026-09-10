@@ -9,11 +9,10 @@ export const rbac: CaseStudyContent = {
   product: 'RBAC 2.0',
   company: 'Peak.ai',
   accent: '#9747ff',
-  subtitle: 'Redefining access management through user-centered design.',
+  subtitle: 'Redesigning enterprise permissions without breaking the access customers already depended on.',
   description:
     'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
   tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
-  heroStat: { label: 'Efficiency', value: '+40%' },
 
   contextParagraphs: [
     "At Peak, as the platform scaled to serve multiple enterprise clients, the existing access control system became rigid and inconsistent. Admins struggled to manage complex permissions, while end users often found themselves confused about what they could or couldn't access.",
@@ -147,11 +146,8 @@ export const rbac: CaseStudyContent = {
     'Scalable model adaptable to enterprise complexity',
   ],
   feedbackHeading: 'Enterprise Feedback',
-  feedback: [
-    { quote: '"The permission matrix makes it so easy to understand who has access to what. Game changer."', cite: '– IT Director, Fortune 500' },
-    { quote: '"Custom roles finally let us match our actual org structure. No more workarounds."', cite: '– Security Admin, Tech Startup' },
-    { quote: '"The audit trail gives us complete visibility for compliance. Exactly what we needed."', cite: '– Compliance Officer, FinTech' },
-  ],
+  // Cleared pending an evidence audit — prior quotes used invented attributions.
+  feedback: [],
 
   keyLearnings: [
     { title: 'Granularity vs. simplicity', description: 'Striking the right balance between detailed control and ease of use was key.' },

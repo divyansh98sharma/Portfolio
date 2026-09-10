@@ -9,11 +9,10 @@ export const flowsheets: CaseStudyContent = {
   product: 'Flowsheets',
   company: 'eClinicalWorks',
   accent: '#14ae5c',
-  subtitle: 'Transforming clinical data management through intuitive design.',
+  subtitle: 'Reducing the cognitive effort of scanning dense clinical information without disrupting familiar workflows.',
   description:
     'A redesigned Flowsheets window that improved visibility of patient progress, streamlined documentation, and enhanced provider workflows through a modernized UI.',
   tags: ['Healthcare UX', 'Workflow Optimization', 'EHR Usability', 'Interface Redesign'],
-  heroStat: { label: 'Efficiency', value: '+35%' },
 
   contextParagraphs: [
     'At eClinicalWorks, the existing Flowsheets interface presented significant usability challenges that hindered clinical efficiency and provider satisfaction in day-to-day healthcare operations.',

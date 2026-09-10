@@ -24,6 +24,11 @@ export interface CaseStudy {
   status?: 'coming-soon'
 }
 
+// Order leads with product judgment (Analytics), then deep healthcare usability
+// (Flowsheets), then scale/leadership (Design System), then earlier enterprise
+// work (RBAC at Peak). Freelance-oriented and low-signal coming-soon entries
+// (UI Kit, File Manager) were removed to keep the work section focused on the
+// strongest hiring narrative.
 export const caseStudies: CaseStudy[] = [
   {
     id: 'case-study-1',
@@ -31,23 +36,11 @@ export const caseStudies: CaseStudy[] = [
     product: 'Analytics Central',
     company: 'eClinicalWorks',
     accent: '#0d99ff',
-    description: 'A centralized clinical dashboard that consolidated fragmented KPIs into role-aware views, with AI-assisted search and customizable widgets for doctors, nurses, and administrators.',
+    description: 'Helping different healthcare roles find the analytics that matter to them without navigating fragmented dashboards.',
     tags: ['Healthcare UX', 'Dashboard Design', 'Usability Testing', 'AI Integration'],
-    impact: 'Role-aware KPI views with AI-assisted search',
+    impact: 'Role-aware analytics with AI-assisted search',
     year: '2024',
     fileName: 'analytics-central.fig'
-  },
-  {
-    id: 'case-study-2',
-    title: 'Role Based Access Control - Peak.ai',
-    product: 'RBAC 2.0',
-    company: 'Peak.ai',
-    accent: '#9747ff',
-    description: 'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
-    tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
-    impact: 'Template-driven roles replacing a ~48-click manual setup',
-    year: '2022',
-    fileName: 'rbac-access-control.fig'
   },
   {
     id: 'case-study-3',
@@ -55,50 +48,36 @@ export const caseStudies: CaseStudy[] = [
     product: 'Flowsheets',
     company: 'eClinicalWorks',
     accent: '#14ae5c',
-    description: 'A redesigned Flowsheets window that improved visibility of patient progress, streamlined documentation, and enhanced provider workflows through a modernized UI.',
+    description: 'Reducing the cognitive effort of scanning dense clinical information while preserving familiar clinician workflows.',
     image: flowsheetsCover,
     tags: ['Healthcare UX', 'Workflow Optimization', 'EHR Usability', 'Interface Redesign'],
-    impact: 'Improved clarity, efficiency, adoption, and compliance & safety',
+    impact: 'Clearer clinical scanning without disrupting workflows',
     year: '2024',
     fileName: 'flowsheets.fig'
-  },
-  {
-    title: 'File Manager \u2013 Peak.ai',
-    product: 'File Manager',
-    company: 'Peak.ai',
-    accent: '#0fb5ae',
-    description: 'A ground-up file management experience for Peak.ai — folders, previews, and real file operations, replacing a workflow that forced users into AWS or a full data pipeline just to look at a file. Currently in the design phase.',
-    image: '',
-    tags: ['Enterprise UX', 'Data Platform', 'In Design Phase'],
-    impact: 'Coming soon',
-    year: '2026',
-    fileName: 'file-manager.fig',
-    status: 'coming-soon'
   },
   {
     title: 'eClinicalWorks Design System',
     product: 'Design System',
     company: 'eClinicalWorks',
     accent: '#8c8c8c',
-    description: 'A token-based, component-driven design system for eClinicalWorks’ product suite, built to speed up delivery and keep design consistent across teams. Currently in the design phase.',
+    description: 'Scaling interface quality across designers, engineers and a complex healthcare product ecosystem.',
     image: '',
-    tags: ['Design Systems', 'Component Library', 'In Design Phase'],
-    impact: 'Coming soon',
+    tags: ['Design Systems', 'Component Library', 'Governance'],
+    impact: 'Case study in progress',
     year: '2026',
     fileName: 'design-system.fig',
     status: 'coming-soon'
   },
   {
-    title: 'Design Resources & UI Kit',
-    product: 'UI Kit',
-    company: 'Collabrix',
-    accent: '#ffa629',
-    description: 'A downloadable library of Figma UI components, templates, and design-system building blocks for teams and solo designers. Currently in the works.',
-    image: '',
-    tags: ['Figma', 'UI Kit', 'In Design Phase'],
-    impact: 'Coming soon',
-    year: '2026',
-    fileName: 'ui-kit.fig',
-    status: 'coming-soon'
+    id: 'case-study-2',
+    title: 'Role Based Access Control - Peak.ai',
+    product: 'RBAC 2.0',
+    company: 'Peak.ai',
+    accent: '#9747ff',
+    description: 'Redesigning permissions without breaking the access customers already depended on.',
+    tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
+    impact: 'Template-driven roles replacing a ~48-click manual setup',
+    year: '2022',
+    fileName: 'rbac-access-control.fig'
   }
 ]
