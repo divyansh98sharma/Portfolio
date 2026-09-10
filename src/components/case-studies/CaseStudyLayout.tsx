@@ -242,20 +242,22 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
                     <CoverArt product={data.product} company={data.company} accent={data.accent} large />
                   </div>
                 </figure>
-                {/* floating spec annotation */}
-                <div
-                  className="absolute -bottom-5 -right-2 rounded-lg border bg-card px-4 py-3 shadow-lg sm:-right-6"
-                  style={{ borderColor: 'var(--cs-accent)' }}
-                  role="complementary"
-                  aria-label={`Key metric: ${data.heroStat.label} ${data.heroStat.value}`}
-                >
-                  <div className="text-[10px] font-medium uppercase tracking-wide" style={{ ...inter, color: 'var(--cs-accent)' }}>
-                    {data.heroStat.label}
+                {/* floating spec annotation — only when a real highlight exists */}
+                {data.heroStat && (
+                  <div
+                    className="absolute -bottom-5 -right-2 rounded-lg border bg-card px-4 py-3 shadow-lg sm:-right-6"
+                    style={{ borderColor: 'var(--cs-accent)' }}
+                    role="complementary"
+                    aria-label={`Highlight: ${data.heroStat.label} ${data.heroStat.value}`}
+                  >
+                    <div className="text-[10px] font-medium uppercase tracking-wide" style={{ ...inter, color: 'var(--cs-accent)' }}>
+                      {data.heroStat.label}
+                    </div>
+                    <div className="text-2xl font-bold" style={montserrat}>
+                      {data.heroStat.value}
+                    </div>
                   </div>
-                  <div className="text-2xl font-bold" style={montserrat}>
-                    {data.heroStat.value}
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -553,7 +555,8 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
             </div>
           )}
 
-          {/* Feedback as comment threads */}
+          {/* Feedback as comment threads — only when real, attributable quotes exist */}
+          {data.feedback.length > 0 && (
           <div className="mt-12">
             <h3 className="mb-6 text-lg font-bold" style={montserrat}>{data.feedbackHeading}</h3>
             <div className="grid gap-5 md:grid-cols-3">
@@ -568,6 +571,7 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
               ))}
             </div>
           </div>
+          )}
         </div>
       </Frame>
 

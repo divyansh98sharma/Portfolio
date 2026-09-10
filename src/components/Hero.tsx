@@ -1,6 +1,5 @@
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
-import { TypewriterText } from './TypewriterText'
 import { ComponentGlyph } from './icons/ComponentGlyph'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
@@ -21,9 +20,9 @@ function CursorArrow({ color }: { color: string }) {
 }
 
 const skills = [
-  'User Research', 'Prototyping', 'Design Systems', 'Usability Testing',
-  'Wireframing', 'Information Architecture', 'Figma', 'Adobe Creative Suite',
-  'Healthcare UX', 'Enterprise Design', 'Data Visualization', 'Accessibility',
+  'Healthcare UX', 'Complex Workflows', 'Enterprise Products', 'Design Systems',
+  'Usability Research', 'Product Strategy', 'Information Architecture',
+  'Accessibility', 'Design-to-Code',
 ]
 
 export function Hero() {
@@ -33,38 +32,34 @@ export function Hero() {
         <div className="max-w-6xl mx-auto">
 
           {/* Cursor chat — my own cursor introducing me */}
-          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — Usability Mentor, UX Designer, Design Systems Builder, UX Researcher">
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh Sharma — Product Designer">
             <CursorArrow color="var(--figma-blue)" />
             <div
               className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
               style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
               aria-hidden="true"
             >
-              Divyansh · <TypewriterText texts={['Usability Mentor', 'UX Designer', 'Design Systems Builder', 'UX Researcher', 'Problem Solver']} />
+              Divyansh · Product Designer
             </div>
           </div>
 
           {/* Headline */}
           <h1
             id="hero-heading"
-            className="hero-animate-in hero-delay-1 leading-[1.05] tracking-tight mb-6"
-            style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, calc(6vw * var(--canvas-zoom, 1)), 5rem)' }}
+            className="hero-animate-in hero-delay-1 leading-[1.08] tracking-tight mb-6 max-w-4xl"
+            style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2rem, calc(4.6vw * var(--canvas-zoom, 1)), 3.8rem)' }}
           >
-            Design{' '}
+            I design complex products for people who don't have time to{' '}
             <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-              smarter
-            </span>
-            <br />
-            with{' '}
-            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-              purpose.
+              fight their software.
             </span>
           </h1>
 
           {/* Subtext */}
-          <p className="hero-animate-in hero-delay-2 text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg">
-            I help teams build user-centered products through research-driven design,
-            turning complex problems into intuitive solutions.
+          <p className="hero-animate-in hero-delay-2 text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl">
+            Product Designer focused on complex healthcare and enterprise systems — currently
+            designing clinician workflows, analytics experiences and design systems at
+            eClinicalWorks.
           </p>
 
           {/* CTAs */}
@@ -135,9 +130,9 @@ export function Hero() {
       {/* Scroll indicator */}
       <div className="flex justify-center py-6 hero-bounce-limited hero-animate-in hero-delay-5">
         <button
-          onClick={() => scrollToSection('about')}
+          onClick={() => scrollToSection('case-studies')}
           className="no-underline rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors duration-300"
-          aria-label="Scroll down to about section"
+          aria-label="Scroll down to selected work"
         >
           <ArrowDown className="h-5 w-5" aria-hidden="true" />
         </button>

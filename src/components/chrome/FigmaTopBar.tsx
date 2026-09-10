@@ -30,9 +30,9 @@ function fileNameFor(page: Page): string {
 }
 
 const navItems = [
-  { id: 'about', label: 'About' },
+  { id: 'case-studies', label: 'Work' },
   { id: 'experience', label: 'Experience' },
-  { id: 'case-studies', label: 'Case Studies' },
+  { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' },
 ]
 

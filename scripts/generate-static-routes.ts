@@ -194,10 +194,37 @@ function applyMeta(t: string, title: string, description: string, url: string): 
     .replace(/<meta name="twitter:description" content="[^"]*"\s*\/>/, `<meta name="twitter:description" content="${ed}" />`)
 }
 
+interface Summary { id?: string; title: string; product: string; description: string; status?: string }
+
+// The homepage is a client-rendered SPA — its <body> is just <div id="root">,
+// so crawlers (and LLMs) that don't run JS saw nothing. Inject a crawlable
+// <noscript> with the real positioning headline, intro, and links to every
+// published project so `/` carries indexable content. React hydrates over it.
+function homepageNoscript(studies: Summary[]): string {
+  const links = studies
+    .filter((s) => !!s.id && s.status !== 'coming-soon')
+    .map((s) => `<li><a href="${SITE_URL}/${s.id}">${escHtml(s.product)}</a> — ${escHtml(s.description)}</li>`)
+    .join('\n        ')
+  return `<noscript>
+      <article>
+        <h1>I design complex products for people who don't have time to fight their software.</h1>
+        <p>Divyansh Sharma is a product designer focused on complex healthcare and enterprise systems — currently designing clinician workflows, analytics experiences and design systems at eClinicalWorks. Based in India, working with US teams.</p>
+        <h2>Selected work</h2>
+        <ul>
+        ${links}
+        </ul>
+        <p><a href="${SITE_URL}/about">About Divyansh Sharma</a> · <a href="${SITE_URL}/all-case-studies">All work</a></p>
+      </article>
+    </noscript>`
+}
+
 async function main() {
   const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
   const { caseStudyContent } = (await vite.ssrLoadModule('/src/data/case-studies/index.ts')) as {
     caseStudyContent: Record<string, Content>
+  }
+  const { caseStudies } = (await vite.ssrLoadModule('/src/data/caseStudies.ts')) as {
+    caseStudies: Summary[]
   }
   await vite.close()
 
@@ -219,7 +246,16 @@ async function main() {
     count++
   }
 
-  console.log(`Generated ${count} static route pages (200 + full-text + structured data)`)
+  // Homepage — inject crawlable content into build/index.html itself (its meta
+  // is already correct from the source index.html). Done after the loop so the
+  // captured `template` above stays clean for the other routes.
+  const home = readFileSync('build/index.html', 'utf8').replace(
+    '<div id="root"></div>',
+    `${homepageNoscript(caseStudies)}\n    <div id="root"></div>`
+  )
+  writeFileSync('build/index.html', home)
+
+  console.log(`Generated ${count} static route pages + homepage content (200 + full-text + structured data)`)
 }
 
 main()

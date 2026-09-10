@@ -4,7 +4,9 @@ import { caseStudies } from '../data/caseStudies'
 import { useFrameReveal } from './chrome/Frame'
 import { FigFileCard } from './FigFileCard'
 
-const homepageCaseStudies = caseStudies.slice(0, 2)
+// Lead with the work: the full curated set (3 shipped + 1 in-progress) shows
+// on the homepage rather than hiding most of it behind "view all".
+const homepageCaseStudies = caseStudies
 
 export function CaseStudies() {
   const { navigateTo } = useRouter()

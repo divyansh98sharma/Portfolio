@@ -9,11 +9,10 @@ export const analyticsCentral: CaseStudyContent = {
   product: 'Analytics Central',
   company: 'eClinicalWorks',
   accent: '#0d99ff',
-  subtitle: 'Centralizing healthcare KPIs through user-centered design.',
+  subtitle: 'Helping different healthcare roles find the analytics that matter to them.',
   description:
     'A centralized clinical dashboard that consolidated fragmented KPIs into role-aware views, with AI-assisted search and customizable widgets for doctors, nurses, and administrators.',
   tags: ['Healthcare UX', 'Dashboard Design', 'Usability Testing', 'AI Integration'],
-  heroStat: { label: 'Time Saved', value: '30%' },
 
   contextParagraphs: [
     'At eClinicalWorks, healthcare professionals relied on multiple fragmented dashboards to track critical KPIs. Clinicians, administrators, and nurses all used different systems, leading to context switching, inefficiency, and cognitive overload.',
@@ -148,11 +147,9 @@ export const analyticsCentral: CaseStudyContent = {
     'Responsive layout for use away from a desk',
   ],
   feedbackHeading: 'User Feedback',
-  feedback: [
-    { quote: '"I can find any KPI in seconds now. The search function is exactly what we needed."', cite: '– Dr. Rodriguez' },
-    { quote: '"Having everything in one dashboard saves me so much time during my shifts."', cite: '– Lisa, RN' },
-    { quote: '"The personalized layout means I see exactly what matters for my role. It\'s perfect."', cite: '– Michael, Admin' },
-  ],
+  // Cleared pending an evidence audit — the prior quotes were attributed to
+  // generic invented names. Real, attributable feedback can be added back.
+  feedback: [],
 
   keyLearnings: [
     { title: 'Role-based design is essential', description: 'Personalization had the highest impact on user satisfaction.' },
