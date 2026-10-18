@@ -90,7 +90,7 @@ export function FigFileCard({
               {study.fileName}
             </p>
             <p className="text-[11px] text-muted-foreground" style={inter}>
-              Edited {study.year} · Divyansh Sharma
+              Case study · Divyansh Sharma
             </p>
           </div>
           {!comingSoon && (
@@ -106,8 +106,10 @@ export function FigFileCard({
           )}
         </div>
 
-        {/* Description */}
+        {/* Executive preview — clarify the project before the Figma file metadata. */}
         <div className="flex flex-1 flex-col p-5">
+          <h3 className="mb-1 text-base font-bold leading-snug">{study.product}</h3>
+          <p className="mb-3 text-xs font-medium text-muted-foreground">{study.company} · {study.year}</p>
           <p className="mb-4 flex-1 text-sm leading-relaxed text-muted-foreground">{study.description}</p>
 
           <div className="mb-4 flex flex-wrap gap-2">
