@@ -50,21 +50,18 @@ export function Hero() {
             className="hero-animate-in hero-delay-1 leading-[1.05] tracking-tight mb-6"
             style={{ ...montserrat, fontWeight: 900, fontSize: 'clamp(2.5rem, calc(6vw * var(--canvas-zoom, 1)), 5rem)' }}
           >
-            Design{' '}
+            Making complex{' '}
             <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-              smarter
+              products
             </span>
             <br />
-            with{' '}
-            <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-              purpose.
-            </span>
+            feel intuitive.
           </h1>
 
           {/* Subtext */}
           <p className="hero-animate-in hero-delay-2 text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg">
-            I help teams build user-centered products through research-driven design,
-            turning complex problems into intuitive solutions.
+            I'm a UX designer and usability mentor focused on healthcare, enterprise software,
+            and design systems. I turn complex workflows into clearer, more usable experiences.
           </p>
 
           {/* CTAs */}
@@ -135,9 +132,9 @@ export function Hero() {
       {/* Scroll indicator */}
       <div className="flex justify-center py-6 hero-bounce-limited hero-animate-in hero-delay-5">
         <button
-          onClick={() => scrollToSection('about')}
+          onClick={() => scrollToSection('case-studies')}
           className="no-underline rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors duration-300"
-          aria-label="Scroll down to about section"
+          aria-label="Scroll down to featured work"
         >
           <ArrowDown className="h-5 w-5" aria-hidden="true" />
         </button>
