@@ -263,6 +263,36 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
         </div>
       </Frame>
 
+      {/* Consistent 60-second executive summary for every current and future study. */}
+      <Frame id="cs-summary" name="00 · At a glance" headingId="cs-summary-heading" instantReveal className="!my-8 sm:!my-10">
+        <div className={pad}>
+          <SectionHeading id="cs-summary-heading" label="Executive Summary" title="At a glance." />
+          <div className="grid gap-5 md:grid-cols-3">
+            <section className="min-w-0 rounded-xl border border-border bg-secondary/40 p-5">
+              <h3 className="mb-2 text-sm font-bold" style={montserrat}>The challenge</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">{data.challengeIntro}</p>
+            </section>
+            <section className="min-w-0 rounded-xl border border-border bg-secondary/40 p-5">
+              <h3 className="mb-2 text-sm font-bold" style={montserrat}>My contribution</h3>
+              <p className="mb-2 text-sm font-semibold">{data.role.title}</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">{data.role.activities.slice(0, 2).join(' · ')}</p>
+            </section>
+            <section className="min-w-0 rounded-xl border border-border bg-secondary/40 p-5">
+              <h3 className="mb-2 text-sm font-bold" style={montserrat}>Outcomes</h3>
+              {data.whatChanged?.length ? (
+                <p className="text-sm leading-relaxed text-muted-foreground">{data.whatChanged[0]}</p>
+              ) : data.impactMetrics.length ? (
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {data.impactMetrics[0].value} — {data.impactMetrics[0].label}
+                </p>
+              ) : (
+                <p className="text-sm leading-relaxed text-muted-foreground">Read the validation and reflections below.</p>
+              )}
+            </section>
+          </div>
+        </div>
+      </Frame>
+
       {/* ── Context ── */}
       <Frame id="cs-context" name="01 · Context" headingId="cs-context-heading" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
