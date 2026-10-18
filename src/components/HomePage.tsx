@@ -5,7 +5,6 @@ import { Experience } from './Experience'
 import { CaseStudies } from './CaseStudies'
 import { Testimonials } from './Testimonials'
 import { Process } from './Process'
-import { Services } from './Services'
 import { Contact } from './Contact'
 import { Frame } from './chrome/Frame'
 
@@ -33,10 +32,7 @@ export function HomePage() {
       <Frame id="process" name="06 · Process" headingId="process-heading">
         <Process />
       </Frame>
-      <Frame id="services" name="07 · Services" headingId="services-heading">
-        <Services />
-      </Frame>
-      <Frame id="contact" name="08 · Contact" headingId="contact-heading">
+      <Frame id="contact" name="07 · Contact" headingId="contact-heading">
         <Contact />
       </Frame>
     </>
