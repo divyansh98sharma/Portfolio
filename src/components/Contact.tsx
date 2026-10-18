@@ -12,11 +12,11 @@ const inter = { fontFamily: "'Inter', sans-serif" }
 // comments/reactions are.
 const FORM_ENDPOINT = 'https://send-contact-email-45481375965.us-central1.run.app'
 
-const SERVICES = [
-  'Fractional / contract UX design',
-  'Design systems audit',
-  '1:1 mentorship',
-  'Something else',
+const INQUIRY_TYPES = [
+  'Job opportunity',
+  'Professional collaboration',
+  'Mentorship',
+  'Other inquiry',
 ]
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
@@ -68,8 +68,8 @@ export function Contact() {
                 </span>
               </h2>
               <p className="text-primary-foreground/70 max-w-md leading-relaxed">
-                No sales pitch. Just an honest conversation about where you are,
-                where you want to be, and how design can get you there faster.
+                Interested in working together, discussing a role, or exchanging ideas?
+                Share a little context and I'll get back to you.
               </p>
             </div>
 
@@ -80,8 +80,7 @@ export function Contact() {
             >
               {/* dialog header */}
               <div className="flex items-center justify-between border-b border-black/10 px-6 py-4">
-                <p className="text-[14px] font-semibold" style={inter}>Start a project</p>
-                <span className="text-black/30 text-lg leading-none" aria-hidden="true">✕</span>
+                <p className="text-[14px] font-semibold" style={inter}>Get in touch</p>
               </div>
 
               <div className="px-6 py-5">
@@ -93,7 +92,7 @@ export function Contact() {
                     >
                       <Check className="h-5 w-5" style={{ color: 'var(--figma-blue)' }} aria-hidden="true" />
                     </span>
-                    <p className="text-[13px] font-semibold text-black/80">Sent — I'll get back to you soon.</p>
+                    <p role="status" className="text-[13px] font-semibold text-black/80">Sent — I'll get back to you soon.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-2.5 border-b border-black/10 pb-5">
@@ -116,24 +115,34 @@ export function Contact() {
                       type="hidden"
                       value={formStartedAt.current}
                     />
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <label className="flex flex-col gap-1 text-[12px] font-medium" htmlFor="contact-name">Name
                       <input
+                        id="contact-name"
+                        autoComplete="name"
                         name="name"
                         required
                         placeholder="Your name"
                         className="h-10 rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] outline-none focus:border-black/30"
                         style={inter}
                       />
+                      </label>
+                      <label className="flex flex-col gap-1 text-[12px] font-medium" htmlFor="contact-email">Email
                       <input
+                        id="contact-email"
+                        autoComplete="email"
                         name="email"
                         type="email"
                         required
-                        placeholder="Email"
+                        placeholder="you@example.com"
                         className="h-10 rounded-lg border border-black/15 bg-black/[0.03] px-3 text-[13px] outline-none focus:border-black/30"
                         style={inter}
                       />
+                      </label>
                     </div>
+                    <label className="flex flex-col gap-1 text-[12px] font-medium" htmlFor="contact-inquiry">Reason for reaching out
                     <select
+                      id="contact-inquiry"
                       name="service"
                       required
                       defaultValue=""
@@ -141,22 +150,26 @@ export function Contact() {
                       style={inter}
                     >
                       <option value="" disabled>
-                        What do you need help with?
+                        Select a topic
                       </option>
-                      {SERVICES.map((s) => (
+                      {INQUIRY_TYPES.map((s) => (
                         <option key={s} value={s}>
                           {s}
                         </option>
                       ))}
                     </select>
+                    </label>
+                    <label className="flex flex-col gap-1 text-[12px] font-medium" htmlFor="contact-message">Message
                     <textarea
+                      id="contact-message"
                       name="message"
                       required
                       rows={3}
-                      placeholder="A bit about your project or goals"
+                      placeholder="Tell me what you would like to discuss"
                       className="w-full resize-none rounded-lg border border-black/15 bg-black/[0.03] px-3 py-2 text-[13px] outline-none focus:border-black/30"
                       style={inter}
                     />
+                    </label>
                     <button
                       type="submit"
                       disabled={status === 'sending'}
@@ -176,7 +189,7 @@ export function Contact() {
                       )}
                     </button>
                     {status === 'error' && (
-                      <p className="flex items-center gap-1.5 text-[11px]" style={{ ...inter, color: '#dc2626' }}>
+                      <p role="alert" className="flex items-center gap-1.5 text-[11px]" style={{ ...inter, color: '#dc2626' }}>
                         <AlertCircle className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
                         Something went wrong — email me directly instead.
                       </p>
