@@ -9,8 +9,8 @@ function validBody(overrides = {}) {
   return {
     name: 'Aarav Mehta',
     email: 'aarav@example.com',
-    service: 'Design systems audit',
-    message: 'We need help auditing and scaling our product design system.',
+    service: 'Job opportunity',
+    message: 'We would like to discuss a senior product design position.',
     website: '',
     formStartedAt: String(NOW - 15_000),
     ...overrides,
@@ -102,4 +102,14 @@ test('limits repeated submissions by IP', async () => {
 
   const limited = await submit(handler, validBody({ email: 'fourth@example.com' }))
   assert.equal(limited.statusCode, 429)
+})
+
+test('accepts professional inquiry categories and legacy categories', async () => {
+  const sent = []
+  const handler = createContactHandler({ sendEmail: async (email) => sent.push(email), now: () => NOW })
+  for (const service of ['Job opportunity', 'Professional collaboration', 'Mentorship', 'Other inquiry', 'Design systems audit']) {
+    const res = await submit(handler, validBody({ service }), { ip: `203.0.113.${20 + sent.length}` })
+    assert.equal(res.statusCode, 200)
+  }
+  assert.equal(sent.length, 5)
 })
