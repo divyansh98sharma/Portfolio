@@ -623,3 +623,45 @@ body[data-tool='move'], body[data-tool='hand'], body[data-tool='draw'] { user-se
 }
 
 html { font-size: var(--font-size); }
+
+
+/* Adaptive foundations: compact phones, foldables, split-screen and spatial browser windows.
+   Use available viewport width rather than device names; segment APIs remain optional. */
+html, body, #root { min-width: 0; }
+body { overflow-wrap: break-word; }
+img, video, svg { max-width: 100%; }
+img, video { height: auto; }
+.frame-wrap, .frame-surface, .cta-grid, .about-grid, .cs-grid, .cs-grid-3 {
+  min-width: 0;
+}
+.frame-surface { overflow-wrap: anywhere; }
+@media (max-width: 359px) {
+  .hero-content-wrapper { padding: 96px 16px 24px; }
+  .section-pad { padding: 56px 16px; }
+  .section-pad-sm { padding: 36px 16px; }
+  .frame-wrap { margin-left: 8px; margin-right: 8px; }
+  .cs-grid, .cs-grid-3 { gap: 1rem; }
+}
+@media (min-width: 768px) and (max-width: 900px) {
+  .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .cta-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (hover: none), (pointer: coarse) {
+  .card-hover:hover { transform: none; box-shadow: none; }
+  .frame-wrap:hover .frame-handle { opacity: 0; }
+  .frame-wrap:focus-within .frame-handle { opacity: 1; }
+  .figma-chrome button, .figma-chrome a[role="button"] { min-height: 44px; }
+}
+/* Motion must not be necessary to access content on any input modality. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .frame-surface, .frame-wrap, .hero-animate-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
