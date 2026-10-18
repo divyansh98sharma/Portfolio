@@ -70,7 +70,7 @@ export const caseStudies: CaseStudy[] = [
     description: 'A ground-up file management experience for Peak.ai — folders, previews, and real file operations, replacing a workflow that forced users into AWS or a full data pipeline just to look at a file. Currently in the design phase.',
     image: '',
     tags: ['Enterprise UX', 'Data Platform', 'In Design Phase'],
-    impact: 'Coming soon',
+    impact: 'Coming soon — case study not yet published',
     year: '2026',
     fileName: 'file-manager.fig',
     status: 'coming-soon'
