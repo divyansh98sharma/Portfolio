@@ -14,6 +14,11 @@ const SERVICES = new Set([
   'Design systems audit',
   '1:1 mentorship',
   'Something else',
+  // Professional inquiry options; retain legacy entries for previously deployed clients.
+  'Job opportunity',
+  'Professional collaboration',
+  'Mentorship',
+  'Other inquiry',
 ])
 
 const MIN_FORM_AGE_MS = 2_000
