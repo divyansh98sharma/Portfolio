@@ -14,17 +14,17 @@ export function HomePage() {
       <Frame id="hero" name="Hero" headingId="hero-heading" fullBleed instantReveal>
         <Hero />
       </Frame>
-      <Frame id="about" name="01 · About" headingId="about-heading">
+      <Frame id="case-studies" name="01 · Work" headingId="case-studies-heading">
+        <CaseStudies />
+      </Frame>
+      <Frame id="about" name="02 · About" headingId="about-heading">
         <About />
       </Frame>
-      <Frame id="built-for" name="02 · Built For" headingId="built-for-heading">
+      <Frame id="built-for" name="03 · Built For" headingId="built-for-heading">
         <BuiltFor />
       </Frame>
-      <Frame id="experience" name="03 · Experience" headingId="experience-heading">
+      <Frame id="experience" name="04 · Experience" headingId="experience-heading">
         <Experience />
-      </Frame>
-      <Frame id="case-studies" name="04 · Work" headingId="case-studies-heading">
-        <CaseStudies />
       </Frame>
       <Frame id="testimonials" name="05 · Testimonials" headingId="testimonials-heading">
         <Testimonials />
