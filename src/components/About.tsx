@@ -65,22 +65,16 @@ export function About() {
               Usability Mentor.
               <br />
               <span className="italic" style={{ fontWeight: 300, color: 'var(--muted-foreground)' }}>
-                Research-Driven
+                Healthcare · Enterprise · Design Systems
               </span>
-              {' & '}
-              <span style={{ fontWeight: 800 }}>User-First.</span>
+  
             </h2>
 
             {/* Bio */}
             <p className="text-muted-foreground leading-relaxed mb-4 max-w-xl">
-              With over 5 years in UX design, I specialize in creating user-centered digital products
-              that balance business goals with user needs. My background in psychology helps me
-              understand user behavior and motivations.
+              5+ years designing for healthcare and enterprise software. I work best on complex, data-dense workflows where clarity matters — and on the design systems that keep large products consistent.
             </p>
-            <p className="text-muted-foreground leading-relaxed mb-8 max-w-xl">
-              I believe great design is invisible — it solves problems so elegantly that users
-              don't even notice the complexity underneath.
-            </p>
+
 
             {/* Credentials — styled like Figma's design-panel property rows */}
             <div className="mb-8 rounded-xl border border-border bg-background/60 overflow-hidden">
@@ -93,9 +87,8 @@ export function About() {
               </div>
               {[
                 { prop: 'Mentor', title: 'Now mentoring the next wave of UX talent', desc: 'Coach 3–5 UX professionals on design craft and career growth, and lead design critiques and quality reviews across the team.' },
-                { prop: 'Craft', title: 'Practitioner, not just a designer', desc: 'Every method I use, I actively apply — in real products, with real teams and users.' },
-                { prop: 'Range', title: 'Enterprise + startup experience', desc: "I've worked across healthcare, AI platforms, and consumer products — so you get nuanced, context-aware design." },
-                { prop: 'Systems', title: 'Design systems advocate', desc: 'Built token-based design systems that improved consistency by 40% and reduced dev time by 15%.' },
+                { prop: 'Range', title: 'Enterprise + startup experience', desc: "I've worked across healthcare and enterprise AI platforms — so you get nuanced, context-aware design." },
+                { prop: 'Systems', title: 'Design systems advocate', desc: 'Audited 111 components and found 93 with no variable binding; rebuilt the token architecture and bound every component. Now used across the org.' },
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 border-b border-border/60 px-4 py-4 last:border-b-0">
                   <span
