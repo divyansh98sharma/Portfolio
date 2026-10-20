@@ -87,7 +87,7 @@ export function About() {
               </div>
               {[
                 { prop: 'Mentor', title: 'Now mentoring the next wave of UX talent', desc: 'Coach 3–5 UX professionals on design craft and career growth, and lead design critiques and quality reviews across the team.' },
-                { prop: 'Range', title: 'Enterprise + startup experience', desc: "I've worked across healthcare and enterprise AI platforms — so you get nuanced, context-aware design." },
+                { prop: 'Range', title: 'Healthcare + enterprise AI', desc: "I've worked across healthcare and enterprise AI platforms — so you get nuanced, context-aware design." },
                 { prop: 'Systems', title: 'Design systems advocate', desc: 'Audited 111 components and found 93 with no variable binding; rebuilt the token architecture and bound every component. Now used across the org.' },
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 border-b border-border/60 px-4 py-4 last:border-b-0">
