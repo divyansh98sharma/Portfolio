@@ -83,8 +83,8 @@ function AppContent() {
         }
       : summary
         ? {
-            title: `${summary.title} · Divyansh Sharma`,
-            description: summary.description,
+            title: currentPage === 'case-study-2' ? 'Role-Based Access Control — Enterprise case study | Divyansh Sharma' : `${summary.title} · Divyansh Sharma`,
+            description: currentPage === 'case-study-2' ? 'Replacing per-user permission setup with reusable roles across two releases at Peak (now UiPath). Sole designer covering research, prototyping, testing and handoff.' : summary.description,
             image: summary.image,
             path: `/${currentPage}`,
           }
