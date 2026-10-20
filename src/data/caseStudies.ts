@@ -80,11 +80,11 @@ export const caseStudies: CaseStudy[] = [
     product: 'Design System',
     company: 'eClinicalWorks',
     accent: '#8c8c8c',
-    description: 'A token-based, component-driven design system for eClinicalWorks’ product suite, built to speed up delivery and keep design consistent across teams. Currently in the design phase.',
+    description: "A token-based design system for eClinicalWorks' product suite: a three-tier token architecture with every component bound to variables, now used across the org. Case study in progress."
     image: '',
-    tags: ['Design Systems', 'Component Library', 'In Design Phase'],
+    tags: ['Design Systems', 'Design Tokens', 'Case study in progress'],
     impact: 'Coming soon',
-    year: '2026',
+    year: '',
     fileName: 'design-system.fig',
     status: 'coming-soon'
   },
