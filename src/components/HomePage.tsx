@@ -1,10 +1,8 @@
 import { Hero } from './Hero'
 import { About } from './About'
-import { BuiltFor } from './BuiltFor'
 import { Experience } from './Experience'
 import { CaseStudies } from './CaseStudies'
 import { Testimonials } from './Testimonials'
-import { Process } from './Process'
 import { Contact } from './Contact'
 import { Frame } from './chrome/Frame'
 
@@ -20,19 +18,13 @@ export function HomePage() {
       <Frame id="about" name="02 · About" headingId="about-heading">
         <About />
       </Frame>
-      <Frame id="built-for" name="03 · Built For" headingId="built-for-heading">
-        <BuiltFor />
-      </Frame>
-      <Frame id="experience" name="04 · Experience" headingId="experience-heading">
+      <Frame id="experience" name="03 · Experience" headingId="experience-heading">
         <Experience />
       </Frame>
-      <Frame id="testimonials" name="05 · Testimonials" headingId="testimonials-heading">
+      <Frame id="testimonials" name="04 · Testimonials" headingId="testimonials-heading">
         <Testimonials />
       </Frame>
-      <Frame id="process" name="06 · Process" headingId="process-heading">
-        <Process />
-      </Frame>
-      <Frame id="contact" name="07 · Contact" headingId="contact-heading">
+      <Frame id="contact" name="05 · Contact" headingId="contact-heading">
         <Contact />
       </Frame>
     </>
