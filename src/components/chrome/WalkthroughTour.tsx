@@ -146,15 +146,7 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
   const [bootComplete, setBootComplete] = useState(false)
   const notifyBootComplete = useCallback(() => setBootComplete(true), [])
 
-  // Auto-launch once per browser, but only once BootLoader's own splash
-  // has fully cleared the screen — otherwise the tour was popping up
-  // underneath/behind it before the boot animation even finished.
-  // Returning visitors (tour-seen already set) are left alone.
-  useEffect(() => {
-    if (hasSeenTour || !bootComplete) return
-    const timer = window.setTimeout(start, 400)
-    return () => window.clearTimeout(timer)
-  }, [hasSeenTour, bootComplete, start])
+  // Tour opens only through the existing Tour button; never on load.
 
   // Reposition on scroll/resize while a step with a target is showing
   useEffect(() => {

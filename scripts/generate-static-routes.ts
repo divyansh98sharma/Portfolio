@@ -202,6 +202,8 @@ async function main() {
   await vite.close()
 
   const template = readFileSync('build/index.html', 'utf8')
+  // Align the homepage's built HTML metadata with the client-side title and description.
+  writeFileSync('build/index.html', applyMeta(template, 'Divyansh Sharma — Senior UX Designer, Healthcare & Design Systems', 'Senior UX designer focused on healthcare, enterprise software, and design systems. Sole designer on shipped enterprise access control; built an org-wide token-based design system.', SITE_URL + '/'))
   let count = 0
 
   for (const [path, meta] of Object.entries(ROUTES)) {

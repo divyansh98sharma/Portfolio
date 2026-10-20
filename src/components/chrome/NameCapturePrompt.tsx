@@ -5,7 +5,6 @@ import { startPresenceHeartbeat, upsertVisitor } from '../../lib/visitors'
 import { isValidEmail, submitLead } from '../../lib/leads'
 
 const inter = { fontFamily: "'Inter', sans-serif" }
-const SHOW_DELAY_MS = 2500
 
 /** A one-time, dismissible nudge for first-time visitors to leave a name —
  *  joining the real, live visitor avatar stack in the top bar — with an
@@ -23,9 +22,17 @@ export function NameCapturePrompt() {
   useEffect(() => {
     const stopHeartbeat = startPresenceHeartbeat()
     if (getStoredName() || hasBeenPrompted()) return stopHeartbeat
-    const timer = window.setTimeout(() => setVisible(true), SHOW_DELAY_MS)
+    const onScroll = () => {
+      const hero = document.getElementById('hero')
+      if (hero && hero.getBoundingClientRect().bottom <= 0) {
+        setVisible(true)
+        window.removeEventListener('scroll', onScroll)
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
     return () => {
-      window.clearTimeout(timer)
+      window.removeEventListener('scroll', onScroll)
       stopHeartbeat()
     }
   }, [])

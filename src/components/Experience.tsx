@@ -8,29 +8,28 @@ const experiences = [
     role: 'Mentor - Usability',
     period: 'Jul 2026 – Present',
     location: 'Ahmedabad, India',
-    description: 'Mentoring a team of UX professionals and setting design quality standards, while partnering with cross-functional leadership to keep the product usability-first.',
+    description: 'Mentor a team of UX designers and set design-review standards, partnering with cross-functional leadership to keep products usability-first.',
     achievements: [
-      'Mentor and coach 3–5 UX professionals on design craft, Figma, and career growth',
-      'Lead design critiques and quality reviews for usability, accessibility, and handoff readiness',
+      'Mentor 3–5 UX designers on design craft, Figma, and career growth',
+      'Run design critiques and quality reviews for usability, accessibility, and handoff readiness',
       'Establish UX best practices and review standards across multiple initiatives',
-      'Partner with cross-functional teams and leadership to advocate for user-centered design',
-      'Support hiring by interviewing candidates and mentoring new designers through onboarding'
-    ]
+      'Partner with Product, Engineering, QA, and leadership to champion clinician-centered decisions',
+      'Interview design candidates and onboard new designers',
+    ],
   },
   {
     company: 'eClinicalWorks',
     role: 'Usability Specialist (UI/UX Designer)',
     period: 'Jan 2023 – Jul 2026',
     location: 'Ahmedabad, India',
-    description: 'Led end-to-end design processes for healthcare technology solutions, driving significant improvements in user engagement and system usability.',
+    description: "Owned end-to-end UX for clinician-facing healthcare products and built the company's token-based design system.",
     achievements: [
-      'Directed end-to-end design, driving a 30% boost in user engagement',
-      'Created a token-based design system, improving consistency by 40%',
-      'Revamped the design framework, boosting usability scores by 25%',
-      'Led diverse user research methods, improving UX processes by 20%',
-      'Streamlined workflows, cutting development cycles by 15%',
-      'Recruited and onboarded new designers, increasing team efficiency by 20%'
-    ]
+      'Owned end-to-end UX for clinician-facing products — research, flows, prototyping, and validation',
+      'Sole designer on Analytics Central, a role-aware clinical KPI dashboard',
+      "Built the company's token-based design system: audited 111 components (93 had no variable binding), designed a three-tier token architecture, and bound every component — now used across the org",
+      'Ran qualitative and quantitative research that simplified core clinician workflows',
+      'Helped recruit and onboard new designers',
+    ],
   },
   {
     company: 'Peak.ai (now UiPath)',
@@ -39,14 +38,13 @@ const experiences = [
     location: 'Jaipur, India',
     description: 'Designed AI-powered solutions for enterprise clients, establishing design systems and creating data-driven interfaces.',
     achievements: [
-      'Established a design system library with Storybook, boosting consistency by 30%',
-      'Designed dashboards driving 40% category growth',
-      'Spearheaded UX for 3+ explorer products, increasing satisfaction by 25%',
-      'Reduced user onboarding time by 20% through improved flows',
-      'Revamped navigation & homepage, 35% increase in engagement',
-      'Designed 8+ features, increasing retention by 15%'
-    ]
-  }
+      'Sole designer, Role-Based Access Control: replaced per-user permission setup with roles and a cascading permission matrix, then extended it to multiple roles per user',
+      "Built the platform's design system library in Storybook, standardizing components across products",
+      'Designed data-dense dashboards (Distribution, List Price Optimization, On-site Personalization)',
+      'Led UX for the Segment Explorer, Product Explorer, and Merchandiser modules',
+      'Revamped global navigation and the homepage',
+    ],
+  },
 ]
 
 export function Experience() {

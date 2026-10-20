@@ -1,7 +1,5 @@
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
-import { TypewriterText } from './TypewriterText'
-import { ComponentGlyph } from './icons/ComponentGlyph'
 
 const montserrat = { fontFamily: "'Montserrat', sans-serif" }
 const inter = { fontFamily: "'Inter', sans-serif" }
@@ -20,12 +18,6 @@ function CursorArrow({ color }: { color: string }) {
   )
 }
 
-const skills = [
-  'User Research', 'Prototyping', 'Design Systems', 'Usability Testing',
-  'Wireframing', 'Information Architecture', 'Figma', 'Adobe Creative Suite',
-  'Healthcare UX', 'Enterprise Design', 'Data Visualization', 'Accessibility',
-]
-
 export function Hero() {
   return (
     <div className="relative overflow-hidden">
@@ -33,14 +25,14 @@ export function Hero() {
         <div className="max-w-6xl mx-auto">
 
           {/* Cursor chat — my own cursor introducing me */}
-          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — Usability Mentor, UX Designer, Design Systems Builder, UX Researcher">
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Senior UX Designer · Healthcare & Design Systems">
             <CursorArrow color="var(--figma-blue)" />
             <div
               className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
               style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
               aria-hidden="true"
             >
-              Divyansh · <TypewriterText texts={['Usability Mentor', 'UX Designer', 'Design Systems Builder', 'UX Researcher', 'Problem Solver']} />
+              Senior UX Designer · Healthcare & Design Systems
             </div>
           </div>
 
@@ -60,9 +52,10 @@ export function Hero() {
 
           {/* Subtext */}
           <p className="hero-animate-in hero-delay-2 text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg">
-            I'm a UX designer and usability mentor focused on healthcare, enterprise software,
-            and design systems. I turn complex workflows into clearer, more usable experiences.
+            I design data-dense, high-stakes workflows for healthcare and enterprise software — and the design systems that keep them consistent.
           </p>
+
+          <p className="hero-animate-in hero-delay-2 mb-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">Built eClinicalWorks' token-based design system, now used across the org · Sole designer on shipped enterprise access control at Peak.</p>
 
           {/* CTAs */}
           <div className="hero-animate-in hero-delay-3 flex flex-wrap gap-4 items-center mb-10">
@@ -100,32 +93,6 @@ export function Hero() {
               <ArrowRight className="h-3 w-3 ml-2" />
             </a>
           </div>
-        </div>
-      </div>
-
-      {/* Skills ticker — a strip of Figma components from the Assets library */}
-      <div className="border-y border-border py-3 overflow-hidden bg-secondary/40">
-        <div
-          className="ticker-track flex items-center gap-3 whitespace-nowrap"
-          style={{ width: 'max-content' }}
-          aria-hidden="true"
-        >
-          {[...Array(2)].map((_, setIdx) => (
-            <div key={setIdx} className="flex items-center gap-3 pr-3">
-              {skills.map((topic, i) => (
-                <span
-                  key={`${setIdx}-${i}`}
-                  className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-[12px] font-medium text-muted-foreground"
-                  style={inter}
-                >
-                  <span style={{ color: 'var(--figma-cursor-purple)' }}>
-                    <ComponentGlyph className="h-3 w-3 flex-shrink-0" />
-                  </span>
-                  <span style={{ color: 'var(--foreground)' }}>{topic}</span>
-                </span>
-              ))}
-            </div>
-          ))}
         </div>
       </div>
 
