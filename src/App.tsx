@@ -89,8 +89,8 @@ function AppContent() {
             path: `/${currentPage}`,
           }
         : {
-            title: 'Divyansh Sharma - UX Designer Portfolio',
-            description: DEFAULT_DESCRIPTION,
+            title: 'Divyansh Sharma — Senior UX Designer, Healthcare & Design Systems',
+            description: 'Senior UX designer focused on healthcare, enterprise software, and design systems. Sole designer on shipped enterprise access control; built an org-wide token-based design system.',
             path: '/',
           }
   )
