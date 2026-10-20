@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
 import { useRouter } from '../Router'
 import { PrototypeModal } from './PrototypeModal'
+import { RbacCaseStudy } from './RbacCaseStudy'
 import { Frame } from '../chrome/Frame'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { ComponentGlyph } from '../icons/ComponentGlyph'
@@ -122,6 +123,8 @@ export function CaseStudyLayout({ data }: { data: CaseStudyContent }) {
       flush()
     }
   }, [data.id])
+
+  if (data.id === 'case-study-2') return <RbacCaseStudy data={data} />
 
   return (
     <div

@@ -34,8 +34,8 @@ const ROUTES: Record<string, RouteMeta> = {
     contentId: 'case-study-1',
   },
   '/case-study-2': {
-    title: 'Role-Based Access Control — Enterprise Admin UX | Divyansh Sharma',
-    description: 'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
+    title: 'Role-Based Access Control — Enterprise case study | Divyansh Sharma',
+    description: 'Replacing per-user permission setup with reusable roles across two releases at Peak (now UiPath). Sole designer covering research, prototyping, testing and handoff.',
     contentId: 'case-study-2',
   },
   '/case-study-3': {

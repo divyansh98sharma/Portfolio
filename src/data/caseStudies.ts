@@ -39,13 +39,13 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: 'case-study-2',
-    title: 'Role Based Access Control - Peak.ai',
-    product: 'RBAC 2.0',
+    title: 'Role-Based Access Control',
+    product: 'Role-Based Access Control',
     company: 'Peak.ai',
     accent: '#9747ff',
-    description: 'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
-    tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
-    impact: 'Template-driven roles replacing a ~48-click manual setup',
+    description: 'Replaced per-user permission setup — 22 manual choices for every new user — with reusable roles, then extended it to multiple roles per user. Sole designer across both releases.',
+    tags: ['Enterprise UX', 'Access Control', 'Usability Testing'],
+    impact: 'Sole designer · Roles across two releases',
     year: '2022',
     fileName: 'rbac-access-control.fig'
   },
