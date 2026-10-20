@@ -25,7 +25,7 @@ export function Hero() {
         <div className="max-w-6xl mx-auto">
 
           {/* Cursor chat — my own cursor introducing me */}
-          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Divyansh — Usability Mentor, UX Designer, Design Systems Builder, UX Researcher">
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Senior UX Designer · Healthcare & Design Systems">
             <CursorArrow color="var(--figma-blue)" />
             <div
               className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
