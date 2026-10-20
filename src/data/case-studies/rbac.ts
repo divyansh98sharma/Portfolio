@@ -1,166 +1,118 @@
 import type { CaseStudyContent } from './types'
-import healthcareTeamMeeting from '../../assets/case-studies/healthcare-team-meeting.jpg'
-import healthcareTeamMeetingWebp from '../../assets/case-studies/healthcare-team-meeting.webp'
 
+/** Verified user-supplied content. RBAC uses its own evidence-led section renderer.
+ * Empty legacy schema fields must never render as placeholders.
+ * TODO(PENDING): tenant/user scale numbers — awaiting confirmation.
+ * TODO(PENDING): old-flow video (blurred).
+ * TODO(PENDING): annotated Roles page and permission matrix (dummy data).
+ * TODO(PENDING): how permissions combine across multiple roles; decision and tradeoff.
+ * TODO(PENDING): Release 2 screens showing a user with multiple roles.
+ * TODO(PENDING): after-step count from recorded user flow.
+ * TODO(PENDING): before/after clips.
+ */
 export const rbac: CaseStudyContent = {
   id: 'case-study-2',
   fileName: 'rbac-access-control.fig',
-  title: 'Role Based Access Control - Peak.ai',
-  product: 'RBAC 2.0',
-  company: 'Peak.ai',
+  title: 'Role-Based Access Control',
+  product: 'Role-Based Access Control',
+  company: 'Peak (now UiPath) — an AI platform used by enterprise retail and CPG teams.',
   accent: '#9747ff',
-  subtitle: 'Redefining access management through user-centered design.',
-  description:
-    'A role-based access control system with granular permissions, role templates, and audit trails — replacing a manual setup flow that took ~48 clicks to configure a single user.',
-  tags: ['Enterprise UX', 'Access Control', 'Usability Testing', 'Security & Compliance'],
-  heroStat: { label: 'Efficiency', value: '+40%' },
-
+  subtitle: 'Replacing per-user permissions with roles — across two releases.',
+  description: 'Replaced per-user permission setup — 22 manual choices for every new user — with reusable roles, then extended it to multiple roles per user. Sole designer across both releases.',
+  tags: ['Enterprise UX', 'Access Control', 'Usability Testing'],
+  heroStat: { label: 'Before → After', value: '22 per-user permission choices → pick a role' },
   contextParagraphs: [
-    "At Peak, as the platform scaled to serve multiple enterprise clients, the existing access control system became rigid and inconsistent. Admins struggled to manage complex permissions, while end users often found themselves confused about what they could or couldn't access.",
-    'The goal of RBAC 2.0 was to create a scalable, granular, and user-friendly permissions system that would improve security, simplify admin tasks, and enhance clarity for end users.',
+    'Adding a user meant one long form: enter an email, then work through 22 resources across four sections, choosing Read, Write or Deny for each one. Nothing could be reused, so the second user started from scratch.',
+    'Customers had been raising it. At least 13 separate feedback threads asked for templates for new users, simpler permissions, and separate permission to delete — which was exposing business-critical feeds and workflows to accidental deletion.',
   ],
   stats: [
-    { value: '2022', unit: 'Year', title: 'Project Completed', note: '6 months duration', progress: 100 },
-    { value: '6', unit: 'Interviews', title: 'Stakeholder Research', note: '4-person core team', progress: 100 },
-    { value: '4', unit: 'Tests', title: 'Usability Sessions', note: '85% success rate', progress: 85 },
-    {
-      value: '90', unit: 'Adoption', title: 'Key Impact Metrics', note: '', progress: 90,
-      subMetrics: [
-        { label: 'Admin Efficiency', value: '+40%', progress: 40 },
-        { label: 'Error Reduction', value: '-25%', progress: 25 },
-        { label: 'Support Tickets', value: '-35%', progress: 35 },
-      ],
-    },
+    { value: '4', unit: 'participants', title: 'Internal admins and customer success managers', note: '', progress: 0 },
+    { value: '6', unit: 'tasks', title: 'Prototype usability testing', note: '', progress: 0 },
+    { value: '21/24', unit: 'tasks completed', title: '87.5% task completion', note: '', progress: 87.5 },
   ],
-
-  teamIntro:
-    'This was a product-focused project with close collaboration between design, security, engineering, and business operations teams.',
+  teamIntro: 'Discovery to rollout across two releases (2021–2022). Team: 7 engineers, 1 PM, 1 QA.',
   role: {
-    title: 'Lead UX Designer / Associate Product Designer',
-    activities: [
-      'Conducted stakeholder workshops',
-      'Defined user flows and permission models',
-      'Designed prototypes for admin dashboards',
-      'Led usability validation with enterprise clients',
-    ],
+    title: 'Sole designer (Associate Product Designer)',
+    activities: ['User journeys', 'Wireframes', 'Prototypes', 'Usability testing', 'Engineering handoff across time zones — for both releases'],
   },
   teamGroups: [
-    { heading: 'Research & Product', items: ['Product Manager – Product Strategy & Requirements', 'Security Analyst – Security & Compliance Requirements'] },
-    { heading: 'Engineering Team', items: ['Backend & Frontend Engineers'] },
-    { heading: 'Business & Operations', items: ['Client-facing analysts for enterprise onboarding'] },
+    { heading: 'Cross-functional team', items: ['7 engineers', '1 PM', '1 QA'] },
   ],
-
-  challengeIntro: 'Enterprise customers and internal admins highlighted three major issues:',
-  challenges: [
-    {
-      title: 'Rigid Permissions',
-      subtitle: "Predefined roles didn't scale",
-      description: "Predefined roles didn't scale to complex enterprise use cases.",
-      impact: 'Result: Admins had to create workarounds, increasing security risk.',
-      stat: '100%',
-      statLabel: 'Predefined',
-    },
-    {
-      title: 'Confusing Interfaces',
-      subtitle: 'Unclear access visibility',
-      description: "End users didn't know what they could or couldn't access.",
-      impact: 'Result: High support ticket volume & onboarding friction.',
-      stat: '48',
-      statLabel: 'Clicks',
-    },
-    {
-      title: 'Inefficient Admin Management',
-      subtitle: 'Manual and repetitive tasks',
-      description: 'Assigning permissions was manual and repetitive (~48 clicks to configure a single user).',
-      impact: 'Result: Productivity bottlenecks for enterprise IT teams.',
-      stat: '+40%',
-      statLabel: 'Admin Time',
-    },
-  ],
-  combinedImpact: [
-    { value: '85%', label: 'Security Gaps' },
-    { value: '70%', label: 'High Admin Effort' },
-    { value: '65%', label: 'Poor End-User Clarity' },
-  ],
-
-  researchIntro: 'To ensure the new system addressed real-world needs, we conducted:',
+  challengeIntro: 'Admins set 22 permissions by hand for every new user, then repeated it for the next one.',
+  challenges: [],
+  combinedImpact: [],
+  researchIntro: 'Mapped the current admin journey and the ideal one to find where time and errors came from. Tested a Figma prototype with 4 internal admins and customer success managers across 6 tasks. 21 of 24 task attempts completed (87.5%).',
   researchMethods: [
-    '6 stakeholder interviews with enterprise IT managers & internal admins',
-    '4 usability sessions testing early permission prototypes',
-    'Workflow mapping of user and admin journeys',
-    'Benchmarking against AWS IAM, Azure AD, and Google Workspace',
+    'Mapped the current admin journey and the ideal one to find where time and errors came from.',
+    'Tested a Figma prototype with 4 internal admins and customer success managers across 6 tasks.',
+    '21 of 24 task attempts completed (87.5%).',
   ],
-  keyInsight: {
-    quote: '"I just want to see, at a glance, who has access to what — and change it in one click."',
-    cite: '– Enterprise IT Admin',
-  },
-  researchImage: {
-    src: healthcareTeamMeeting,
-    webp: healthcareTeamMeetingWebp,
-    alt: 'Enterprise team meeting and stakeholder research session',
-    width: 1080,
-    height: 720,
-  },
-
-  processIntro: 'We followed a structured design methodology:',
-  designPhases: [
-    { title: 'Discovery', description: 'Gathered feedback from admins & clients on access issues' },
-    { title: 'Define', description: 'Identified opportunities for role templates, custom roles, and audit trails' },
-    { title: 'Ideate', description: 'Explored models for granular permissions & visual matrices' },
-    { title: 'Prototype', description: 'Built Figma prototypes for role creation, assignment, and auditing' },
-    { title: 'Test & Iterate', description: 'Refined flows after usability sessions with enterprise admins' },
-  ],
-
-  solutions: [
-    {
-      title: 'Role Templates',
-      description: 'Predefined roles (Admin, Manager, Analyst, etc.) to simplify setup',
-      impact: 'Reduced onboarding time for new clients',
-      result: 'Streamlined initial configuration process',
-    },
-    {
-      title: 'Custom Roles',
-      description: 'Full flexibility to create, edit, and delete roles with granular permissions',
-      impact: 'Scalable system adaptable to enterprise complexity',
-      result: '100% customizable permission structures',
-    },
-    {
-      title: 'Permission Matrix',
-      description: 'Visual grid of resources vs. actions (view, edit, run, delete)',
-      impact: 'Clear at-a-glance permissions overview, reducing confusion',
-      result: 'Instant visibility into access rights',
-    },
-    {
-      title: 'Audit Trails',
-      description: 'Complete history of role assignments and permission changes',
-      impact: 'Improved accountability and compliance tracking',
-      result: 'Full regulatory compliance support',
-    },
-  ],
-
-  impactIntro: 'What changed for admins and end users:',
+  keyInsight: { quote: '', cite: '' },
+  researchImage: { src: '', alt: '' },
+  processIntro: '',
+  designPhases: [],
+  solutions: [],
+  impactIntro: 'Before: 22 permission choices per user, repeated for every user. After: Pick a role — and from Release 2, combine roles when one isn’t enough. Shipped across two releases, rolled out in batches to customer tenants without breaking anyone’s access.',
   impactMetrics: [],
   whatChanged: [
-    'Template-driven role creation replaced a ~48-click manual setup',
-    'Clear at-a-glance permissions overview, reducing confusion',
-    'Complete history of role assignments and permission changes',
-    'Scalable model adaptable to enterprise complexity',
+    'Before: 22 permission choices per user, repeated for every user.',
+    'After: Pick a role — and from Release 2, combine roles when one isn’t enough.',
+    'Shipped across two releases, rolled out in batches to customer tenants without breaking anyone’s access.',
   ],
-  feedbackHeading: 'Enterprise Feedback',
-  feedback: [
-    { quote: '"The permission matrix makes it so easy to understand who has access to what. Game changer."', cite: '– IT Director, Fortune 500' },
-    { quote: '"Custom roles finally let us match our actual org structure. No more workarounds."', cite: '– Security Admin, Tech Startup' },
-    { quote: '"The audit trail gives us complete visibility for compliance. Exactly what we needed."', cite: '– Compliance Officer, FinTech' },
-  ],
-
-  keyLearnings: [
-    { title: 'Granularity vs. simplicity', description: 'Striking the right balance between detailed control and ease of use was key.' },
-    { title: 'Default + Custom approach', description: 'Predefined roles gave clarity, custom roles gave flexibility.' },
-    { title: 'Visibility builds trust', description: 'The permission matrix and audit logs were the most valued features.' },
-  ],
-  futureOpportunities: [
-    { title: 'Cross-tenant Admin Portal', description: 'Managing multiple organizations from a single interface' },
-    { title: 'Predictive Permissions', description: 'AI recommendations for role setups based on usage patterns' },
-    { title: 'Enhanced Reporting', description: 'Advanced analytics to track anomalies and optimize configurations' },
-  ],
+  feedbackHeading: '',
+  feedback: [],
+  keyLearnings: [],
+  futureOpportunities: [],
 }
+
+/** Decision records retain what / tradeoff / why rather than fake metrics. */
+export const rbacReleaseOneDecisions = [
+  {
+    title: 'Roles, not per-user permissions',
+    what: 'Admins define permissions once in a role and assign people to it.',
+    tradeoff: 'A new concept for admins to learn.',
+    why: 'It was the root cause of the repetition, and the most-requested fix.',
+  },
+  {
+    title: 'Read → Write → Delete, cascading; Deny removed',
+    what: 'Choosing a higher level includes the lower ones; selecting nothing means no access.',
+    tradeoff: 'It changed a model admins already knew.',
+    why: '"Deny" wasn’t really a permission, and Delete needed its own level to protect critical resources.',
+  },
+  {
+    title: 'Every user must have a role',
+    what: 'A user can’t be added without a role.',
+    tradeoff: 'Adding a user takes one extra step.',
+    why: 'In testing, 2 of 4 participants wanted to be forced to choose one, so nobody ends up with unclear access.',
+  },
+  {
+    title: 'Assign users while creating a role',
+    what: 'People can be added directly inside the create-role form.',
+    tradeoff: 'The creation form gets busier.',
+    why: 'Participants expected to add people as part of creating the role, not as a separate step afterwards.',
+  },
+  {
+    title: 'Default roles locked; clone to customize',
+    what: 'Built-in roles can’t be edited; admins clone them to customize.',
+    tradeoff: 'Less flexibility.',
+    why: 'Editing a shared default would silently change access for everyone using it. Cloning keeps defaults predictable.',
+  },
+] as const
+
+export const rbacSessionNotes = [
+  'Tick can be missed.',
+  'Create role button is misleading.',
+  'Felt like it was a test.',
+] as const
+
+export const rbacReleaseOneConstraint = 'Release 1 limited each user to one role, and existing users were migrated automatically into generated roles so nobody lost access at launch. Engineering made those calls for migration safety; my job was to make the interface work within them.'
+
+export const rbacReleaseTwo = 'Release 2 lifted Release 1’s one-role limit: a user can now hold more than one role. Testing had already pointed here — participants were split between expecting one role and several ("One, might conflict between two roles" vs. "ultimately more than one role at a time").'
+
+export const rbacReflectionIntro = 'In testing, only 2 of 4 participants could tell which role a user had — even on the right screen. The assigned role was highlighted in a way that looked like a choice from a short list. Three of four also said roles and users felt disconnected. We shipped without fixing it. Today I would:'
+export const rbacReflectionActions = [
+  'show each role as a clear label on the user’s page, linked to its permissions;',
+  'show each user’s effective permissions;',
+  're-test that task before launch.',
+] as const
+export const rbacReflectionOutro = 'This gap matters more after Release 2: once a user can hold several roles, "what can this person actually do?" gets harder to answer — so effective permissions should be visible in one place.'
