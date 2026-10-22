@@ -21,6 +21,7 @@ import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { TABLET_CHROME_QUERY } from './lib/chrome'
+import { AfterIdle } from './components/utils/AfterIdle'
 
 // Canvas-only effects are optional: avoid loading them in the initial mobile bundle.
 // They remain gated by the existing viewport and motion preferences below.
@@ -184,9 +185,13 @@ function AppContent() {
       <BootLoader />
       {/* Bottom-left: first-time name-capture prompt. */}
       <div className="pointer-events-none fixed bottom-4 left-4 z-[60] flex flex-col items-start gap-3">
-        <Suspense fallback={null}>
-          <NameCapturePrompt />
-        </Suspense>
+        {/* Visitor presence pulls in the Firebase SDK (~140 kB gzip): load it
+            after the page is idle so it doesn't compete with first paint. */}
+        <AfterIdle>
+          <Suspense fallback={null}>
+            <NameCapturePrompt />
+          </Suspense>
+        </AfterIdle>
       </div>
       <Suspense fallback={null}>
         <AiChat />
