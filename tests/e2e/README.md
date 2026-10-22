@@ -6,7 +6,7 @@ fallback and a real 404.
 
 ```bash
 npm ci
-npx playwright install --with-deps chromium webkit
+npx playwright install --with-deps chromium webkit   # CI uses the mcr.microsoft.com/playwright image instead
 npm run build
 npm run test:e2e                    # all projects
 npm run test:e2e -- --project=desktop-chromium

@@ -20,6 +20,12 @@ jobs:
     name: Playwright (Chromium desktop/tablet/mobile + WebKit iPhone)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Official image with Chromium + WebKit and their system libraries
+    # preinstalled. Installing them with --with-deps took ~16 of the first
+    # run's 21 minutes. Keep the tag equal to the locked @playwright/test version.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
 
     steps:
       - name: Checkout
@@ -36,9 +42,6 @@ jobs:
 
       - name: Build portfolio and generate static routes
         run: npm run build
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
 
       - name: Run regression suite
         run: npm run test:e2e
