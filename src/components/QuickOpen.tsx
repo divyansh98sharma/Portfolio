@@ -94,11 +94,15 @@ export function QuickOpen() {
 
   return (
     <>
+      {/* Right-edge floating stack, bottom → top. Phones: chat 64–108px,
+          Quick Open 120–164px. md+: status pill 16–74px (taller on touch),
+          chat 80–124px, Quick Open 136–180px. Keep in step with StatusBar
+          and AiChat so the controls never overlap. */}
       <button
         ref={triggerRef}
         type="button"
         onClick={openPalette}
-        className="figma-chrome fixed bottom-20 right-4 z-40 flex min-h-11 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold shadow-lg transition-colors hover:border-[var(--figma-blue)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)] md:bottom-20"
+        className="figma-chrome fixed bottom-[7.5rem] right-4 z-40 md:bottom-[8.5rem] flex min-h-11 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold shadow-lg transition-colors hover:border-[var(--figma-blue)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)]"
         style={{ color: 'var(--figma-text)', background: 'var(--figma-panel)', borderColor: 'var(--figma-border)' }}
         aria-keyshortcuts="Control+K Meta+K"
         aria-label="Quick open portfolio navigation"
