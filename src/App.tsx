@@ -150,7 +150,7 @@ function AppContent() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="canvas-dots relative min-h-screen pt-20 pb-10 md:pb-24 lg:pl-[272px]"
+        className="canvas-dots relative min-h-screen overflow-x-clip pt-20 pb-10 md:pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
           <AnimatePresence mode={reducedMotion ? 'sync' : 'wait'} initial={!reducedMotion}>

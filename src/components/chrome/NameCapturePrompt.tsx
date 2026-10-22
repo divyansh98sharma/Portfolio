@@ -62,8 +62,11 @@ export function NameCapturePrompt() {
     <div
       className="figma-chrome pointer-events-auto w-[min(320px,calc(100vw-32px))] rounded-xl border p-4 shadow-xl"
       style={{ backgroundColor: 'var(--figma-panel)', borderColor: 'var(--figma-border)', color: 'var(--figma-text)' }}
-      role="dialog"
+      role="region"
       aria-label="Add your name"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') dismiss()
+      }}
     >
       <div className="flex items-center justify-between gap-2">
         <p className="text-[13px] font-semibold" style={inter}>
@@ -88,9 +91,10 @@ export function NameCapturePrompt() {
             if (e.key === 'Enter') submit()
           }}
           placeholder="Your name"
+          aria-label="Your name"
+          autoComplete="given-name"
           maxLength={40}
-          autoFocus
-          className="w-full rounded-md border bg-transparent px-2.5 py-1.5 text-[12px] outline-none"
+          className="w-full rounded-md border bg-transparent px-2.5 py-1.5 text-[12px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--figma-blue)]"
           style={{ ...inter, color: 'var(--figma-text)', borderColor: 'var(--figma-border)' }}
         />
         <input
@@ -101,8 +105,10 @@ export function NameCapturePrompt() {
             if (e.key === 'Enter') submit()
           }}
           placeholder="Email (optional)"
+          aria-label="Email (optional)"
+          autoComplete="email"
           maxLength={200}
-          className="w-full rounded-md border bg-transparent px-2.5 py-1.5 text-[12px] outline-none"
+          className="w-full rounded-md border bg-transparent px-2.5 py-1.5 text-[12px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--figma-blue)]"
           style={{ ...inter, color: 'var(--figma-text)', borderColor: 'var(--figma-border)' }}
         />
       </div>
