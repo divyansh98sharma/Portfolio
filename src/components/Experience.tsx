@@ -107,7 +107,7 @@ export function Experience() {
                     {index === 0 ? 'v2.0 · Current' : `v1.${experiences.length - 1 - index}`}
                   </span>
                   <span className="text-muted-foreground">{exp.period}</span>
-                  <span className="text-muted-foreground/60">· Saved by Divyansh</span>
+                  <span className="text-muted-foreground">· Saved by Divyansh</span>
                 </div>
 
                 <div className="p-6 sm:p-8">

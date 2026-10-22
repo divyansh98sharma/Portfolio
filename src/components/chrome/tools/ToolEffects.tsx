@@ -308,7 +308,7 @@ export function ToolEffects() {
         >
           <span
             className="rounded-md px-2 py-1 text-[10px] font-semibold text-white shadow-md"
-            style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+            style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
           >
             {labelText}
           </span>

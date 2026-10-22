@@ -120,7 +120,7 @@ export function AiChat() {
               onClick={send}
               disabled={!draft.trim() || status === 'sending'}
               className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md text-white disabled:opacity-40"
-              style={{ backgroundColor: 'var(--figma-blue)' }}
+              style={{ backgroundColor: 'var(--figma-blue-fill)' }}
               aria-label="Send message"
             >
               <Send className="h-3.5 w-3.5" aria-hidden="true" />

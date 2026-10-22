@@ -34,10 +34,9 @@ export function Contact() {
                 download="Divyansh-Sharma-Resume.pdf"
                 onClick={() => { void import('../lib/engagement').then(m => m.trackResumeDownload(getClientId())) }}
                 className="no-underline mt-5 flex min-h-11 items-center justify-between rounded-lg border border-black/10 px-4 py-3 text-sm text-black hover:border-black/25"
-                aria-label="Download resume as PDF"
               >
                 <span className="flex items-center gap-2"><Download className="h-4 w-4" aria-hidden="true" /> Export divyansh-resume.pdf</span>
-                <span className="text-xs text-black/50">PDF</span>
+                <span className="text-xs text-black/65">PDF</span>
               </a>
             </div>
           </div>

@@ -75,7 +75,7 @@ export function FigFileCard({
 
         {/* File meta row — the file-browser part */}
         <div className="flex items-center gap-3 border-b border-border px-5 py-3.5">
-          <span style={{ color: 'var(--figma-cursor-purple)' }}>
+          <span style={{ color: 'var(--frame-text-purple)' }}>
             <FigmaIcon className="h-4 w-3 flex-shrink-0" />
           </span>
           <div className="min-w-0 flex-1">
@@ -118,14 +118,14 @@ export function FigFileCard({
           </div>
 
           {!comingSoon && (
-            <button type="button" onClick={openStudy} className="group/open relative z-10 mb-4 flex min-h-11 w-full items-center justify-between rounded-lg border border-border bg-secondary/60 px-4 py-3 text-left text-sm font-semibold transition-colors hover:border-[var(--figma-blue)] hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)]" aria-label={`Open case study: ${study.title}`}>
+            <button type="button" onClick={openStudy} className="group/open relative z-10 mb-4 flex min-h-11 w-full items-center justify-between rounded-lg border border-border bg-secondary/60 px-4 py-3 text-left text-sm font-semibold transition-colors hover:border-[var(--figma-blue)] hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)]" aria-label={`Explore the case study: ${study.title}`}>
               Explore the case study <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover/open:-translate-y-0.5 group-hover/open:translate-x-0.5" aria-hidden="true" />
             </button>
           )}
 
           <p
             className="border-t border-border pt-3 text-[11px] font-semibold"
-            style={{ ...inter, color: comingSoon ? 'var(--muted-foreground)' : 'var(--figma-cursor-green)' }}
+            style={{ ...inter, color: comingSoon ? 'var(--muted-foreground)' : 'var(--text-positive)' }}
           >
             {comingSoon ? '◐' : '▲'} {study.impact}
           </p>

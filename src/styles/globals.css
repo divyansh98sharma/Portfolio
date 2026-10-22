@@ -91,8 +91,13 @@
   --figma-canvas: #f5f5f5;
   --figma-border: #e6e6e6;
   --figma-text: #333333;
-  --figma-text-dim: rgba(0, 0, 0, 0.5);
-  --figma-blue: #0d99ff;
+  /* Accessible chrome tokens (WCAG 2.2 AA). Figma's #0d99ff gives 2.99:1
+     with white text and on white, so text, icons, focus rings and filled
+     buttons use a deeper blue; #0d99ff remains for decorative selection
+     and multiplayer cursors. */
+  --figma-text-dim: rgba(0, 0, 0, 0.6); /* 5.7:1 on panel, 5.3:1 on canvas */
+  --figma-blue: #0866b3; /* 5.9:1 on white, 4.7:1 on its 15% active-row tint */
+  --figma-blue-fill: #0866b3; /* filled controls with white text: 5.9:1 */
   --figma-selection: #0d99ff;
   --figma-row-height: 32px;
   --figma-radius: 6px;
@@ -103,6 +108,16 @@
   --figma-cursor-green: #14ae5c;
   --figma-cursor-blue: #0d99ff;
   --figma-cursor-purple: #9747ff;
+
+  /* Text-safe versions of the cursor/accent hues for light frame surfaces.
+     The raw hues are 1.9–3.7:1 on white; these are ≥4.5:1 (AA, small text). */
+  --frame-text-red: color-mix(in srgb, var(--figma-cursor-red) 68%, #000);
+  --frame-text-orange: color-mix(in srgb, var(--figma-cursor-orange) 60%, #000);
+  --frame-text-green: color-mix(in srgb, var(--figma-cursor-green) 68%, #000);
+  --frame-text-blue: color-mix(in srgb, var(--figma-cursor-blue) 68%, #000);
+  --frame-text-purple: color-mix(in srgb, var(--figma-cursor-purple) 85%, #000);
+  /* Theme-aware positive text for surfaces that follow the UI theme */
+  --text-positive: var(--frame-text-green);
 }
 
 .dark {
@@ -111,8 +126,10 @@
   --figma-border: #444444;
   --figma-text: #ffffff;
   --figma-text-dim: #b3b3b3;
-  --figma-blue: #0d99ff;
+  --figma-blue: #4db5ff; /* 6.2:1 on panel, 5.1:1 on its active-row tint */
+  --figma-blue-fill: #0866b3;
   --figma-selection: #0d99ff;
+  --text-positive: #3ccf7e; /* 8:1 on dark cards */
 }
 
 /* =================================================================
@@ -145,6 +162,11 @@
   --input-background: #ffffff;
   --switch-background: #E8EDF5;
   --ring: #D4A853;
+  /* Frames are always light, so chrome tokens used inside them take their
+     light-theme, contrast-safe values even when the UI theme is dark. */
+  --figma-blue: #0866b3;
+  --figma-text-dim: rgba(0, 0, 0, 0.6);
+  --text-positive: var(--frame-text-green);
   background-color: var(--background);
   color: var(--foreground);
 }
@@ -195,6 +217,7 @@
   --color-figma-text: var(--figma-text);
   --color-figma-text-dim: var(--figma-text-dim);
   --color-figma-blue: var(--figma-blue);
+  --color-figma-blue-fill: var(--figma-blue-fill);
   --color-figma-cursor-red: var(--figma-cursor-red);
   --color-figma-cursor-orange: var(--figma-cursor-orange);
   --color-figma-cursor-yellow: var(--figma-cursor-yellow);

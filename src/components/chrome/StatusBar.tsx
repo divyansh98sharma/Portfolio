@@ -113,7 +113,7 @@ export function StatusBar() {
             onClick={scrollToTop}
             className="flex items-center gap-1.5 min-h-0 min-w-0 h-6 rounded px-2 text-[11px] transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] hover:text-[var(--figma-text)]"
             style={inter}
-            aria-label="Back to top"
+            aria-label={`${Math.round(progress * 100)}% — back to top`}
           >
             <ChevronUp className="h-3 w-3" aria-hidden="true" />
             {Math.round(progress * 100)}%

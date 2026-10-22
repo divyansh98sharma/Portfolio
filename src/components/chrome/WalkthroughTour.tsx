@@ -287,7 +287,7 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
                 <button
                   onClick={() => goTo(stepIndex! + 1, 1)}
                   className="rounded-lg px-3 py-1.5 text-[12px] font-semibold text-white transition-opacity hover:opacity-90"
-                  style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+                  style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
                 >
                   {stepIndex! + 1 === STEPS.length ? 'Done' : 'Next'}
                 </button>

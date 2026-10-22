@@ -54,7 +54,7 @@ export function CaseStudies() {
               onClick={() => navigateTo('all-case-studies')}
               className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-lg border-2 border-border text-foreground transition-all duration-300 hover:border-[var(--figma-blue)] hover:text-[var(--figma-blue)]"
               style={{ fontFamily: "'Montserrat', sans-serif" }}
-              aria-label="View all case studies"
+              aria-label="View all files — every case study"
             >
               View all files
               <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
