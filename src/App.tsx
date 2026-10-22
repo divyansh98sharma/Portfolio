@@ -154,9 +154,13 @@ function AppContent() {
       >
         <ZoomCanvas>
           <AnimatePresence mode={reducedMotion ? 'sync' : 'wait'} initial={!reducedMotion}>
-            <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
+            {/* Footer renders with the page, not before it, so it isn't
+                pushed down (a layout shift) when a lazy route resolves. */}
+            <Suspense fallback={<SkeletonLoader />}>
+              {renderMainContent()}
+              <Footer />
+            </Suspense>
           </AnimatePresence>
-          <Footer />
           {hasCanvasChrome && (
             <Suspense fallback={null}>
               <CommentTool />
