@@ -439,12 +439,16 @@
 .hero-animate-in {
   opacity: 0;
   animation: hero-fade-in 0.9s ease-out forwards;
+  /* --hero-elapsed is set by main.tsx when the prerendered hero shell has
+     already been animating: React's fresh elements resume at the same point
+     (negative delay) instead of restarting from opacity 0. */
+  animation-delay: calc(0s - var(--hero-elapsed, 0s));
 }
-.hero-delay-1 { animation-delay: 0.1s; }
-.hero-delay-2 { animation-delay: 0.3s; }
-.hero-delay-3 { animation-delay: 0.5s; }
-.hero-delay-4 { animation-delay: 0.7s; }
-.hero-delay-5 { animation-delay: 0.9s; }
+.hero-delay-1 { animation-delay: calc(0.1s - var(--hero-elapsed, 0s)); }
+.hero-delay-2 { animation-delay: calc(0.3s - var(--hero-elapsed, 0s)); }
+.hero-delay-3 { animation-delay: calc(0.5s - var(--hero-elapsed, 0s)); }
+.hero-delay-4 { animation-delay: calc(0.7s - var(--hero-elapsed, 0s)); }
+.hero-delay-5 { animation-delay: calc(0.9s - var(--hero-elapsed, 0s)); }
 
 @keyframes bounce-limited {
   0%, 100% { transform: translateY(0); }
