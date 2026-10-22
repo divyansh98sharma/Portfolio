@@ -12,16 +12,24 @@ import { LayersProvider } from './components/chrome/LayersContext'
 import { FigmaTopBar } from './components/chrome/FigmaTopBar'
 import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
+import { QuickOpen } from './components/QuickOpen'
 import { ToolButtons } from './components/chrome/ToolButtons'
-import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
-import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { WalkthroughTourProvider } from './components/chrome/WalkthroughTour'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { TABLET_CHROME_QUERY } from './lib/chrome'
+
+// Canvas-only effects are optional: avoid loading them in the initial mobile bundle.
+// They remain gated by the existing viewport and motion preferences below.
+const ToolEffects = lazy(() =>
+  import('./components/chrome/tools/ToolEffects').then((m) => ({ default: m.ToolEffects }))
+)
+const MultiplayerCursors = lazy(() =>
+  import('./components/chrome/MultiplayerCursors').then((m) => ({ default: m.MultiplayerCursors }))
+)
 
 // Secondary routes are code-split; the skeleton shows while a chunk loads.
 const AllCaseStudies = lazy(() =>
@@ -98,7 +106,14 @@ function AppContent() {
   const renderMainContent = () => {
     const study = currentPage in caseStudyContent ? caseStudyContent[currentPage as keyof typeof caseStudyContent] : undefined
     return (
-      <motion.div key={currentPage} initial="hidden" animate="visible" exit="exit" variants={pageVariants}>
+      <motion.div
+        key={currentPage}
+        initial={reducedMotion ? false : 'hidden'}
+        animate={reducedMotion ? { opacity: 1, y: 0 } : 'visible'}
+        exit={reducedMotion ? { opacity: 1, y: 0 } : 'exit'}
+        variants={pageVariants}
+        transition={reducedMotion ? { duration: 0 } : undefined}
+      >
         {study ? (
           <CaseStudyLayout data={study} />
         ) : currentPage === 'all-case-studies' ? (
@@ -138,7 +153,7 @@ function AppContent() {
         className="canvas-dots relative min-h-screen pt-20 pb-10 md:pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode={reducedMotion ? 'sync' : 'wait'} initial={!reducedMotion}>
             <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
           </AnimatePresence>
           <Footer />
@@ -155,8 +170,13 @@ function AppContent() {
         </ZoomCanvas>
       </main>
       <StatusBar />
-      {hasCanvasChrome && <ToolEffects />}
-      {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
+      <QuickOpen />
+      {hasCanvasChrome && (
+        <Suspense fallback={null}><ToolEffects /></Suspense>
+      )}
+      {hasCanvasChrome && !reducedMotion && (
+        <Suspense fallback={null}><MultiplayerCursors /></Suspense>
+      )}
       <BootLoader />
       {/* Bottom-left: first-time name-capture prompt. */}
       <div className="pointer-events-none fixed bottom-4 left-4 z-[60] flex flex-col items-start gap-3">
