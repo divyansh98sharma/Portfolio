@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useLayers } from './chrome/LayersContext'
 import { scrollToSection } from './utils/scrollToSection'
+import { TOPBAR_HEIGHT } from '../lib/chrome'
+
+// Same offset scrollToSection lands sections at. The hero counts as gone once
+// it has scrolled under the top bar, otherwise jumping to the first chapter
+// (which leaves the hero's last ~24px below the bar) hid the rail itself.
+const HIDDEN_BELOW = TOPBAR_HEIGHT + 16
 
 /** A lightweight story outline for the existing Figma canvas.
  * From md up the rail floats over the canvas edge, so it rests as a compact
@@ -20,8 +26,8 @@ export function ChapterRail() {
     const hero = document.getElementById('hero')
     if (!hero) return
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting && entry.boundingClientRect.bottom < 0),
-      { threshold: 0 }
+      ([entry]) => setVisible(!entry.isIntersecting && entry.boundingClientRect.bottom < HIDDEN_BELOW),
+      { threshold: 0, rootMargin: `-${HIDDEN_BELOW}px 0px 0px 0px` }
     )
     observer.observe(hero)
     return () => observer.disconnect()
