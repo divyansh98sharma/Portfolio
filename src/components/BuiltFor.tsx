@@ -63,20 +63,20 @@ export function BuiltFor() {
               {/* Component name row, like an Assets-panel tile header */}
               <div
                 className="flex items-center justify-between border-b border-border px-5 py-2.5 text-[11px] font-medium"
-                style={{ fontFamily: "'Inter', sans-serif", color: 'var(--figma-cursor-purple)' }}
+                style={{ fontFamily: "'Inter', sans-serif", color: 'var(--frame-text-purple)' }}
                 aria-hidden="true"
               >
                 <span className="flex items-center gap-1.5">
                   <ComponentGlyph className="h-3 w-3" />
                   Client / {item.number}
                 </span>
-                <span className="text-muted-foreground/70">Published</span>
+                <span className="text-muted-foreground">Published</span>
               </div>
 
               <div className="p-6 sm:p-8">
                 <span
                   className="text-5xl font-black block mb-4"
-                  style={{ ...montserrat, color: 'var(--figma-cursor-purple)', opacity: 0.25 }}
+                  style={{ ...montserrat, color: 'var(--frame-text-purple)', opacity: 0.25 }}
                 >
                   {item.number}
                 </span>

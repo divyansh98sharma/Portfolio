@@ -120,7 +120,7 @@ export function AiChat() {
               onClick={send}
               disabled={!draft.trim() || status === 'sending'}
               className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md text-white disabled:opacity-40"
-              style={{ backgroundColor: 'var(--figma-blue)' }}
+              style={{ backgroundColor: 'var(--figma-blue-fill)' }}
               aria-label="Send message"
             >
               <Send className="h-3.5 w-3.5" aria-hidden="true" />
@@ -132,7 +132,7 @@ export function AiChat() {
       <button
         onClick={() => setOpen((v) => !v)}
         className="figma-chrome pointer-events-auto fixed bottom-16 right-4 z-[60] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg transition-transform hover:scale-105"
-        style={{ backgroundColor: 'var(--figma-blue)', borderColor: 'var(--figma-border)' }}
+        style={{ backgroundColor: 'var(--figma-blue-fill)', borderColor: 'var(--figma-border)' }}
         aria-label={open ? 'Close chat' : 'Ask about Divyansh'}
         title="Ask about Divyansh"
       >

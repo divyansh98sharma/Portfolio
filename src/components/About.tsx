@@ -95,8 +95,8 @@ export function About() {
                     className="mt-0.5 inline-flex h-6 items-center rounded px-2 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0"
                     style={{
                       fontFamily: "'Inter', sans-serif",
-                      backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)',
-                      color: 'var(--figma-blue)',
+                      backgroundColor: 'color-mix(in srgb, var(--frame-text-blue) 12%, transparent)',
+                      color: 'var(--frame-text-blue)',
                     }}
                     aria-hidden="true"
                   >

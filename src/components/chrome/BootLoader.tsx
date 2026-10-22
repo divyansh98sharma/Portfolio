@@ -105,7 +105,7 @@ export function BootLoader() {
           <div
             className="h-full rounded-full"
             style={{
-              backgroundColor: 'var(--figma-blue)',
+              backgroundColor: 'var(--figma-blue-fill)',
               animation: `boot-progress ${BOOT_MS}ms cubic-bezier(0.3, 0.6, 0.4, 1) forwards`,
             }}
           />

@@ -26,7 +26,7 @@ function Heading({ id, eyebrow, children }: { id: string; eyebrow: string; child
 export function RbacCaseStudy({ data }: { data: CaseStudyContent }) {
   const { navigateTo } = useRouter()
   return (
-    <div role="main" aria-label="Role-Based Access Control case study" style={{ '--cs-accent': data.accent } as React.CSSProperties}>
+    <div role="region" aria-label="Role-Based Access Control case study" style={{ '--cs-accent': data.accent, '--cs-accent-strong': `color-mix(in srgb, ${data.accent} 68%, #000)` } as React.CSSProperties}>
       <div className="figma-chrome mx-auto mt-4 flex max-w-[1200px] justify-between gap-3 px-3 sm:px-6">
         <button type="button" onClick={() => navigateTo('all-case-studies')} className="inline-flex min-h-11 items-center gap-2 rounded-md px-3 text-xs hover:text-[var(--cs-accent)]">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All files
@@ -36,7 +36,7 @@ export function RbacCaseStudy({ data }: { data: CaseStudyContent }) {
       </div>
       <Frame id="cs-cover" name="Cover" headingId="cs-hero-title" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--cs-accent)', ...inter }}>{data.company}</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--cs-accent-strong)', ...inter }}>{data.company}</p>
           <h1 id="cs-hero-title" className="mb-5 text-4xl font-black tracking-tight sm:text-6xl" style={montserrat}>{data.product}</h1>
           <p className="mb-5 text-lg text-muted-foreground">{data.subtitle}</p>
           <p className="max-w-3xl leading-relaxed text-muted-foreground">{data.description}</p>
@@ -91,7 +91,7 @@ export function RbacCaseStudy({ data }: { data: CaseStudyContent }) {
           <div className="grid gap-5 md:grid-cols-2">
             {rbacReleaseOneDecisions.map((decision, i) => (
               <article key={decision.title} className="rounded-xl border border-border bg-card p-6">
-                <p className="mb-2 text-xs font-bold" style={{ color: 'var(--cs-accent)' }}>Decision {i + 1}</p>
+                <p className="mb-2 text-xs font-bold" style={{ color: 'var(--cs-accent-strong)' }}>Decision {i + 1}</p>
                 <h3 className="mb-5 text-lg font-bold" style={montserrat}>{decision.title}</h3>
                 <dl className="space-y-3 text-sm">
                   <div><dt className="font-semibold">What</dt><dd className="text-muted-foreground">{decision.what}</dd></div>
@@ -118,7 +118,7 @@ export function RbacCaseStudy({ data }: { data: CaseStudyContent }) {
       <Frame id="cs-impact" name="05 · Outcome" headingId="cs-impact-heading" instantReveal className="!my-8 sm:!my-10">
         <div className={pad}>
           <Heading id="cs-impact-heading" eyebrow="Outcome">Before and after.</Heading>
-          <ul className="max-w-3xl space-y-3">{data.whatChanged?.map(item => <li key={item} className="flex gap-3 rounded-xl border border-border bg-card p-5 text-sm leading-relaxed"><Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: 'var(--cs-accent)' }} aria-hidden="true"/>{item}</li>)}</ul>
+          <ul className="max-w-3xl space-y-3">{data.whatChanged?.map(item => <li key={item} className="flex gap-3 rounded-xl border border-border bg-card p-5 text-sm leading-relaxed"><Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: 'var(--cs-accent-strong)' }} aria-hidden="true"/>{item}</li>)}</ul>
         </div>
       </Frame>
 

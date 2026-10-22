@@ -101,13 +101,12 @@ export function QuickOpen() {
         className="figma-chrome fixed bottom-20 right-4 z-40 flex min-h-11 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold shadow-lg transition-colors hover:border-[var(--figma-blue)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)] md:bottom-20"
         style={{ color: 'var(--figma-text)', background: 'var(--figma-panel)', borderColor: 'var(--figma-border)' }}
         aria-keyshortcuts="Control+K Meta+K"
-        aria-label="Quick open portfolio navigation"
         aria-haspopup="dialog"
         aria-expanded={open}
       >
         <Search className="h-4 w-4" aria-hidden="true" />
         <span>Quick open</span>
-        <span className="hidden rounded border px-1.5 py-0.5 font-mono text-[10px] opacity-70 sm:inline">⌘ K</span>
+        <span className="hidden rounded border px-1.5 py-0.5 font-mono text-[10px] opacity-70 sm:inline" aria-hidden="true">⌘ K</span>
       </button>
 
       {open && (

@@ -34,7 +34,7 @@ export function DecisionExplorer() {
           <span className="rounded-md border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground" style={inter}>RBAC · Release 1</span>
         </div>
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-          <div className="rounded-xl border border-border bg-card p-3" aria-label="Select a design decision">
+          <div className="rounded-xl border border-border bg-card p-3" role="group" aria-label="Select a design decision">
             <div className="mb-2 flex items-center justify-between px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground" style={inter}>
               <span>Decisions</span><span>{String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</span>
             </div>
@@ -76,10 +76,10 @@ export function DecisionExplorer() {
             </dl>
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5">
               <div className="flex gap-2">
-                <button type="button" aria-label="Previous decision" onClick={() => move(-1)} className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--figma-blue)]"><ChevronLeft className="h-5 w-5"/></button>
-                <button type="button" aria-label="Next decision" onClick={() => move(1)} className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--figma-blue)]"><ChevronRight className="h-5 w-5"/></button>
+                <button type="button" aria-label="Previous decision" onClick={() => move(-1)} className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--figma-blue)]"><ChevronLeft className="h-5 w-5" aria-hidden="true"/></button>
+                <button type="button" aria-label="Next decision" onClick={() => move(1)} className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--figma-blue)]"><ChevronRight className="h-5 w-5" aria-hidden="true"/></button>
               </div>
-              <button type="button" className="inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)]" style={{ background: 'var(--figma-blue)' }} onClick={() => navigateTo('case-study-2')}>
+              <button type="button" className="inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)]" style={{ background: 'var(--figma-blue-fill)' }} onClick={() => navigateTo('case-study-2')}>
                 Read the full case study <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
