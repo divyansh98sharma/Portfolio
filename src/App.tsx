@@ -12,6 +12,7 @@ import { LayersProvider } from './components/chrome/LayersContext'
 import { FigmaTopBar } from './components/chrome/FigmaTopBar'
 import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
+import { QuickOpen } from './components/QuickOpen'
 import { ToolButtons } from './components/chrome/ToolButtons'
 import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
@@ -155,6 +156,7 @@ function AppContent() {
         </ZoomCanvas>
       </main>
       <StatusBar />
+      <QuickOpen />
       {hasCanvasChrome && <ToolEffects />}
       {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
       <BootLoader />
