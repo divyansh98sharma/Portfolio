@@ -13,15 +13,22 @@ import { FigmaTopBar } from './components/chrome/FigmaTopBar'
 import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
 import { ToolButtons } from './components/chrome/ToolButtons'
-import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
-import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { WalkthroughTourProvider } from './components/chrome/WalkthroughTour'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { TABLET_CHROME_QUERY } from './lib/chrome'
+
+// Canvas-only effects are optional: avoid loading them in the initial mobile bundle.
+// They remain gated by the existing viewport and motion preferences below.
+const ToolEffects = lazy(() =>
+  import('./components/chrome/tools/ToolEffects').then((m) => ({ default: m.ToolEffects }))
+)
+const MultiplayerCursors = lazy(() =>
+  import('./components/chrome/MultiplayerCursors').then((m) => ({ default: m.MultiplayerCursors }))
+)
 
 // Secondary routes are code-split; the skeleton shows while a chunk loads.
 const AllCaseStudies = lazy(() =>
@@ -155,8 +162,12 @@ function AppContent() {
         </ZoomCanvas>
       </main>
       <StatusBar />
-      {hasCanvasChrome && <ToolEffects />}
-      {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
+      {hasCanvasChrome && (
+        <Suspense fallback={null}><ToolEffects /></Suspense>
+      )}
+      {hasCanvasChrome && !reducedMotion && (
+        <Suspense fallback={null}><MultiplayerCursors /></Suspense>
+      )}
       <BootLoader />
       {/* Bottom-left: first-time name-capture prompt. */}
       <div className="pointer-events-none fixed bottom-4 left-4 z-[60] flex flex-col items-start gap-3">
