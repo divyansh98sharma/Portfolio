@@ -3,8 +3,8 @@ import { ArrowRight, Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { rbacReleaseOneDecisions } from '../data/case-studies/rbac'
 import { useRouter } from './Router'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /**
  * An interactive sample of actual design decisions, not a decorative simulation.

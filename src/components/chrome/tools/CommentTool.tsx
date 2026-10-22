@@ -15,7 +15,7 @@ import {
 import { colorForName, getClientId, getStoredName, initialsForName, setStoredName } from '../../../lib/identity'
 import { upsertVisitor } from '../../../lib/visitors'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const MAX_PINS = 200
 const DRAG_THRESHOLD = 5

@@ -2,8 +2,8 @@ import { ArrowRight, Download, Mail } from 'lucide-react'
 import { useFrameReveal } from './chrome/Frame'
 import { getClientId } from '../lib/identity'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /** Direct professional contact replaces the consulting intake form. */
 export function Contact() {
