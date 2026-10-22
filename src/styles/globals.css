@@ -682,6 +682,10 @@ img, video { height: auto; }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Staggered reveals (e.g. Testimonials' inline index × 150ms) would
+       otherwise hold content invisible, then snap it in, with no motion. */
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
   }
   .frame-surface, .frame-wrap, .hero-animate-in {
     opacity: 1 !important;
