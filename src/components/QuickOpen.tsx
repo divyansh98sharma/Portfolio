@@ -9,6 +9,7 @@ type Destination = { key: string; label: string; context: string; page: Page; se
 const destinations: Destination[] = [
   { key: 'home', label: 'Portfolio', context: 'Home', page: 'home' },
   { key: 'work', label: 'Featured work', context: 'Section', page: 'home', section: 'case-studies' },
+  { key: 'decisions', label: 'Design decisions', context: 'Section', page: 'home', section: 'decision-explorer' },
   { key: 'about', label: 'About', context: 'Section', page: 'home', section: 'about' },
   { key: 'experience', label: 'Experience', context: 'Section', page: 'home', section: 'experience' },
   { key: 'testimonials', label: 'Testimonials', context: 'Section', page: 'home', section: 'testimonials' },
@@ -134,29 +135,44 @@ export function QuickOpen() {
                   if (event.key === 'Enter' && visible[selectedIndex]) { event.preventDefault(); goTo(visible[selectedIndex]) }
                 }}
                 placeholder="Search pages and projects…"
+                role="combobox"
                 aria-label="Search portfolio destinations"
                 aria-describedby="quick-open-help"
+                aria-autocomplete="list"
+                aria-expanded={visible.length > 0}
+                aria-controls="quick-open-results"
+                aria-activedescendant={visible[selectedIndex] ? `quick-open-${visible[selectedIndex].key}` : undefined}
                 className="h-12 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:opacity-60"
                 style={{ color: 'var(--figma-text)' }}
               />
             </div>
-            <div id="quick-open-results" role="group" aria-label="Available destinations" className="max-h-[50vh] overflow-y-auto p-2">
-              {visible.length === 0 ? <p className="px-3 py-8 text-center text-sm opacity-70">No matching pages or projects.</p> : visible.map((item, i) => (
-                <button
+            {/* Combobox pattern: focus stays in the input; arrow keys move
+                aria-activedescendant so screen readers announce each option. */}
+            <div id="quick-open-results" role="listbox" aria-label="Available destinations" className="max-h-[50vh] overflow-y-auto p-2">
+              {visible.map((item, i) => (
+                <div
                   id={`quick-open-${item.key}`}
-                  type="button"
+                  role="option"
+                  aria-selected={selectedIndex === i}
                   key={item.key}
+                  ref={selectedIndex === i ? el => el?.scrollIntoView({ block: 'nearest' }) : undefined}
                   onMouseEnter={() => setSelected(i)}
+                  onMouseDown={event => event.preventDefault()}
                   onClick={() => goTo(item)}
-                  className="flex min-h-12 w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--figma-blue)]"
-                  style={{ background: selectedIndex === i ? 'color-mix(in srgb, var(--figma-blue) 14%, transparent)' : undefined }}
+                  className="flex min-h-12 w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-left text-sm"
+                  style={{
+                    background: selectedIndex === i ? 'color-mix(in srgb, var(--figma-blue) 14%, transparent)' : undefined,
+                    boxShadow: selectedIndex === i ? 'inset 0 0 0 2px var(--figma-blue)' : undefined,
+                  }}
                 >
                   <span className="min-w-0 flex-1 truncate font-medium">{item.label}</span>
                   <span className="max-w-[35%] truncate text-xs opacity-65">{item.context}</span>
                   <ArrowRight className="h-4 w-4 shrink-0 opacity-50" aria-hidden="true"/>
-                </button>
+                </div>
               ))}
             </div>
+            {visible.length === 0 && <p className="px-3 pb-8 pt-2 text-center text-sm opacity-70">No matching pages or projects.</p>}
+            <p role="status" className="sr-only">{visible.length === 0 ? 'No matching pages or projects' : `${visible.length} destination${visible.length === 1 ? '' : 's'} available`}</p>
             <p id="quick-open-help" className="border-t px-4 py-2 text-[11px] opacity-65" style={{ borderColor: 'var(--figma-border)' }}>↑ ↓ Navigate · Enter Open · Esc Close</p>
           </div>
         </div>
