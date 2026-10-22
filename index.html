@@ -2,6 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Apply the saved (or default dark) theme before first paint. Applying it
+         only from React's effect painted one light frame first, and iOS WebKit
+         then kept the light-theme text colour on lazily mounted route content
+         (dark navy text on dark cards on /all-case-studies). Mirrors
+         ThemeProvider: keys 'ui-theme' then legacy 'portfolio-theme'. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('ui-theme') || localStorage.getItem('portfolio-theme') || 'dark'
+          if (t === 'system') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          document.documentElement.classList.add(t === 'light' ? 'light' : 'dark')
+        } catch (e) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="ochIOEgJwv4n27A3RIrOA40ilwhtfvSxXZoOJvp3Y_Y" />
     <!-- Cloudflare Web Analytics — cookieless, collects no personal data, so no
