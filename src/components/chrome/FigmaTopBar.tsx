@@ -7,11 +7,12 @@ import { SharePopover } from './SharePopover'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { caseStudies } from '../../data/caseStudies'
 import { useWalkthroughTour } from './WalkthroughTour'
+import { AfterIdle, optionalChunk } from '../utils/AfterIdle'
 
 // Pulls in the Firebase SDK, so it's kept out of the main bundle — shares
 // its chunk with CommentTool/ReactionBar rather than duplicating it.
-const LiveVisitorBubbles = lazy(() =>
-  import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles }))
+const LiveVisitorBubbles = lazy(
+  optionalChunk(() => import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles })))
 )
 import {
   DropdownMenu,
@@ -128,9 +129,12 @@ export function FigmaTopBar() {
       {/* Right pill: live visitors + theme + share */}
       <div className={pill} style={pillStyle}>
         <div className="isolate hidden sm:flex items-center px-1" aria-hidden="true">
-          <Suspense fallback={null}>
-            <LiveVisitorBubbles />
-          </Suspense>
+          {/* Avatars come from Firebase; fetch them once the page is idle. */}
+          <AfterIdle>
+            <Suspense fallback={null}>
+              <LiveVisitorBubbles />
+            </Suspense>
+          </AfterIdle>
         </div>
         <button
           onClick={startTour}

@@ -20,6 +20,7 @@ import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { TABLET_CHROME_QUERY } from './lib/chrome'
+import { AfterIdle, optionalChunk } from './components/utils/AfterIdle'
 
 // Canvas-only effects are optional: avoid loading them in the initial mobile bundle.
 // They remain gated by the existing viewport and motion preferences below.
@@ -47,8 +48,8 @@ const CommentTool = lazy(() =>
 )
 // Same lazy-loading reasoning as CommentTool, but shown on every device
 // since the visitor prompt/avatar-stack isn't canvas-chrome-specific.
-const NameCapturePrompt = lazy(() =>
-  import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt }))
+const NameCapturePrompt = lazy(
+  optionalChunk(() => import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt })))
 )
 // Same lazy-loading reasoning as NameCapturePrompt — shown on every device.
 const AiChat = lazy(() => import('./components/chrome/AiChat').then((m) => ({ default: m.AiChat })))
@@ -175,9 +176,13 @@ function AppContent() {
       <BootLoader />
       {/* Bottom-left: first-time name-capture prompt. */}
       <div className="pointer-events-none fixed bottom-4 left-4 z-[60] flex flex-col items-start gap-3">
-        <Suspense fallback={null}>
-          <NameCapturePrompt />
-        </Suspense>
+        {/* Visitor presence pulls in the Firebase SDK (~140 kB gzip): load it
+            after the page is idle so it doesn't compete with first paint. */}
+        <AfterIdle>
+          <Suspense fallback={null}>
+            <NameCapturePrompt />
+          </Suspense>
+        </AfterIdle>
       </div>
       <Suspense fallback={null}>
         <AiChat />
