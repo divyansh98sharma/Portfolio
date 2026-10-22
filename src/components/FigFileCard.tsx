@@ -5,7 +5,7 @@ import { FigmaIcon } from './icons/FigmaIcon'
 import { useRouter } from './Router'
 import type { CaseStudy } from '../data/caseStudies'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 interface FigFileCardProps {
   study: CaseStudy

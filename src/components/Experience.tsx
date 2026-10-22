@@ -1,6 +1,6 @@
 import { useFrameReveal } from './chrome/Frame'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 const experiences = [
   {
@@ -94,7 +94,7 @@ export function Experience() {
                 {/* Version header */}
                 <div
                   className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border px-6 py-2.5 text-[11px] sm:px-8"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  style={{ fontFamily: "'Inter', 'Inter Fallback', sans-serif" }}
                   aria-hidden="true"
                 >
                   <span

@@ -3,7 +3,7 @@ import { FigmaIcon } from '../icons/FigmaIcon'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useWalkthroughTour } from './WalkthroughTour'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const STEPS = [
   'Opening divyansh-portfolio.fig…',

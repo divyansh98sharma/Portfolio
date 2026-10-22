@@ -7,8 +7,8 @@ import {
   rbacReleaseTwo, rbacReflectionIntro, rbacReflectionActions, rbacReflectionOutro,
 } from '../../data/case-studies/rbac'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 const pad = 'px-6 py-14 sm:px-10 sm:py-16'
 
 function Heading({ id, eyebrow, children }: { id: string; eyebrow: string; children: string }) {

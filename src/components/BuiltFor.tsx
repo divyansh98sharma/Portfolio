@@ -1,7 +1,7 @@
 import { useFrameReveal } from './chrome/Frame'
 import { ComponentGlyph } from './icons/ComponentGlyph'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 const audiences = [
   {
@@ -63,7 +63,7 @@ export function BuiltFor() {
               {/* Component name row, like an Assets-panel tile header */}
               <div
                 className="flex items-center justify-between border-b border-border px-5 py-2.5 text-[11px] font-medium"
-                style={{ fontFamily: "'Inter', sans-serif", color: 'var(--frame-text-purple)' }}
+                style={{ fontFamily: "'Inter', 'Inter Fallback', sans-serif", color: 'var(--frame-text-purple)' }}
                 aria-hidden="true"
               >
                 <span className="flex items-center gap-1.5">

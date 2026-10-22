@@ -1,8 +1,8 @@
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /** Figma's multiplayer cursor arrow */
 function CursorArrow({ color }: { color: string }) {

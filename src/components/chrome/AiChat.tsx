@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { MessageCircle, Send, X, Loader2 } from 'lucide-react'
 import { getClientId } from '../../lib/identity'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 // Cloud Run function (functions/index.js's chatWithPortfolio), deployed the
 // same way as send-contact-email — see Contact.tsx. Verify this URL against

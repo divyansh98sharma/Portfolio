@@ -27,8 +27,8 @@ function adjacentStudies(id: string) {
   return { prevId, prevStudy: caseStudyContent[prevId], nextId, nextStudy: caseStudyContent[nextId] }
 }
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /** Figma-style redline measurement bar: value + annotated progress line */
 function SpecBar({ progress, color = 'var(--cs-accent)' }: { progress: number; color?: string }) {

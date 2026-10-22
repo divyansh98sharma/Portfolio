@@ -2,6 +2,50 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Metric-matched fallbacks: while the self-hosted webfonts load
+   (font-display: swap), text renders in a local Arial/Liberation Sans scaled
+   to the webfont's average glyph width and vertical metrics, so the swap
+   doesn't re-wrap lines and shift the layout (home hero: CLS ~0.1 on a
+   throttled phone). Separate faces for the regular and bold ranges, because
+   synthesising bold from regular Arial is ~8% narrower than Arial Bold.
+   Values computed from the bundled @fontsource files (OS/2 typo metrics,
+   English letter-frequency-weighted average advance), see PR description. */
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  font-weight: 100 500;
+  ascent-override: 84.89%;
+  descent-override: 22.01%;
+  line-gap-override: 0%;
+  size-adjust: 114.03%;
+}
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  font-weight: 600 900;
+  ascent-override: 87.27%;
+  descent-override: 22.63%;
+  line-gap-override: 0%;
+  size-adjust: 110.92%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  font-weight: 100 500;
+  ascent-override: 90.27%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+  size-adjust: 107.31%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  font-weight: 600 900;
+  ascent-override: 95.86%;
+  descent-override: 23.87%;
+  line-gap-override: 0%;
+  size-adjust: 101.06%;
+}
 :root {
   --font-size: 16px;
   --background: var(--figma-canvas);
@@ -237,13 +281,13 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', ui-sans-serif, sans-serif;
+    font-family: 'Inter', 'Inter Fallback', ui-sans-serif, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    font-family: 'Montserrat', 'Montserrat Fallback', 'Helvetica Neue', sans-serif;
   }
 
   *:focus-visible {
@@ -489,7 +533,7 @@
    selection affordances. Inter at small sizes is what sells it.
    ================================================================= */
 .figma-chrome {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -501,7 +545,7 @@
 }
 
 .frame-label {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 500;
   color: var(--figma-text-dim);
@@ -582,7 +626,7 @@
   will-change: transform;
 }
 .figma-cursor-flag__label {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 500;
   color: #ffffff;

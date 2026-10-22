@@ -1,7 +1,7 @@
 import { useFrameReveal } from './chrome/Frame'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const testimonials = [
   {
@@ -50,7 +50,7 @@ function CommentPin({ initials, color }: { initials: string; color: string }) {
       style={{
         backgroundColor: color,
         borderRadius: '50% 50% 50% 4px',
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "'Inter', 'Inter Fallback', sans-serif",
       }}
       aria-hidden="true"
     >

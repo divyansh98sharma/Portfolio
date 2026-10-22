@@ -3,8 +3,8 @@ import { useRouter } from './Router'
 import { LayerRegion } from './chrome/LayersContext'
 import { getClientId } from '../lib/identity'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 /** Dedicated /about page — the long-form bio that anchors the name query and
  *  gives search engines / LLMs the eClinicalWorks · Peak.ai (now UiPath)
