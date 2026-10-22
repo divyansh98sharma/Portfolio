@@ -5,10 +5,12 @@ import { CaseStudies } from './CaseStudies'
 import { Testimonials } from './Testimonials'
 import { Contact } from './Contact'
 import { Frame } from './chrome/Frame'
+import { ChapterRail } from './ChapterRail'
 
 export function HomePage() {
   return (
     <>
+      <ChapterRail />
       <Frame id="hero" name="Hero" headingId="hero-heading" fullBleed instantReveal>
         <Hero />
       </Frame>
