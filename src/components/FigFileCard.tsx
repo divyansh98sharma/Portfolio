@@ -36,7 +36,7 @@ export function FigFileCard({
 
   return (
     <div
-      className={`group h-full overflow-hidden rounded-xl border bg-card transition-all duration-700 ${
+      className={`portfolio-file-card group h-full overflow-hidden rounded-xl border bg-card transition-all duration-700 ${
         comingSoon ? 'cursor-default' : 'cursor-pointer'
       } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
       style={{
@@ -51,7 +51,7 @@ export function FigFileCard({
         {/* Thumbnail — generated Figma-style cover art */}
         <div className={`${aspect} relative overflow-hidden`}>
           <div
-            className={`h-full w-full transform-gpu transition-transform duration-700 ${
+            className={`portfolio-file-art h-full w-full transform-gpu transition-transform duration-700 ${
               hovered && !comingSoon ? 'sm:scale-[1.04]' : 'scale-100'
             }`}
           >
