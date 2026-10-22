@@ -9,7 +9,10 @@ import { ComponentGlyph } from '../icons/ComponentGlyph'
 import { ImageWithFallback } from '../figma/ImageWithFallback'
 import { CoverArt } from '../CoverArt'
 import { getClientId } from '../../lib/identity'
-import { trackScrollDepth } from '../../lib/engagement'
+// Loaded on demand: a static import pulled the Firebase SDK (~143 kB gzip)
+// into the case-study chunk, so no case study could render until it arrived.
+const trackScrollDepth = (input: { caseStudyId: string; clientId: string; percent: number }) =>
+  import('../../lib/engagement').then((m) => m.trackScrollDepth(input)).catch(() => {})
 import { caseStudyContent, type CaseStudyContent } from '../../data/case-studies'
 
 const caseStudyIds = Object.keys(caseStudyContent) as (keyof typeof caseStudyContent)[]
