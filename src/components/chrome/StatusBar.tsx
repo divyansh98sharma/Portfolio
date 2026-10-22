@@ -72,10 +72,12 @@ export function StatusBar() {
           color: 'var(--figma-text-dim)',
         }}
       >
-        <span className="max-w-44 truncate text-[11px]" style={inter} aria-hidden="true">
+        {/* The frame name is hidden below lg so the pill clears the centred
+            toolbar on 768–1023px tablets (they overlapped by up to 58px). */}
+        <span className="hidden max-w-44 truncate text-[11px] lg:inline" style={inter} aria-hidden="true">
           {activeName ?? 'Page 1'}
         </span>
-        <span className="h-3 w-px" style={{ backgroundColor: 'var(--figma-border)' }} aria-hidden="true" />
+        <span className="hidden h-3 w-px lg:block" style={{ backgroundColor: 'var(--figma-border)' }} aria-hidden="true" />
 
         <div className="flex items-center gap-1">
           {/* zoom controls — ⌘/Ctrl+scroll or pinch also works */}
