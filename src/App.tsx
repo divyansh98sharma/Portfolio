@@ -21,7 +21,7 @@ import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { TABLET_CHROME_QUERY } from './lib/chrome'
-import { AfterIdle } from './components/utils/AfterIdle'
+import { AfterIdle, optionalChunk } from './components/utils/AfterIdle'
 
 // Canvas-only effects are optional: avoid loading them in the initial mobile bundle.
 // They remain gated by the existing viewport and motion preferences below.
@@ -49,8 +49,8 @@ const CommentTool = lazy(() =>
 )
 // Same lazy-loading reasoning as CommentTool, but shown on every device
 // since the visitor prompt/avatar-stack isn't canvas-chrome-specific.
-const NameCapturePrompt = lazy(() =>
-  import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt }))
+const NameCapturePrompt = lazy(
+  optionalChunk(() => import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt })))
 )
 // Same lazy-loading reasoning as NameCapturePrompt — shown on every device.
 const AiChat = lazy(() => import('./components/chrome/AiChat').then((m) => ({ default: m.AiChat })))

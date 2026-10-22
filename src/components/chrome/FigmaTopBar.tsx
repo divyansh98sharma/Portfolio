@@ -7,12 +7,12 @@ import { SharePopover } from './SharePopover'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { caseStudies } from '../../data/caseStudies'
 import { useWalkthroughTour } from './WalkthroughTour'
-import { AfterIdle } from '../utils/AfterIdle'
+import { AfterIdle, optionalChunk } from '../utils/AfterIdle'
 
 // Pulls in the Firebase SDK, so it's kept out of the main bundle — shares
 // its chunk with CommentTool/ReactionBar rather than duplicating it.
-const LiveVisitorBubbles = lazy(() =>
-  import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles }))
+const LiveVisitorBubbles = lazy(
+  optionalChunk(() => import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles })))
 )
 import {
   DropdownMenu,
