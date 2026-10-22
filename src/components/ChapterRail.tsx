@@ -46,12 +46,11 @@ export function ChapterRail() {
               key={frame.id}
               onClick={() => scrollToSection(frame.id)}
               aria-current={active ? 'location' : undefined}
-              aria-label={`Go to ${label}`}
               className="flex min-h-11 min-w-11 shrink-0 snap-start items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold md:justify-center md:group-hover/rail:justify-start md:group-focus-within/rail:justify-start transition-colors hover:bg-[color-mix(in_srgb,var(--figma-blue)_12%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--figma-blue)] md:w-full"
               style={active ? { background: 'color-mix(in srgb, var(--figma-blue) 14%, transparent)', color: 'var(--figma-blue)' } : undefined}
             >
-              <span className="font-mono text-[10px] opacity-70 md:text-[11px] md:opacity-100" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <span className="md:hidden md:group-hover/rail:inline md:group-focus-within/rail:inline">{label}</span>
+              <span className="font-mono text-[10px] md:text-[11px]" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <span className="md:sr-only md:group-hover/rail:not-sr-only md:group-focus-within/rail:not-sr-only">{label}</span>
             </button>
           )
         })}
