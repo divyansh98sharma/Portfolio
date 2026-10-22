@@ -39,7 +39,7 @@ export function QuickOpen() {
   const visible = destinations.filter(item => `${item.label} ${item.context}`.toLowerCase().includes(query.trim().toLowerCase()))
   const selectedIndex = Math.min(selected, Math.max(visible.length - 1, 0))
   const openPalette = () => { setQuery(''); setSelected(0); setOpen(true) }
-  const closePalette = () => { setOpen(false); triggerRef.current?.focus() }
+  const closePalette = () => setOpen(false)
 
   const goTo = (destination: Destination) => {
     setOpen(false)
@@ -74,6 +74,8 @@ export function QuickOpen() {
   useEffect(() => {
     if (!open) return
     const lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const oldOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     searchRef.current?.focus()
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') { event.preventDefault(); setOpen(false) }
@@ -87,7 +89,7 @@ export function QuickOpen() {
       }
     }
     window.addEventListener('keydown', onKey)
-    return () => { window.removeEventListener('keydown', onKey); lastFocused?.focus() }
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = oldOverflow; lastFocused?.focus() }
   }, [open])
 
   return (
@@ -129,18 +131,15 @@ export function QuickOpen() {
                 }}
                 placeholder="Search pages and projects…"
                 aria-label="Search portfolio destinations"
-                aria-controls="quick-open-results"
-                aria-activedescendant={visible.length ? `quick-open-${visible[selectedIndex].key}` : undefined}
+                aria-describedby="quick-open-help"
                 className="h-12 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:opacity-60"
                 style={{ color: 'var(--figma-text)' }}
               />
             </div>
-            <div id="quick-open-results" role="listbox" aria-label="Available destinations" className="max-h-[50vh] overflow-y-auto p-2">
+            <div id="quick-open-results" role="group" aria-label="Available destinations" className="max-h-[50vh] overflow-y-auto p-2">
               {visible.length === 0 ? <p className="px-3 py-8 text-center text-sm opacity-70">No matching pages or projects.</p> : visible.map((item, i) => (
                 <button
                   id={`quick-open-${item.key}`}
-                  role="option"
-                  aria-selected={selectedIndex === i}
                   type="button"
                   key={item.key}
                   onMouseEnter={() => setSelected(i)}
@@ -154,7 +153,7 @@ export function QuickOpen() {
                 </button>
               ))}
             </div>
-            <p className="border-t px-4 py-2 text-[11px] opacity-65" style={{ borderColor: 'var(--figma-border)' }}>↑ ↓ Navigate · Enter Open · Esc Close</p>
+            <p id="quick-open-help" className="border-t px-4 py-2 text-[11px] opacity-65" style={{ borderColor: 'var(--figma-border)' }}>↑ ↓ Navigate · Enter Open · Esc Close</p>
           </div>
         </div>
       )}
