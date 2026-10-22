@@ -665,3 +665,18 @@ img, video { height: auto; }
     transform: none !important;
   }
 }
+
+/* Project file-browser motion: keep navigation fully legible without animations. */
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-file-card,
+  .portfolio-file-card *,
+  .portfolio-file-art {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    transform: none !important;
+  }
+  .portfolio-file-card {
+    opacity: 1 !important;
+  }
+}
