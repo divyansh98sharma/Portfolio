@@ -707,3 +707,16 @@ img, video { height: auto; }
     opacity: 1 !important;
   }
 }
+
+/* Route transition (replaces framer-motion's AnimatePresence, ~40 kB gzip).
+   Enter-only: the outgoing page is not held for an exit animation. */
+@keyframes route-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+.route-enter {
+  animation: route-enter 0.3s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-enter { animation: none; }
+}

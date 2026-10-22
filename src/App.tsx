@@ -1,5 +1,4 @@
-import { lazy, Suspense } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { lazy, Suspense, useRef } from 'react'
 import { ThemeProvider } from './components/ThemeProvider'
 import { Router, useRouter } from './components/Router'
 import { HomePage } from './components/HomePage'
@@ -60,12 +59,6 @@ const StickerPalette = lazy(() =>
   import('./components/chrome/StickerPalette').then((m) => ({ default: m.StickerPalette }))
 )
 
-const pageVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
-}
-
 const DEFAULT_DESCRIPTION =
   'UX Designer portfolio of Divyansh Sharma. Crafting meaningful digital experiences through research-driven design, turning complex problems into intuitive solutions.'
 
@@ -73,6 +66,10 @@ function AppContent() {
   const { currentPage } = useRouter()
   const hasCanvasChrome = useMediaQuery(TABLET_CHROME_QUERY)
   const reducedMotion = useReducedMotion()
+  // False until the visitor first changes route; see renderMainContent.
+  const hasNavigated = useRef(false)
+  const firstPage = useRef(currentPage)
+  if (currentPage !== firstPage.current) hasNavigated.current = true
 
   const summary = caseStudies.find((s) => s.id === currentPage)
   useDocumentMeta(
@@ -106,14 +103,10 @@ function AppContent() {
   const renderMainContent = () => {
     const study = currentPage in caseStudyContent ? caseStudyContent[currentPage as keyof typeof caseStudyContent] : undefined
     return (
-      <motion.div
-        key={currentPage}
-        initial={reducedMotion ? false : 'hidden'}
-        animate={reducedMotion ? { opacity: 1, y: 0 } : 'visible'}
-        exit={reducedMotion ? { opacity: 1, y: 0 } : 'exit'}
-        variants={pageVariants}
-        transition={reducedMotion ? { duration: 0 } : undefined}
-      >
+      // Route changes fade/slide in with a CSS animation (globals.css
+      // .route-enter, disabled under reduced motion). The first page load is
+      // not animated, so the hero paints at full opacity as early as possible.
+      <div key={currentPage} className={hasNavigated.current ? 'route-enter' : undefined}>
         {study ? (
           <CaseStudyLayout data={study} />
         ) : currentPage === 'all-case-studies' ? (
@@ -123,7 +116,7 @@ function AppContent() {
         ) : (
           <HomePage />
         )}
-      </motion.div>
+      </div>
     )
   }
 
@@ -153,14 +146,12 @@ function AppContent() {
         className="canvas-dots relative min-h-screen overflow-x-clip pt-20 pb-10 md:pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
-          <AnimatePresence mode={reducedMotion ? 'sync' : 'wait'} initial={!reducedMotion}>
-            {/* Footer renders with the page, not before it, so it isn't
-                pushed down (a layout shift) when a lazy route resolves. */}
-            <Suspense fallback={<SkeletonLoader />}>
-              {renderMainContent()}
-              <Footer />
-            </Suspense>
-          </AnimatePresence>
+          {/* Footer renders with the page, not before it, so it isn't
+              pushed down (a layout shift) when a lazy route resolves. */}
+          <Suspense fallback={<SkeletonLoader />}>
+            {renderMainContent()}
+            <Footer />
+          </Suspense>
           {hasCanvasChrome && (
             <Suspense fallback={null}>
               <CommentTool />
