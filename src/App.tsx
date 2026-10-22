@@ -98,7 +98,14 @@ function AppContent() {
   const renderMainContent = () => {
     const study = currentPage in caseStudyContent ? caseStudyContent[currentPage as keyof typeof caseStudyContent] : undefined
     return (
-      <motion.div key={currentPage} initial="hidden" animate="visible" exit="exit" variants={pageVariants}>
+      <motion.div
+        key={currentPage}
+        initial={reducedMotion ? false : 'hidden'}
+        animate={reducedMotion ? { opacity: 1, y: 0 } : 'visible'}
+        exit={reducedMotion ? { opacity: 1, y: 0 } : 'exit'}
+        variants={pageVariants}
+        transition={reducedMotion ? { duration: 0 } : undefined}
+      >
         {study ? (
           <CaseStudyLayout data={study} />
         ) : currentPage === 'all-case-studies' ? (
@@ -138,7 +145,7 @@ function AppContent() {
         className="canvas-dots relative min-h-screen pt-20 pb-10 md:pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode={reducedMotion ? 'sync' : 'wait'} initial={!reducedMotion}>
             <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
           </AnimatePresence>
           <Footer />
