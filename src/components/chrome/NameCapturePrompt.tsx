@@ -4,7 +4,7 @@ import { getClientId, getStoredName, hasBeenPrompted, markPrompted, setStoredNam
 import { startPresenceHeartbeat, upsertVisitor } from '../../lib/visitors'
 import { isValidEmail, submitLead } from '../../lib/leads'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /** A one-time, dismissible nudge for first-time visitors to leave a name —
  *  joining the real, live visitor avatar stack in the top bar — with an
@@ -119,7 +119,7 @@ export function NameCapturePrompt() {
         onClick={submit}
         disabled={!name.trim()}
         className="mt-2 w-full rounded-md px-3 py-1.5 text-[12px] font-semibold text-white disabled:opacity-40"
-        style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+        style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
       >
         Join
       </button>

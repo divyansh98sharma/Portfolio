@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Check, Link2, Mail } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const SITE_URL = 'https://divyanshsharma.work'
 
@@ -40,7 +40,7 @@ export function SharePopover() {
       <PopoverTrigger asChild>
         <button
           className="inline-flex items-center min-h-0 min-w-0 h-8 px-2.5 sm:px-3.5 rounded-md text-[12px] font-semibold text-white transition-opacity hover:opacity-90"
-          style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+          style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
           aria-label="Share this portfolio — contact options"
         >
           Share

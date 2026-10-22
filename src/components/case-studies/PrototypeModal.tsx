@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ExternalLink, Play, X } from 'lucide-react'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 interface PrototypeModalProps {
   url: string

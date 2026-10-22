@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { addReaction, removeReaction, subscribeToReactions, type ReactionDoc } from '../lib/reactions'
 import { getClientId } from '../lib/identity'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 const EMOJI = ['👍', '❤️', '🎉']
 
 /** Live, shared emoji reactions for a piece of content — tap to toggle,

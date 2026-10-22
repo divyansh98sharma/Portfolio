@@ -1,7 +1,7 @@
 import { Hand, MessageCircle, Move, MousePointer2, Pencil, Sticker } from 'lucide-react'
 import { useLayers, type ToolName } from './LayersContext'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const TOOLS: { name: ToolName; label: string; shortcut: string; Icon: typeof Move }[] = [
   { name: 'select', label: 'Select', shortcut: 'Esc', Icon: MousePointer2 },

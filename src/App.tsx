@@ -1,5 +1,4 @@
-import { lazy, Suspense } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { lazy, Suspense, useRef } from 'react'
 import { ThemeProvider } from './components/ThemeProvider'
 import { Router, useRouter } from './components/Router'
 import { HomePage } from './components/HomePage'
@@ -12,16 +11,25 @@ import { LayersProvider } from './components/chrome/LayersContext'
 import { FigmaTopBar } from './components/chrome/FigmaTopBar'
 import { LayersPanel } from './components/chrome/LayersPanel'
 import { StatusBar } from './components/chrome/StatusBar'
+import { QuickOpen } from './components/QuickOpen'
 import { ToolButtons } from './components/chrome/ToolButtons'
-import { ToolEffects } from './components/chrome/tools/ToolEffects'
 import { ZoomCanvas } from './components/chrome/ZoomCanvas'
 import { BootLoader } from './components/chrome/BootLoader'
-import { MultiplayerCursors } from './components/chrome/MultiplayerCursors'
 import { WalkthroughTourProvider } from './components/chrome/WalkthroughTour'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { TABLET_CHROME_QUERY } from './lib/chrome'
+import { AfterIdle, optionalChunk } from './components/utils/AfterIdle'
+
+// Canvas-only effects are optional: avoid loading them in the initial mobile bundle.
+// They remain gated by the existing viewport and motion preferences below.
+const ToolEffects = lazy(() =>
+  import('./components/chrome/tools/ToolEffects').then((m) => ({ default: m.ToolEffects }))
+)
+const MultiplayerCursors = lazy(() =>
+  import('./components/chrome/MultiplayerCursors').then((m) => ({ default: m.MultiplayerCursors }))
+)
 
 // Secondary routes are code-split; the skeleton shows while a chunk loads.
 const AllCaseStudies = lazy(() =>
@@ -40,8 +48,8 @@ const CommentTool = lazy(() =>
 )
 // Same lazy-loading reasoning as CommentTool, but shown on every device
 // since the visitor prompt/avatar-stack isn't canvas-chrome-specific.
-const NameCapturePrompt = lazy(() =>
-  import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt }))
+const NameCapturePrompt = lazy(
+  optionalChunk(() => import('./components/chrome/NameCapturePrompt').then((m) => ({ default: m.NameCapturePrompt })))
 )
 // Same lazy-loading reasoning as NameCapturePrompt — shown on every device.
 const AiChat = lazy(() => import('./components/chrome/AiChat').then((m) => ({ default: m.AiChat })))
@@ -52,12 +60,6 @@ const StickerPalette = lazy(() =>
   import('./components/chrome/StickerPalette').then((m) => ({ default: m.StickerPalette }))
 )
 
-const pageVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
-}
-
 const DEFAULT_DESCRIPTION =
   'UX Designer portfolio of Divyansh Sharma. Crafting meaningful digital experiences through research-driven design, turning complex problems into intuitive solutions.'
 
@@ -65,6 +67,10 @@ function AppContent() {
   const { currentPage } = useRouter()
   const hasCanvasChrome = useMediaQuery(TABLET_CHROME_QUERY)
   const reducedMotion = useReducedMotion()
+  // False until the visitor first changes route; see renderMainContent.
+  const hasNavigated = useRef(false)
+  const firstPage = useRef(currentPage)
+  if (currentPage !== firstPage.current) hasNavigated.current = true
 
   const summary = caseStudies.find((s) => s.id === currentPage)
   useDocumentMeta(
@@ -98,7 +104,10 @@ function AppContent() {
   const renderMainContent = () => {
     const study = currentPage in caseStudyContent ? caseStudyContent[currentPage as keyof typeof caseStudyContent] : undefined
     return (
-      <motion.div key={currentPage} initial="hidden" animate="visible" exit="exit" variants={pageVariants}>
+      // Route changes fade/slide in with a CSS animation (globals.css
+      // .route-enter, disabled under reduced motion). The first page load is
+      // not animated, so the hero paints at full opacity as early as possible.
+      <div key={currentPage} className={hasNavigated.current ? 'route-enter' : undefined}>
         {study ? (
           <CaseStudyLayout data={study} />
         ) : currentPage === 'all-case-studies' ? (
@@ -108,7 +117,7 @@ function AppContent() {
         ) : (
           <HomePage />
         )}
-      </motion.div>
+      </div>
     )
   }
 
@@ -138,10 +147,12 @@ function AppContent() {
         className="canvas-dots relative min-h-screen overflow-x-clip pt-20 pb-10 md:pb-24 lg:pl-[272px]"
       >
         <ZoomCanvas>
-          <AnimatePresence mode="wait">
-            <Suspense fallback={<SkeletonLoader />}>{renderMainContent()}</Suspense>
-          </AnimatePresence>
-          <Footer />
+          {/* Footer renders with the page, not before it, so it isn't
+              pushed down (a layout shift) when a lazy route resolves. */}
+          <Suspense fallback={<SkeletonLoader />}>
+            {renderMainContent()}
+            <Footer />
+          </Suspense>
           {hasCanvasChrome && (
             <Suspense fallback={null}>
               <CommentTool />
@@ -155,14 +166,23 @@ function AppContent() {
         </ZoomCanvas>
       </main>
       <StatusBar />
-      {hasCanvasChrome && <ToolEffects />}
-      {hasCanvasChrome && !reducedMotion && <MultiplayerCursors />}
+      <QuickOpen />
+      {hasCanvasChrome && (
+        <Suspense fallback={null}><ToolEffects /></Suspense>
+      )}
+      {hasCanvasChrome && !reducedMotion && (
+        <Suspense fallback={null}><MultiplayerCursors /></Suspense>
+      )}
       <BootLoader />
       {/* Bottom-left: first-time name-capture prompt. */}
       <div className="pointer-events-none fixed bottom-4 left-4 z-[60] flex flex-col items-start gap-3">
-        <Suspense fallback={null}>
-          <NameCapturePrompt />
-        </Suspense>
+        {/* Visitor presence pulls in the Firebase SDK (~140 kB gzip): load it
+            after the page is idle so it doesn't compete with first paint. */}
+        <AfterIdle>
+          <Suspense fallback={null}>
+            <NameCapturePrompt />
+          </Suspense>
+        </AfterIdle>
       </div>
       <Suspense fallback={null}>
         <AiChat />

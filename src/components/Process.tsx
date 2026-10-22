@@ -1,7 +1,7 @@
 import { useFrameReveal } from './chrome/Frame'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const steps = [
   { number: '01', title: 'Discover', description: 'Deep dive into user research, stakeholder interviews, and competitive analysis to understand the problem space.' },

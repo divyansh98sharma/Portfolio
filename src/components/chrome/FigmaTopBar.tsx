@@ -7,11 +7,12 @@ import { SharePopover } from './SharePopover'
 import { FigmaIcon } from '../icons/FigmaIcon'
 import { caseStudies } from '../../data/caseStudies'
 import { useWalkthroughTour } from './WalkthroughTour'
+import { AfterIdle, optionalChunk } from '../utils/AfterIdle'
 
 // Pulls in the Firebase SDK, so it's kept out of the main bundle — shares
 // its chunk with CommentTool/ReactionBar rather than duplicating it.
-const LiveVisitorBubbles = lazy(() =>
-  import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles }))
+const LiveVisitorBubbles = lazy(
+  optionalChunk(() => import('./LiveVisitorBubbles').then((m) => ({ default: m.LiveVisitorBubbles })))
 )
 import {
   DropdownMenu,
@@ -21,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 function fileNameFor(page: Page): string {
   if (page === 'all-case-studies') return 'All files'
@@ -90,7 +91,7 @@ export function FigmaTopBar() {
               data-tour="file-menu"
               className="flex min-h-0 min-w-0 h-8 max-w-[34vw] items-center gap-1.5 rounded-lg px-2 text-[13px] font-medium transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] sm:max-w-none"
               style={inter}
-              aria-label="File menu — navigate the portfolio"
+              aria-label={`${fileNameFor(currentPage)} — file menu`}
             >
               <span className="truncate">{fileNameFor(currentPage)}</span>
               <ChevronDown className="h-3 w-3 flex-shrink-0" style={{ color: 'var(--figma-text-dim)' }} />
@@ -128,14 +129,17 @@ export function FigmaTopBar() {
       {/* Right pill: live visitors + theme + share */}
       <div className={pill} style={pillStyle}>
         <div className="isolate hidden sm:flex items-center px-1" aria-hidden="true">
-          <Suspense fallback={null}>
-            <LiveVisitorBubbles />
-          </Suspense>
+          {/* Avatars come from Firebase; fetch them once the page is idle. */}
+          <AfterIdle>
+            <Suspense fallback={null}>
+              <LiveVisitorBubbles />
+            </Suspense>
+          </AfterIdle>
         </div>
         <button
           onClick={startTour}
           className="relative flex h-8 min-h-0 items-center gap-0 rounded-lg px-2 transition-colors hover:bg-[color-mix(in_srgb,var(--figma-text)_8%,transparent)] sm:gap-1.5 sm:px-2.5"
-          aria-label="Take a tour of this site"
+          aria-label="Tour — take a guided tour of this site"
           title="Take a tour"
         >
           <Compass className="h-4 w-4 flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
@@ -145,7 +149,7 @@ export function FigmaTopBar() {
           {!hasSeenTour && (
             <span
               className="absolute right-1 top-1 h-2 w-2 rounded-full"
-              style={{ backgroundColor: 'var(--figma-blue)' }}
+              style={{ backgroundColor: 'var(--figma-blue-fill)' }}
               aria-hidden="true"
             />
           )}

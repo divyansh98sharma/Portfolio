@@ -15,7 +15,7 @@ import {
 import { colorForName, getClientId, getStoredName, initialsForName, setStoredName } from '../../../lib/identity'
 import { upsertVisitor } from '../../../lib/visitors'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const MAX_PINS = 200
 const DRAG_THRESHOLD = 5
@@ -338,7 +338,7 @@ export function CommentTool() {
                       onClick={commitReply}
                       disabled={posting || needsName || !replyText.trim()}
                       className="flex-shrink-0 rounded-md px-2 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
-                      style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+                      style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
                     >
                       Reply
                     </button>
@@ -400,7 +400,7 @@ export function CommentTool() {
                     onClick={commitDraft}
                     disabled={posting || needsName || !draftText.trim()}
                     className="flex-shrink-0 rounded-md px-2 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
-                    style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+                    style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
                   >
                     Post
                   </button>

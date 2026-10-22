@@ -5,8 +5,8 @@ import { useReveal } from '../hooks/useReveal'
 import { LayerRegion } from './chrome/LayersContext'
 import { FigFileCard } from './FigFileCard'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 /**
  * The "file browser" — all case studies as .fig files under Recents,
@@ -27,7 +27,7 @@ export function AllCaseStudies() {
         <button
           onClick={() => navigateTo('home')}
           className="flex min-h-0 min-w-0 items-center gap-1.5 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--figma-blue)]"
-          aria-label="Return to portfolio home page"
+          aria-label="Drafts — return to portfolio home"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
           Drafts
@@ -111,7 +111,7 @@ export function AllCaseStudies() {
               e.currentTarget.style.borderColor = 'var(--figma-border)'
               e.currentTarget.style.color = 'var(--figma-text)'
             }}
-            aria-label="Return to portfolio home page"
+            aria-label="Back to file — return to portfolio home"
           >
             <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
             Back to file

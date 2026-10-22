@@ -1,8 +1,8 @@
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { scrollToSection } from './utils/scrollToSection'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /** Figma's multiplayer cursor arrow */
 function CursorArrow({ color }: { color: string }) {
@@ -25,12 +25,11 @@ export function Hero() {
         <div className="max-w-6xl mx-auto">
 
           {/* Cursor chat — my own cursor introducing me */}
-          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5" aria-label="Senior UX Designer · Healthcare & Design Systems">
+          <div className="hero-animate-in hero-delay-1 mb-10 flex items-start gap-0.5">
             <CursorArrow color="var(--figma-blue)" />
             <div
               className="mt-3 rounded-full rounded-tl-sm px-4 py-2 text-[13px] font-medium text-white shadow-lg"
-              style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
-              aria-hidden="true"
+              style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
             >
               Senior UX Designer · Healthcare & Design Systems
             </div>
@@ -62,7 +61,7 @@ export function Hero() {
             <button
               onClick={() => scrollToSection('case-studies')}
               className="no-underline inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold rounded-lg text-white transition-all duration-300 shadow-md hover:shadow-lg hover:opacity-90"
-              style={{ ...montserrat, backgroundColor: 'var(--figma-blue)' }}
+              style={{ ...montserrat, backgroundColor: 'var(--figma-blue-fill)' }}
               aria-label="View My Work"
             >
               View My Work

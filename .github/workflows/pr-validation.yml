@@ -1,0 +1,66 @@
+name: Validate portfolio pull requests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'integration/**'
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-pr-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and validate static output
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Build portfolio and generate static routes
+        run: npm run build
+
+      - name: Verify public output
+        run: |
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync } from 'node:fs'
+          const expected = [
+            'build/index.html',
+            'build/sitemap.xml',
+            'build/case-study-1.html',
+            'build/case-study-2.html',
+            'build/case-study-3.html',
+            'build/about.html',
+            'build/all-case-studies.html',
+          ]
+          const missing = expected.filter(file => !existsSync(file))
+          if (missing.length) {
+            console.error('Missing generated pages:', missing.join(', '))
+            process.exit(1)
+          }
+          const sitemap = readFileSync('build/sitemap.xml', 'utf8')
+          for (const route of ['/case-study-1', '/case-study-2', '/case-study-3', '/about', '/all-case-studies']) {
+            if (!sitemap.includes('divyanshsharma.work' + route)) {
+              console.error('Missing sitemap route:', route)
+              process.exitCode = 1
+            }
+          }
+          if (!process.exitCode) console.log('Static output and sitemap routes verified.')
+          NODE

@@ -2,6 +2,50 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Metric-matched fallbacks: while the self-hosted webfonts load
+   (font-display: swap), text renders in a local Arial/Liberation Sans scaled
+   to the webfont's average glyph width and vertical metrics, so the swap
+   doesn't re-wrap lines and shift the layout (home hero: CLS ~0.1 on a
+   throttled phone). Separate faces for the regular and bold ranges, because
+   synthesising bold from regular Arial is ~8% narrower than Arial Bold.
+   Values computed from the bundled @fontsource files (OS/2 typo metrics,
+   English letter-frequency-weighted average advance), see PR description. */
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  font-weight: 100 500;
+  ascent-override: 84.89%;
+  descent-override: 22.01%;
+  line-gap-override: 0%;
+  size-adjust: 114.03%;
+}
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  font-weight: 600 900;
+  ascent-override: 87.27%;
+  descent-override: 22.63%;
+  line-gap-override: 0%;
+  size-adjust: 110.92%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  font-weight: 100 500;
+  ascent-override: 90.27%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+  size-adjust: 107.31%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Helvetica Bold');
+  font-weight: 600 900;
+  ascent-override: 95.86%;
+  descent-override: 23.87%;
+  line-gap-override: 0%;
+  size-adjust: 101.06%;
+}
 :root {
   --font-size: 16px;
   --background: var(--figma-canvas);
@@ -91,8 +135,13 @@
   --figma-canvas: #f5f5f5;
   --figma-border: #e6e6e6;
   --figma-text: #333333;
-  --figma-text-dim: rgba(0, 0, 0, 0.5);
-  --figma-blue: #0d99ff;
+  /* Accessible chrome tokens (WCAG 2.2 AA). Figma's #0d99ff gives 2.99:1
+     with white text and on white, so text, icons, focus rings and filled
+     buttons use a deeper blue; #0d99ff remains for decorative selection
+     and multiplayer cursors. */
+  --figma-text-dim: rgba(0, 0, 0, 0.6); /* 5.7:1 on panel, 5.3:1 on canvas */
+  --figma-blue: #0866b3; /* 5.9:1 on white, 4.7:1 on its 15% active-row tint */
+  --figma-blue-fill: #0866b3; /* filled controls with white text: 5.9:1 */
   --figma-selection: #0d99ff;
   --figma-row-height: 32px;
   --figma-radius: 6px;
@@ -103,6 +152,16 @@
   --figma-cursor-green: #14ae5c;
   --figma-cursor-blue: #0d99ff;
   --figma-cursor-purple: #9747ff;
+
+  /* Text-safe versions of the cursor/accent hues for light frame surfaces.
+     The raw hues are 1.9–3.7:1 on white; these are ≥4.5:1 (AA, small text). */
+  --frame-text-red: color-mix(in srgb, var(--figma-cursor-red) 68%, #000);
+  --frame-text-orange: color-mix(in srgb, var(--figma-cursor-orange) 60%, #000);
+  --frame-text-green: color-mix(in srgb, var(--figma-cursor-green) 68%, #000);
+  --frame-text-blue: color-mix(in srgb, var(--figma-cursor-blue) 68%, #000);
+  --frame-text-purple: color-mix(in srgb, var(--figma-cursor-purple) 85%, #000);
+  /* Theme-aware positive text for surfaces that follow the UI theme */
+  --text-positive: var(--frame-text-green);
 }
 
 .dark {
@@ -111,8 +170,10 @@
   --figma-border: #444444;
   --figma-text: #ffffff;
   --figma-text-dim: #b3b3b3;
-  --figma-blue: #0d99ff;
+  --figma-blue: #4db5ff; /* 6.2:1 on panel, 5.1:1 on its active-row tint */
+  --figma-blue-fill: #0866b3;
   --figma-selection: #0d99ff;
+  --text-positive: #3ccf7e; /* 8:1 on dark cards */
 }
 
 /* =================================================================
@@ -145,6 +206,11 @@
   --input-background: #ffffff;
   --switch-background: #E8EDF5;
   --ring: #D4A853;
+  /* Frames are always light, so chrome tokens used inside them take their
+     light-theme, contrast-safe values even when the UI theme is dark. */
+  --figma-blue: #0866b3;
+  --figma-text-dim: rgba(0, 0, 0, 0.6);
+  --text-positive: var(--frame-text-green);
   background-color: var(--background);
   color: var(--foreground);
 }
@@ -195,6 +261,7 @@
   --color-figma-text: var(--figma-text);
   --color-figma-text-dim: var(--figma-text-dim);
   --color-figma-blue: var(--figma-blue);
+  --color-figma-blue-fill: var(--figma-blue-fill);
   --color-figma-cursor-red: var(--figma-cursor-red);
   --color-figma-cursor-orange: var(--figma-cursor-orange);
   --color-figma-cursor-yellow: var(--figma-cursor-yellow);
@@ -214,13 +281,13 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', ui-sans-serif, sans-serif;
+    font-family: 'Inter', 'Inter Fallback', ui-sans-serif, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+    font-family: 'Montserrat', 'Montserrat Fallback', 'Helvetica Neue', sans-serif;
   }
 
   *:focus-visible {
@@ -416,12 +483,16 @@
 .hero-animate-in {
   opacity: 0;
   animation: hero-fade-in 0.9s ease-out forwards;
+  /* --hero-elapsed is set by main.tsx when the prerendered hero shell has
+     already been animating: React's fresh elements resume at the same point
+     (negative delay) instead of restarting from opacity 0. */
+  animation-delay: calc(0s - var(--hero-elapsed, 0s));
 }
-.hero-delay-1 { animation-delay: 0.1s; }
-.hero-delay-2 { animation-delay: 0.3s; }
-.hero-delay-3 { animation-delay: 0.5s; }
-.hero-delay-4 { animation-delay: 0.7s; }
-.hero-delay-5 { animation-delay: 0.9s; }
+.hero-delay-1 { animation-delay: calc(0.1s - var(--hero-elapsed, 0s)); }
+.hero-delay-2 { animation-delay: calc(0.3s - var(--hero-elapsed, 0s)); }
+.hero-delay-3 { animation-delay: calc(0.5s - var(--hero-elapsed, 0s)); }
+.hero-delay-4 { animation-delay: calc(0.7s - var(--hero-elapsed, 0s)); }
+.hero-delay-5 { animation-delay: calc(0.9s - var(--hero-elapsed, 0s)); }
 
 @keyframes bounce-limited {
   0%, 100% { transform: translateY(0); }
@@ -466,7 +537,7 @@
    selection affordances. Inter at small sizes is what sells it.
    ================================================================= */
 .figma-chrome {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -478,7 +549,7 @@
 }
 
 .frame-label {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 500;
   color: var(--figma-text-dim);
@@ -559,7 +630,7 @@
   will-change: transform;
 }
 .figma-cursor-flag__label {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 500;
   color: #ffffff;
@@ -659,9 +730,41 @@ img, video { height: auto; }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Staggered reveals (e.g. Testimonials' inline index × 150ms) would
+       otherwise hold content invisible, then snap it in, with no motion. */
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
   }
   .frame-surface, .frame-wrap, .hero-animate-in {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* Project file-browser motion: keep navigation fully legible without animations. */
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-file-card,
+  .portfolio-file-card *,
+  .portfolio-file-art {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    transform: none !important;
+  }
+  .portfolio-file-card {
+    opacity: 1 !important;
+  }
+}
+
+/* Route transition (replaces framer-motion's AnimatePresence, ~40 kB gzip).
+   Enter-only: the outgoing page is not held for an exit animation. */
+@keyframes route-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+.route-enter {
+  animation: route-enter 0.3s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-enter { animation: none; }
 }

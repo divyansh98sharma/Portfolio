@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { createServer } from 'vite'
 
 // Runs post-build. GitHub Pages is a static host with no SPA rewrite, so a
@@ -194,16 +194,74 @@ function applyMeta(t: string, title: string, description: string, url: string): 
     .replace(/<meta name="twitter:description" content="[^"]*"\s*\/>/, `<meta name="twitter:description" content="${ed}" />`)
 }
 
+
+// Route chunk preloading. Each route below is code-split, so without a hint
+// the browser only discovers its chunk after the entry bundle has downloaded
+// and executed. Emitting <link rel="modulepreload"> for the route chunk (and
+// the shared chunks it statically imports) lets both download in parallel.
+const ROUTE_CHUNKS: Record<string, string> = {
+  '/about': 'AboutPage',
+  '/all-case-studies': 'AllCaseStudies',
+  '/case-study-1': 'CaseStudyLayout',
+  '/case-study-2': 'CaseStudyLayout',
+  '/case-study-3': 'CaseStudyLayout',
+}
+
+function modulePreloadsFor(route: string, entryFile: string | undefined): string {
+  const name = ROUTE_CHUNKS[route]
+  if (!name) return ''
+  const assets = readdirSync('build/assets')
+  const chunk = assets.find((f) => f.startsWith(`${name}-`) && f.endsWith('.js'))
+  if (!chunk) {
+    console.warn(`No chunk found for ${route} (${name}); skipping modulepreload`)
+    return ''
+  }
+  const files = new Set<string>([chunk])
+  // Static imports only (`from"./x.js"` / `import"./x.js"`), not dynamic import().
+  const source = readFileSync(`build/assets/${chunk}`, 'utf8')
+  for (const m of source.matchAll(/(?:from|import)\s*"\.\/([^"]+\.js)"/g)) files.add(m[1])
+  if (entryFile) files.delete(entryFile)
+  return [...files].map((f) => `<link rel="modulepreload" crossorigin href="/assets/${f}">`).join('\n    ')
+}
+
+
+// Home hero shell. The home page is client-rendered, so without this its HTML
+// is an empty #root and nothing (including the LCP headline) can paint until
+// the entry bundle downloads and executes. The real Hero/Frame components are
+// rendered to static HTML here and placed just before #root; React's HeroFrame
+// removes the copy when the real hero mounts. Returns '' (no shell, previous behaviour) if anything doesn't match.
+async function renderHomeHeroShell(vite: Awaited<ReturnType<typeof createServer>>): Promise<string> {
+  const app = readFileSync('src/App.tsx', 'utf8')
+  const mainClass = app.match(/id="main-content"\s+tabIndex=\{-1\}\s+className="([^"]+)"/)?.[1]
+  if (!mainClass) {
+    console.warn('Hero shell skipped: could not read <main id="main-content"> className from src/App.tsx')
+    return ''
+  }
+  try {
+    const { renderHeroShell } = (await vite.ssrLoadModule('/src/prerender/heroShell.tsx')) as {
+      renderHeroShell: (mainClassName: string) => string
+    }
+    return renderHeroShell(mainClass)
+  } catch (err) {
+    console.warn('Hero shell skipped:', err)
+    return ''
+  }
+}
+
 async function main() {
   const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
   const { caseStudyContent } = (await vite.ssrLoadModule('/src/data/case-studies/index.ts')) as {
     caseStudyContent: Record<string, Content>
   }
+  const heroShell = await renderHomeHeroShell(vite)
   await vite.close()
 
   const template = readFileSync('build/index.html', 'utf8')
+  const entryFile = template.match(/src="\/assets\/(index-[^"]+\.js)"/)?.[1]
   // Align the homepage's built HTML metadata with the client-side title and description.
-  writeFileSync('build/index.html', applyMeta(template, 'Divyansh Sharma — Senior UX Designer, Healthcare & Design Systems', 'Senior UX designer focused on healthcare, enterprise software, and design systems. Sole designer on shipped enterprise access control; built an org-wide token-based design system.', SITE_URL + '/'))
+  const homeHtml = heroShell ? template.replace('<div id="root"></div>', `${heroShell}\n    <div id="root"></div>`) : template
+  if (heroShell) console.log(`Prerendered home hero shell (${(heroShell.length / 1024).toFixed(1)} kB HTML)`)
+  writeFileSync('build/index.html', applyMeta(homeHtml, 'Divyansh Sharma — Senior UX Designer, Healthcare & Design Systems', 'Senior UX designer focused on healthcare, enterprise software, and design systems. Sole designer on shipped enterprise access control; built an org-wide token-based design system.', SITE_URL + '/'))
   let count = 0
 
   for (const [path, meta] of Object.entries(ROUTES)) {
@@ -217,6 +275,8 @@ async function main() {
       html = html.replace('</head>', `  ${profilePageJsonLd(url)}\n  </head>`)
       html = html.replace('<div id="root"></div>', `${aboutNoscript()}\n    <div id="root"></div>`)
     }
+    const preloads = modulePreloadsFor(path, entryFile)
+    if (preloads) html = html.replace('</head>', `    ${preloads}\n  </head>`)
     writeFileSync(`build${path}.html`, html)
     count++
   }

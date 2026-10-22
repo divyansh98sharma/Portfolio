@@ -1,7 +1,7 @@
 import { useFrameReveal } from './chrome/Frame'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const testimonials = [
   {
@@ -9,7 +9,7 @@ const testimonials = [
     name: 'Angel Castro-Newball',
     role: 'UX Researcher, eClinicalWorks',
     initials: 'AC',
-    color: 'var(--figma-cursor-orange)',
+    color: 'var(--frame-text-orange)',
     stars: 5,
     when: 'Aug 2026',
   },
@@ -18,7 +18,7 @@ const testimonials = [
     name: 'Vatsal Gupta',
     role: 'Manager, Data Science, Peak (now UiPath)',
     initials: 'VG',
-    color: 'var(--figma-cursor-purple)',
+    color: 'var(--frame-text-purple)',
     stars: 5,
     when: 'Dec 2022',
   },
@@ -27,7 +27,7 @@ const testimonials = [
     name: 'Ben Ost',
     role: 'Senior Product Designer',
     initials: 'BO',
-    color: 'var(--figma-cursor-green)',
+    color: 'var(--frame-text-green)',
     stars: 5,
     when: 'Jan 2023',
   },
@@ -36,7 +36,7 @@ const testimonials = [
     name: 'Pancham Khaitan',
     role: 'Software Engineer, SingleStore',
     initials: 'PK',
-    color: 'var(--figma-cursor-blue)',
+    color: 'var(--frame-text-blue)',
     stars: 5,
     when: 'Dec 2022',
   },
@@ -50,7 +50,7 @@ function CommentPin({ initials, color }: { initials: string; color: string }) {
       style={{
         backgroundColor: color,
         borderRadius: '50% 50% 50% 4px',
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "'Inter', 'Inter Fallback', sans-serif",
       }}
       aria-hidden="true"
     >
@@ -92,7 +92,7 @@ export function Testimonials() {
                 <div className="mb-3 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                   <p className="text-sm font-bold" style={montserrat}>{t.name}</p>
                   <p className="text-xs text-muted-foreground" style={inter}>{t.role}</p>
-                  <p className="ml-auto text-[11px] text-muted-foreground/60" style={inter}>{t.when}</p>
+                  <p className="ml-auto text-[11px] text-muted-foreground" style={inter}>{t.when}</p>
                 </div>
                 <blockquote>
                   <p className="leading-relaxed text-foreground">"{t.quote}"</p>

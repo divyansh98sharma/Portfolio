@@ -1,7 +1,7 @@
 import { useLayers } from './LayersContext'
 import { STICKER_EMOJI } from '../../lib/stickers'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 /**
  * The sticker emoji picker — deliberately rendered outside ZoomCanvas

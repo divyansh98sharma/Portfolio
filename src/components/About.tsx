@@ -5,7 +5,7 @@ import { useFrameReveal } from './chrome/Frame'
 import { useRouter } from './Router'
 import { getClientId } from '../lib/identity'
 
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 export function About() {
   const isVisible = useFrameReveal()
@@ -45,7 +45,7 @@ export function About() {
             </figure>
             <div
               className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-[11px] text-muted-foreground"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              style={{ fontFamily: "'Inter', 'Inter Fallback', sans-serif" }}
             >
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: 'var(--figma-cursor-green)' }} aria-hidden="true" />
               Image · Fill · 256 × 288
@@ -80,7 +80,7 @@ export function About() {
             <div className="mb-8 rounded-xl border border-border bg-background/60 overflow-hidden">
               <div
                 className="border-b border-border px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                style={{ fontFamily: "'Inter', 'Inter Fallback', sans-serif" }}
                 aria-hidden="true"
               >
                 Properties
@@ -94,9 +94,9 @@ export function About() {
                   <span
                     className="mt-0.5 inline-flex h-6 items-center rounded px-2 text-[10px] font-semibold uppercase tracking-wide flex-shrink-0"
                     style={{
-                      fontFamily: "'Inter', sans-serif",
-                      backgroundColor: 'color-mix(in srgb, var(--figma-blue) 12%, transparent)',
-                      color: 'var(--figma-blue)',
+                      fontFamily: "'Inter', 'Inter Fallback', sans-serif",
+                      backgroundColor: 'color-mix(in srgb, var(--frame-text-blue) 12%, transparent)',
+                      color: 'var(--frame-text-blue)',
                     }}
                     aria-hidden="true"
                   >

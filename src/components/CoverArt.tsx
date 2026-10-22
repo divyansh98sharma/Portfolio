@@ -1,5 +1,5 @@
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
-const inter = { fontFamily: "'Inter', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 interface CoverArtProps {
   product: string

@@ -3,8 +3,8 @@ import { useRouter } from './Router'
 import { LayerRegion } from './chrome/LayersContext'
 import { getClientId } from '../lib/identity'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 /** Dedicated /about page — the long-form bio that anchors the name query and
  *  gives search engines / LLMs the eClinicalWorks · Peak.ai (now UiPath)
@@ -24,7 +24,7 @@ export function AboutPage() {
         <button
           onClick={() => navigateTo('home')}
           className="flex min-h-0 min-w-0 items-center gap-1.5 rounded-md px-2 py-1.5 transition-colors hover:text-[var(--figma-blue)]"
-          aria-label="Return to portfolio home page"
+          aria-label="Drafts — return to portfolio home"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
           Drafts

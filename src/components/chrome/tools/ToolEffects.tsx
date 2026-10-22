@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLayers, type ToolName } from '../LayersContext'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
 
 const IDLE_RESET_MS = 10000
 
@@ -308,7 +308,7 @@ export function ToolEffects() {
         >
           <span
             className="rounded-md px-2 py-1 text-[10px] font-semibold text-white shadow-md"
-            style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+            style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
           >
             {labelText}
           </span>

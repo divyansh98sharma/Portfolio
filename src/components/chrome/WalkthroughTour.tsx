@@ -2,8 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { X } from 'lucide-react'
 import { TOPBAR_HEIGHT } from '../../lib/chrome'
 
-const inter = { fontFamily: "'Inter', sans-serif" }
-const montserrat = { fontFamily: "'Montserrat', sans-serif" }
+const inter = { fontFamily: "'Inter', 'Inter Fallback', sans-serif" }
+const montserrat = { fontFamily: "'Montserrat', 'Montserrat Fallback', sans-serif" }
 
 const STORAGE_KEY = 'tour-seen'
 
@@ -287,7 +287,7 @@ export function WalkthroughTourProvider({ children }: { children: ReactNode }) {
                 <button
                   onClick={() => goTo(stepIndex! + 1, 1)}
                   className="rounded-lg px-3 py-1.5 text-[12px] font-semibold text-white transition-opacity hover:opacity-90"
-                  style={{ ...inter, backgroundColor: 'var(--figma-blue)' }}
+                  style={{ ...inter, backgroundColor: 'var(--figma-blue-fill)' }}
                 >
                   {stepIndex! + 1 === STEPS.length ? 'Done' : 'Next'}
                 </button>
