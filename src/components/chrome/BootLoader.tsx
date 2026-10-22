@@ -7,19 +7,16 @@ const inter = { fontFamily: "'Inter', sans-serif" }
 
 const STEPS = [
   'Opening divyansh-portfolio.fig…',
-  'Loading fonts…',
-  'Syncing component library…',
-  'Waking up collaborators…',
-  'Rendering 8 frames…',
+  'Preparing your canvas…',
 ]
 
-const BOOT_MS = 2000
+const BOOT_MS = 750
 const SESSION_KEY = 'fig-booted'
 
 /**
  * The file-opening splash: shown once per session, skipped entirely for
  * prefers-reduced-motion, dismissed early by any click or key press.
- * Overlays the app (content renders underneath) — never gates it.
+ * Brief, pointer-transparent visual introduction — never blocks interaction.
  */
 export function BootLoader() {
   const reduced = useReducedMotion()
@@ -42,7 +39,7 @@ export function BootLoader() {
       /* ignore */
     }
     setLeaving(true)
-    window.setTimeout(() => setBooting(false), 350)
+    window.setTimeout(() => setBooting(false), 180)
   }
 
   useEffect(() => {
@@ -76,7 +73,7 @@ export function BootLoader() {
 
   return (
     <div
-      className="figma-chrome fixed inset-0 z-[90] flex items-center justify-center transition-opacity duration-300"
+      className="figma-chrome pointer-events-none fixed inset-0 z-[90] flex items-center justify-center transition-opacity duration-200"
       style={{ backgroundColor: 'var(--figma-canvas)', opacity: leaving ? 0 : 1 }}
       role="status"
       aria-label="Opening portfolio"
@@ -120,7 +117,7 @@ export function BootLoader() {
           aria-hidden="true"
         >
           {STEPS[step]}
-          <span className="opacity-60">click to skip</span>
+          <span className="opacity-60">Preview</span>
         </p>
       </div>
     </div>
