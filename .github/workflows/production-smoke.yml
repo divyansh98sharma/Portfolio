@@ -1,0 +1,68 @@
+name: Production smoke check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 6 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-production-smoke
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify public portfolio routes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check public pages and SEO metadata
+        env:
+          SITE: https://divyanshsharma.work
+        run: |
+          python3 - <<'PY'
+          import os, re, sys, time
+          from urllib.request import Request, urlopen
+          from urllib.error import URLError, HTTPError
+
+          site = os.environ["SITE"].rstrip("/")
+          routes = ["/", "/about", "/all-case-studies", "/case-study-1", "/case-study-2", "/case-study-3"]
+          errors = []
+
+          for route in routes + ["/sitemap.xml"]:
+              url = site + route
+              try:
+                  # Brief retries accommodate transient CDN/network failures.
+                  for attempt in range(3):
+                      try:
+                          with urlopen(Request(url, headers={"User-Agent": "PortfolioSmokeCheck/1.0"}), timeout=15) as response:
+                              status = response.status
+                              body = response.read().decode("utf-8", errors="replace")
+                              final_url = response.url
+                          break
+                      except (URLError, HTTPError, TimeoutError):
+                          if attempt == 2:
+                              raise
+                          time.sleep(2)
+                  if status != 200:
+                      errors.append(f"{route}: HTTP {status}")
+                  if route != "/sitemap.xml":
+                      if not re.search(r"<title>[^<]+</title>", body, re.I):
+                          errors.append(f"{route}: missing title")
+                      if not re.search(r'<meta\s+name=["\x27]description["\x27]', body, re.I):
+                          errors.append(f"{route}: missing description")
+                      if '<div id="root"' not in body:
+                          errors.append(f"{route}: missing React mount point")
+                  elif "/case-study-2" not in body:
+                      errors.append("/sitemap.xml: case studies not listed")
+                  print(f"{route} -> HTTP {status}, {len(body)} chars ({final_url})")
+              except Exception as exc:
+                  errors.append(f"{route}: {type(exc).__name__}: {exc}")
+
+          if errors:
+              print("\nProduction smoke check FAILED:\n" + "\n".join(errors), file=sys.stderr)
+              sys.exit(1)
+          print("\nAll production smoke checks passed.")
+          PY
